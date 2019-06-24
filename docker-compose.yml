@@ -1,0 +1,48 @@
+version: "2"
+services:
+  apache:
+    build: ./docker/apache
+    container_name: "${PROJECT_NAME}_apache"
+    labels:
+      - "traefik.port=80"
+      - "traefik.backend=apache"
+      - "traefik.enable=true"
+      - 'traefik.frontend.rule=Host:${PROJECT_BASE_URL}'
+      - "traefik.default.protocol=http"
+    volumes:
+      - .:/var/www/html
+    networks:
+      - traefik
+  cli:
+    build: ./docker/cli
+    container_name: "${PROJECT_NAME}_cli"
+    working_dir: /var/www/html
+    command: /bin/true
+    labels:
+      - "traefik.enable=false"
+    volumes:
+      - .:/var/www/html
+      - ~/.composer:/root/.composer
+    networks:
+      - traefik
+  mysql:
+    build: ./docker/mysql
+    container_name: "${PROJECT_NAME}_mysql"
+    ports:
+      - ${MYSQL_PORT}:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=soextreme
+      - MYSQL_PASSWORD=soextreme
+      - MYSQL_DATABASE=soextreme
+    labels:
+      - "traefik.enable=false"
+    volumes:
+      - ./var/mysql-data:/var/lib/mysql
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external:
+      name: "traefik_${PROJECT_NAME}"

@@ -27,8 +27,6 @@ class MainController extends MY_Controller {
 
 	public function index()
 	{
-	    $type = $this->TestModel->getUserTypeById(1);
-	    var_dump($type);
-		$this->load->view('test-view.phtml');
+		$this->load->view('home.php');
 	}
 }

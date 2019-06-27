@@ -10,12 +10,11 @@ class MY_Controller extends CI_Controller {
         parent::__construct();
     }
 
+    private $_data = array();
+
     public function init(){
         $this->load->helper('url');
         $this->load->database();
-//        $this->load->database();
-//        $this->load->helper('helper_helper');
-
-        $this->load->model('TestModel');
+        $this->load->model('UserModel');
     }
 }

@@ -1,20 +1,29 @@
-<?php
-//    @todo use parent template
-if (isset($messages)){
-    foreach ($messages as $key => $message){
-        echo $message;
-        unset($messages[$key]);
-    }
-}
+<head>
+    <title>Accueil</title>
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+</head>
 
-if (isset($_SESSION['$messages'])){
-    foreach ($_SESSION['$messages'] as $key => $message){
-        echo $message;
-        unset($_SESSION['$messages'][$key]);
-    }
-}
-?>
+<?php //unset($_SESSION['id']); ?>
 
-<?php //@TODO remove index.php from url ?>
-<a href="index.php/LoginController">Connexion</a>
-<a href="index.php/UserController">Inscription</a>
+<a href="LoginController">Connexion</a>
+<a class="subscrption-button">Inscription</a>
+
+<script>
+    $(document).ready(function() {
+        $('.subscrption-button').click(function () {
+            $.ajax({
+                type: "get",
+                url: "http://www.soextreme.code/UserController",
+                dataType:"json",
+                success: function (response) {
+                    if (response.status === 'valid'){
+                        window.location.replace("http://www.soextreme.code/UserController/showSubscriptionForm");
+                    }
+                }
+            })
+        });
+    });
+</script>

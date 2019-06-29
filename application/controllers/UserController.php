@@ -3,25 +3,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class UserController extends MY_Controller {
 
-    protected $_data = array();
-
     public function __construct()
     {
         parent::__construct();
         parent::init();
 
-    }
 
-    public function index()
-    {
-        $this->output->set_content_type('Content-Type: application/json');
-        if (isset($_SESSION['id'])){
-            $result = json_encode(array('status' => 'error'));
-        }else{
-            $result = json_encode(array("status" => "valid"));
+        if (!verifyReferer()){
+            die('REFERER ERROR');
         }
-
-        return $this->output->set_output($result);
     }
     
     public function showSubscriptionForm(){
@@ -29,6 +19,11 @@ class UserController extends MY_Controller {
     }
 
     public function create(){
+
+        if (!verifyCSRF()){
+            die('CSRF ERROR');
+        }
+
         $isError = false;
         $result  = array();
 
@@ -54,10 +49,7 @@ class UserController extends MY_Controller {
             return $this->output->set_output(json_encode($result));
         }
 
-        $this->UserModel->createUser($post['usr_firstname'], $post['usr_lastname'], $post['usr_email'], $post['usr_password'], $post['usr_phone'], 1);
-
-        $_SESSION['id'] = $this->db->insert_id();
-        $_SESSION['messages'][] = 'Votre inscription à été faite avec succès';
+        $this->UserModel->createUser($post['usr_firstname'], $post['usr_lastname'], $post['usr_email'], sha1($post['usr_password']), $post['usr_phone'], 1);
 
         $result['status'] = 'valid';
         $result['messages'][] = 'Votre inscription à été faite avec succès';

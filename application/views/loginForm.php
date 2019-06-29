@@ -1,5 +1,5 @@
 <head>
-    <title>Inscription</title>
+    <title>Connexion</title>
     <meta name="csrf-token" content="<?= $_SESSION['csrf_token'] ?>">
     <script
             src="https://code.jquery.com/jquery-3.4.1.min.js"
@@ -7,27 +7,19 @@
             crossorigin="anonymous"></script>
 </head>
 
-<form class="subscriptionForm">
-    <label for="usr_firstname">Prénom</label>
-    <input type="text" name="usr_firstname" required>
-    <label for="usr_lastname">Nom</label>
-    <input type="text" name="usr_lastname" required>
+<form class="loginForm">
     <label for="usr_email">Email</label>
     <input type="mail" name="usr_email" required>
     <label for="usr_password">Mot de passe</label>
     <input type="password" name="usr_password" required>
-    <label for="usr_password_2">Confirmation Mot de passe</label>
-    <input type="password" name="usr_password_2" required>
-    <label for="usr_phone">Téléphone</label>
-    <input type="text" name="usr_phone" required>
     <input type="submit" value="Valider">
 </form>
 
 <script>
-    $('.subscriptionForm').on('submit', function (e) {
+    $('.loginForm').on('submit', function (e) {
         e.preventDefault();
 
-        let data = $('.subscriptionForm').serialize();
+        let data = $('.loginForm').serialize();
 
         $.ajax({
             type: "post",
@@ -35,7 +27,7 @@
                 'CsrfToken': $('meta[name="csrf-token"]').attr('content')
             },
             data: data,
-            url: "http://www.soextreme.code/UserController/create",
+            url: "http://www.soextreme.code/LoginController/connect",
             dataType:"json",
             success: function (response) {
                 if (response.status === 'valid'){

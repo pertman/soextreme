@@ -17,17 +17,66 @@
 <body>
 <form class="subscriptionForm">
     <label for="act_title">Titre</label>
-    <input type="text" name="act_title" required>
-    <label for="usr_lastname">Nom</label>
-    <input type="text" name="usr_lastname" required>
-    <label for="usr_email">Email</label>
-    <input type="mail" name="usr_email" required>
-    <label for="usr_password">Mot de passe</label>
-    <input type="password" name="usr_password" required>
-    <label for="usr_password_2">Confirmation Mot de passe</label>
-    <input type="password" name="usr_password_2" required>
-    <label for="usr_phone">Téléphone</label>
-    <input type="text" name="usr_phone" required>
+    <input class="input" type="text" name="act_title" required>
+    <label for="usr_lastname">Catégorie</label>
+    <div class="select">
+        <select>
+            <option>Selectionner</option>
+
+        </select>
+    </div>
+    <label for="act_description">Description</label>
+    <textarea class="textarea" placeholder="Description de l'activité..."></textarea>
+    <label for="act_description">Description courte</label>
+    <textarea class="textarea" placeholder="Description courte de l'activité..."></textarea>
+
+
+    <!--Upload picture-->
+    <div class="file is-boxed">
+        <label class="file-label">
+            <input class="file-input" type="file" name="resume">
+            <span class="file-cta">
+      <span class="file-icon">
+        <i class="fas fa-upload"></i>
+      </span>
+      <span class="file-label">
+        Sélectionnez une image
+      </span>
+    </span>
+        </label>
+    </div>
+    <!--    -->
+
+    <!--Upload video-->
+    <div class="file is-boxed">
+        <label class="file-label">
+            <input class="file-input" type="file" name="resume">
+            <span class="file-cta">
+      <span class="file-icon">
+        <i class="fas fa-upload"></i>
+      </span>
+      <span class="file-label">
+        Sélectionnez une vidéo
+      </span>
+    </span>
+        </label>
+    </div>
+    <!--    -->
+
+
+    <label class="checkbox">
+        L'activité fait partie d'une offre spéciale
+        <input type="checkbox">
+    </label>
+    <textarea class="textarea" placeholder="Description de l'offre spéciale..."></textarea>
+
+    Visibilité du projet :
+    <div class="field">
+        <label for="switchRoundedOutlinedDefault">Privé</label>
+        <input id="switchRoundedOutlinedDefault" type="checkbox" name="switchRoundedOutlinedDefault" class="switch is-rounded is-outlined" checked="checked">
+        <label for="switchRoundedOutlinedDefault">Public</label>
+    </div>
+
     <input type="submit" value="Valider">
 </form>
 </body>

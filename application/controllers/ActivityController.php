@@ -12,6 +12,7 @@ class ActivityController extends MY_Controller{
 
     public function showActivityForm(){
         $this->load->view('activityForm.php');
+
     }
 
 

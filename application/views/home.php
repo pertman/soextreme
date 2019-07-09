@@ -9,6 +9,7 @@
 
 <a href="<?php echo base_url("/LoginController/showLoginForm"); ?>" class="menu-btn login-button">Connexion</a>
 <a href="<?php echo base_url("/UserController/showSubscriptionForm"); ?>" class="menu-btn subscrption-button">Inscription</a>
+<a href="<?php echo base_url("/ActivityController/showActivityForm"); ?>" class="menu-btn subscrption-button">Création activité</a>
 <a class="menu-btn disconnect-button user-connected">Déconnexion</a>
 
 <script>

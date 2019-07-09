@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Création activité</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <meta name="csrf-token" content="<?= $_SESSION['csrf_token'] ?>">
     <script
@@ -72,9 +73,8 @@
 
     Visibilité du projet :
     <div class="field">
-        <label for="switchRoundedOutlinedDefault">Privé</label>
-        <input id="switchRoundedOutlinedDefault" type="checkbox" name="switchRoundedOutlinedDefault" class="switch is-rounded is-outlined" checked="checked">
-        <label for="switchRoundedOutlinedDefault">Public</label>
+        <input id="switchRtlExample" type="checkbox" name="switchRtlExample" class="switch is-rtl" checked="checked">
+        <label for="switchRtlExample">Switch example</label>
     </div>
 
     <input type="submit" value="Valider">

@@ -7,26 +7,26 @@
             crossorigin="anonymous"></script>
 </head>
 
-<a class="menu-btn login-button">Connexion</a>
-<a class="menu-btn subscrption-button">Inscription</a>
+<a href="<?php echo base_url("/LoginController/showLoginForm"); ?>" class="menu-btn login-button">Connexion</a>
+<a href="<?php echo base_url("/UserController/showSubscriptionForm"); ?>" class="menu-btn subscrption-button">Inscription</a>
 <a class="menu-btn disconnect-button user-connected">Déconnexion</a>
 
 <script>
     $(document).ready(function() {
         manageButtonsOnConnectionStatus();
 
-        $('.login-button').click(function () {
-            window.location.replace("http://www.soextreme.code/LoginController/showLoginForm");
-        });
+        //$('.login-button').click(function () {
+        //    window.location.replace(<?php //echo base_url("/LoginController/showLoginForm"); ?>//);
+        //});
 
-        $('.subscrption-button').click(function () {
-            window.location.replace("http://www.soextreme.code/UserController/showSubscriptionForm");
-        });
+        //$('.subscrption-button').click(function () {
+        //    window.location.replace("<?php //echo base_url("/UserController/showSubscriptionForm"); ?>//");
+        //});
 
         $('.disconnect-button').click(function () {
             $.ajax({
                 type: "get",
-                url: "http://www.soextreme.code/LoginController/disconnect",
+                url: "<?php echo base_url("/LoginController/disconnect"); ?>",
                 dataType:"json",
                 success: function (response) {
                     if (response.status === 'valid'){
@@ -41,7 +41,7 @@
     function manageButtonsOnConnectionStatus() {
         $.ajax({
             type: "get",
-            url: "http://www.soextreme.code/SessionController/isLoggedIn",
+            url: "<?php echo base_url("/SessionController/isLoggedIn"); ?>",
             dataType:"json",
             success: function (response) {
                 let connected = false;

@@ -8,6 +8,8 @@
     <title>Document</title>
 </head>
 <body>
-
+<div style="background-color: #0b8dc5">
+    <h2>HEADER</h2>
+</div>
 </body>
 </html>

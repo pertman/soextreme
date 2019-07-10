@@ -22,8 +22,12 @@
     <label for="usr_lastname">Catégorie</label>
     <div class="select">
         <select>
-            <option>Selectionner</option>
-
+            <option value="0">Selectionner</option>
+            <?php if (isset($category)) {
+                foreach($category as $category) { ?>
+                    <option value="<?php echo $category['cat_id']; ?>"><?php echo $category['cat_name']; ?></option>
+                <?php }
+            } ?>
         </select>
     </div>
     <label for="act_description">Description</label>

@@ -11,7 +11,7 @@ class ActivityController extends MY_Controller{
         parent::init();
 
         $this->_params = parent::getBaseParams();
-        $this->_params['headerData']['title'] = 'Nouvelle Activité';
+        $this->_params['headData']['title'] = 'Nouvelle Activité';
         $this->_params['view'] = 'activityForm';
 
     }

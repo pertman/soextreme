@@ -1,7 +1,20 @@
 <form class="loginForm" method="post" action="connect">
-    <label for="usr_email">Email</label>
-    <input type="mail" name="usr_email" required>
-    <label for="usr_password">Mot de passe</label>
-    <input type="password" name="usr_password" required>
-    <input type="submit" value="Valider">
+    <div class="field">
+        <label for="usr_email">Email</label>
+        <div class="control">
+            <input type="mail" class="input" name="usr_email" required>
+        </div>
+
+    </div>
+    <div class="field">
+        <label for="usr_password">Mot de passe</label>
+        <div class="control">
+            <input type="password" class="input" name="usr_password" required>
+        </div>
+    </div>
+    <div class="field">
+        <div class="control">
+            <button class="button is-link">Valider</button>
+        </div>
+    </div>
 </form>

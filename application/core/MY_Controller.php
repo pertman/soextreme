@@ -31,13 +31,13 @@ class MY_Controller extends CI_Controller {
         $params                = array();
         $params['data']        = array();
         $params['messages']    = array();
-        $params['headerData']  = array();
+        $params['headData']    = array();
 
         return $params;
     }
 
     public function redirectHome($params){
-        $params['headerData']['title'] = 'Accueil';
+        $params['headData']['title'] = 'Accueil';
         $params['view'] = 'home.php';
         $this->load->view('template.php', $params);
     }

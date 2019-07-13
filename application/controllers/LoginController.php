@@ -11,7 +11,7 @@ class LoginController extends MY_Controller {
         parent::init();
 
         $this->_params = parent::getBaseParams();
-        $this->_params['headerData']['title'] = 'Connexion';
+        $this->_params['headData']['title'] = 'Connexion';
         $this->_params['view'] = 'loginForm.php';
         
 //        @TODO REFERER

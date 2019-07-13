@@ -31,7 +31,7 @@ class MainController extends MY_Controller {
 
 	public function index()
 	{
-        $this->_params['headerData']['title'] = 'Accueil';
+        $this->_params['headData']['title'] = 'Accueil';
 	    $this->_params['view'] = 'home.php';
         $this->load->view('template.php', $this->_params);
 	}

@@ -11,7 +11,7 @@ class UserController extends MY_Controller {
         parent::init();
 
         $this->_params = parent::getBaseParams();
-        $this->_params['headerData']['title'] = 'Inscription';
+        $this->_params['headData']['title'] = 'Inscription';
         $this->_params['view'] = 'subscriptionForm.php';
     }
 

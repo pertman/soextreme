@@ -1,0 +1,40 @@
+@charset "utf-8";
+//@import "../node_modules/bulma/bulma.sass";
+//@import "../node_modules/bulma-carousel/src/sass/index.sass";
+
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+
+// Set your brand colors
+$blue-darker: #1B3457;
+$blue-dark: #314B6F;
+$blue: #449cc4;
+$blue-light: #7386A1;
+$blue-lighter: #eff3f4;
+
+$tablet: 1012px !default
+
+$grey: #dbdbdb;
+$orangeStockDeal: #ed6c2e;
+$brown: #757763;
+
+$beige-light: #D0D1CD;
+$beige-lighter: #EFF0EB;
+
+
+// Update Bulma's global variables
+$family-sans-serif: "Nunito", sans-serif;
+$grey-dark: $brown;
+$grey-light: $beige-light;
+$primary: $blue;
+$link: $orangeStockDeal;
+$footer-background-color : $blue;
+$widescreen-enabled: false;
+$fullhd-enabled: false;
+
+// Update some of Bulma's component variables
+$body-background-color: $beige-lighter;
+$control-border-width: 2px;
+$input-border-color: transparent;
+//$input-shadow: none;
+
+@import "../node_modules/bulma/bulma.sass";

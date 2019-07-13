@@ -29,3 +29,7 @@ function verifyCSRF(){
 
     return true;
 }
+
+function isUserConnected(){
+    return isset($_SESSION['user']);
+}

@@ -19,5 +19,26 @@ class MY_Controller extends CI_Controller {
         $this->load->helper('main_helper');
         $this->load->database();
         $this->load->model('UserModel');
+        $this->load->model('ActivityModel');
+
+        if (!isset($_SESSION['messages'])){
+            $_SESSION['messages'] = array();
+        }
+
+    }
+
+    public function getBaseParams(){
+        $params                = array();
+        $params['data']        = array();
+        $params['messages']    = array();
+        $params['headerData']  = array();
+
+        return $params;
+    }
+
+    public function redirectHome($params){
+        $params['headerData']['title'] = 'Accueil';
+        $params['view'] = 'home.php';
+        $this->load->view('template.php', $params);
     }
 }

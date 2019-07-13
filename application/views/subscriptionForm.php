@@ -1,13 +1,4 @@
-<head>
-    <title>Inscription</title>
-    <meta name="csrf-token" content="<?= $_SESSION['csrf_token'] ?>">
-    <script
-            src="https://code.jquery.com/jquery-3.4.1.min.js"
-            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-            crossorigin="anonymous"></script>
-</head>
-
-<form class="subscriptionForm">
+<form class="subscriptionForm" method="post" action="create">
     <label for="usr_firstname">Prénom</label>
     <input type="text" name="usr_firstname" required>
     <label for="usr_lastname">Nom</label>
@@ -22,40 +13,3 @@
     <input type="text" name="usr_phone" required>
     <input type="submit" value="Valider">
 </form>
-
-<script>
-    $('.subscriptionForm').on('submit', function (e) {
-        e.preventDefault();
-
-        let data = $('.subscriptionForm').serialize();
-
-        $.ajax({
-            type: "post",
-            headers : {
-                'CsrfToken': $('meta[name="csrf-token"]').attr('content')
-            },
-            data: data,
-            url: "http://www.soextreme.code/UserController/create",
-            dataType:"json",
-            success: function (response) {
-                if (response.status === 'valid'){
-
-                    redirectPost("http://www.soextreme.code/MainController", {messages: response.messages})
-                }else{
-                    let messages = response.messages;
-                    console.log(messages);
-                }
-            }
-        });
-    });
-
-    function redirectPost(location, args){
-        let form = '';
-
-        $.each( args, function( key, value ) {
-            form += '<input type="hidden" name="'+key+'" value="'+value+'">';
-        });
-
-        $('<form action="' + location + '" method="POST">' + form + '</form>').appendTo($(document.body)).submit();
-    }
-</script>

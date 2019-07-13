@@ -1,5 +1,5 @@
 <?php
-
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class ActivityController extends MY_Controller{
 
@@ -20,7 +20,7 @@ class ActivityController extends MY_Controller{
         if ($post = $this->input->post()) {
 //            @TODO control and create activity
         }else{
-            $this->_params['data']['category']  = $this->ActivityModel->getActiveCategories();
+            $this->_params['data']['category']  = $this->CategoryModel->getActiveCategories();
             $this->load->view('template', $this->_params);
         }
     }

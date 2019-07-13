@@ -1,4 +1,5 @@
 <?php
+
 class UserModel extends CI_Model {
 
     public function createUser($firstname, $lastname, $email, $password, $phone, $userType){

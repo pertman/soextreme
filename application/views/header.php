@@ -5,7 +5,7 @@
                 SoExtreme
             </h1>
             <h2 class="subtitle">
-                Pour vivre des sensations fortes
+                Vivez des sensations fortes
             </h2>
         </div>
     </div>

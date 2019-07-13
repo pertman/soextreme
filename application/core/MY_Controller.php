@@ -20,6 +20,7 @@ class MY_Controller extends CI_Controller {
         $this->load->database();
         $this->load->model('UserModel');
         $this->load->model('ActivityModel');
+        $this->load->model('CategoryModel');
 
         if (!isset($_SESSION['messages'])){
             $_SESSION['messages'] = array();

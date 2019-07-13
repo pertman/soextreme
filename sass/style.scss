@@ -2,17 +2,12 @@
 
 @import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
 
-// Set your brand colors
-$blue-darker: #1B3457;
-$blue-dark: #314B6F;
-$blue: #449cc4;
-$blue-light: #7386A1;
-$blue-lighter: #eff3f4;
+$blue: #4462a5;
 
 $tablet: 1012px !default
 
 $grey: #dbdbdb;
-$orangeStockDeal: #ed6c2e;
+$orange: #e38b40;
 $brown: #757763;
 
 $beige-light: #D0D1CD;
@@ -24,7 +19,7 @@ $family-sans-serif: "Nunito", sans-serif;
 $grey-dark: $brown;
 $grey-light: $beige-light;
 $primary: $blue;
-$link: $orangeStockDeal;
+$link: $orange;
 $footer-background-color : $blue;
 $widescreen-enabled: false;
 $fullhd-enabled: false;
@@ -35,4 +30,16 @@ $control-border-width: 2px;
 $input-border-color: transparent;
 //$input-shadow: none;
 
+
 @import "../node_modules/bulma/bulma.sass";
+.input, .textarea{
+  box-shadow: none;
+}
+
+@media screen and (max-width: 1023px) {
+  .navbar-menu.is-active {
+    //display: block;
+    position: absolute;
+    width: 100%;
+  }
+}

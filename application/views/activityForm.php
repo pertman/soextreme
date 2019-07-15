@@ -31,9 +31,9 @@
         </select>
     </div>
     <label for="act_description">Description</label>
-    <textarea class="textarea" placeholder="Description de l'activité..."></textarea>
+    <textarea class="textarea" name="act_description" placeholder="Description de l'activité..."></textarea>
     <label for="act_description">Description courte</label>
-    <textarea class="textarea" placeholder="Description courte de l'activité..."></textarea>
+    <textarea class="textarea" name="act_description_short" placeholder="Description courte de l'activité..."></textarea>
 
 
     <!--Upload picture-->

@@ -18,5 +18,12 @@ class ActivityController extends MY_Controller{
         $this->load->view('layout/footer');
     }
 
+    public function registerActivityForm(){
+        $act_title = $this->input->post('act_title');
+        $act_category = $this->input->post('act_category');
+        $act_description = $this->input->post('act_description');
+        $act_description_short = $this->input->post('act_description_short');
 
+        var_dump($act_title);
+    }
 }

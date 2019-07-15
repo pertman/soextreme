@@ -1,4 +1,4 @@
-<form class="categoryorm" method="post" action="createCategory">
+<form method="post" action="createCategory">
     <div class="field">
         <label for="cat_name">Nom</label>
         <div class="control">

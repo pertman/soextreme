@@ -1,4 +1,4 @@
-<form class="loginForm" method="post" action="connect">
+<form method="post" action="connect">
     <div class="field">
         <label for="usr_email">Email</label>
         <div class="control">

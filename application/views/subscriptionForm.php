@@ -1,4 +1,4 @@
-<form class="subscriptionForm" method="post" action="create">
+<form method="post" action="create">
     <div class="columns">
         <div class="column">
             <div class="field">

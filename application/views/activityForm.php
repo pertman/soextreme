@@ -1,15 +1,15 @@
-<form class="subscriptionForm">
+<form method="post" action="createActivity">
     <div class="field">
         <label for="act_title">Titre</label>
         <div class="control">
-            <input class="input" type="text" name="act_title" required>
+            <input class="input" type="text" name="act_name" required>
         </div>
     </div>
     <div class="field">
-        <label for="usr_lastname">Catégorie</label>
+        <label for="cat_id">Catégorie</label>
         <div class="control">
             <div class="select">
-                <select class="select">
+                <select class="select" name="cat_id">
                     <option value="">Selectionnez une catégorie</option>
                     <?php if (isset($category)) {
                         foreach($category as $category) { ?>
@@ -23,58 +23,52 @@
     <div class="field">
         <label for="act_description">Description</label>
         <div class="control">
-            <textarea class="textarea" placeholder="Description de l'activité..."></textarea>
+            <textarea class="textarea" name="act_description" placeholder="Description de l'activité..." required></textarea>
         </div>
     </div>
     <div class="field">
-        <label for="act_description">Description courte</label>
+        <label for="act_resume">Description courte</label>
         <div class="control">
-            <textarea class="textarea" placeholder="Description courte de l'activité..."></textarea>
+            <textarea class="textarea" name="act_resume" placeholder="Description courte de l'activité..." required></textarea>
         </div>
     </div>
-
     <div class="field">
-        <div class="file is-boxed">
-            <label class="file-label">
-                <input class="file-input" type="file" name="resume">
-                <span class="file-cta">
-                  <span class="file-icon">
-                    <i class="fas fa-upload"></i>
-                  </span>
-                  <span class="file-label">
-                    Sélectionnez une image
-                  </span>
-                </span>
-            </label>
+        <label for="act_base_price">Prix hors promotion (€)</label>
+        <div class="control">
+            <input class="input" type="number" min="0.00" step="0.01" name="act_base_price" required>
         </div>
-
     </div>
-
     <div class="field">
-        <div class="file is-boxed">
-            <label class="file-label">
-                <input class="file-input" type="file" name="resume">
-                <span class="file-cta">
-                  <span class="file-icon">
-                    <i class="fas fa-upload"></i>
-                  </span>
-                  <span class="file-label">
-                    Sélectionnez une vidéo
-                  </span>
-                </span>
-            </label>
+        <label for="act_duration">Durée d'une session (min)</label>
+        <div class="control">
+            <input class="input" type="number" min="1" name="act_duration" required>
         </div>
     </div>
-
+    <div class="field">
+        <label for="act_monitor_nb">Nombre de moniteur requis</label>
+        <div class="control">
+            <input class="input" type="number" min="0" name="act_monitor_nb" required>
+        </div>
+    </div>
+    <div class="field">
+        <label for="act_operator_nb">Nombre d'opérateur requis</label>
+        <div class="control">
+            <input class="input" type="number" min="0" name="act_operator_nb" required>
+        </div>
+    </div>
     <div class="field">
         <label class="checkbox">
-            L'activité fait partie d'une offre spéciale
-            <input type="checkbox">
+            L'activité fait partie d'une offre spéciale ?
+            <input type="checkbox" name="act_is_special_offer">
         </label>
     </div>
     <div class="field">
-        <textarea class="textarea" placeholder="Description de l'offre spéciale..."></textarea>
+        <div class="control">
+            <textarea class="textarea" name="act_description_special_offer" placeholder="Description de l'offre spéciale..."></textarea>
+        </div>
     </div>
+
+
 
 <!--    Visibilité du projet :-->
 <!--    <div class="field">-->

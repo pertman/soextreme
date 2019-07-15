@@ -20,6 +20,8 @@
                 </p>
                 <div class="navbar-dropdown is-boxed">
                     <a href="<?php echo base_url(); ?>ActivityController/createActivity" class="navbar-item">Créer</a>
+                    <a href="<?php echo base_url(); ?>ActivityController/showActivity" class="navbar-item">Voir</a>
+                    <a href="<?php echo base_url(); ?>ActivityController/planActivity" class="navbar-item">Planifier</a>
                 </div>
             </div>
 

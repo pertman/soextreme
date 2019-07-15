@@ -31,11 +31,21 @@ class ActivityController extends MY_Controller{
 
                 $this->redirectHome($this->_params);
             }
-            die();
-//            @TODO control and create activity
+
         }else{
             $this->_params['data']['category']  = $this->CategoryModel->getActiveCategories();
             $this->load->view('template', $this->_params);
         }
+    }
+
+    public function showActivity(){
+        $this->_params['headData']['title'] = 'Liste des activités';
+        $this->_params['view'] = 'activityList';
+        $this->_params['data']['activity']  = $this->ActivityModel->getActiveActivities();
+        $this->load->view('template', $this->_params);
+    }
+
+    public function planActivity(){
+
     }
 }

@@ -1,29 +1,51 @@
 <?php
-
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class ActivityController extends MY_Controller{
+
+    protected $_params;
 
     public function __construct()
     {
         parent::__construct();
         parent::init();
 
+        $this->_params = parent::getBaseParams();
+        $this->_params['headData']['title'] = 'Nouvelle Activité';
+        $this->_params['view'] = 'activityForm';
+
     }
 
-    public function showActivityForm(){
-        $this->load->model('ActivityModel');
-        $data['category'] = $this->ActivityModel->getCategory();
-        $this->load->view('layout/header');
-        $this->load->view('activityForm', $data);
-        $this->load->view('layout/footer');
+    public function createActivity(){
+        if ($post = $this->input->post()) {
+
+            $existingActivity = $this->ActivityModel->getActivityByName($post['act_name']);
+
+            if ($existingActivity){
+                $this->_params['messages'][] = "Une activité avec ce nom existe déjà";
+                $this->load->view('template', $this->_params);
+            }else{
+                $this->ActivityModel->createActivity($post);
+
+                $_SESSION['messages'][] = "L'activité ". $post['act_name'] . " à bien été crée";
+
+                $this->redirectHome($this->_params);
+            }
+
+        }else{
+            $this->_params['data']['category']  = $this->CategoryModel->getActiveCategories();
+            $this->load->view('template', $this->_params);
+        }
     }
 
-    public function registerActivityForm(){
-        $act_title = $this->input->post('act_title');
-        $act_category = $this->input->post('act_category');
-        $act_description = $this->input->post('act_description');
-        $act_description_short = $this->input->post('act_description_short');
+    public function showActivity(){
+        $this->_params['headData']['title'] = 'Liste des activités';
+        $this->_params['view'] = 'activityList';
+        $this->_params['data']['activity']  = $this->ActivityModel->getActiveActivities();
+        $this->load->view('template', $this->_params);
+    }
 
-        var_dump($act_title);
+    public function planActivity(){
+
     }
 }

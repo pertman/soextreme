@@ -1,0 +1,45 @@
+@charset "utf-8";
+
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+
+$blue: #4462a5;
+
+$tablet: 1012px !default
+
+$grey: #dbdbdb;
+$orange: #e38b40;
+$brown: #757763;
+
+$beige-light: #D0D1CD;
+$beige-lighter: #EFF0EB;
+
+
+// Update Bulma's global variables
+$family-sans-serif: "Nunito", sans-serif;
+$grey-dark: $brown;
+$grey-light: $beige-light;
+$primary: $blue;
+$link: $orange;
+$footer-background-color : $blue;
+$widescreen-enabled: false;
+$fullhd-enabled: false;
+
+// Update some of Bulma's component variables
+$body-background-color: $beige-lighter;
+$control-border-width: 2px;
+$input-border-color: transparent;
+//$input-shadow: none;
+
+
+@import "../node_modules/bulma/bulma.sass";
+.input, .textarea{
+  box-shadow: none;
+}
+
+@media screen and (max-width: 1023px) {
+  .navbar-menu.is-active {
+    //display: block;
+    position: absolute;
+    width: 100%;
+  }
+}

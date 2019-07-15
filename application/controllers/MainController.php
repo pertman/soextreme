@@ -19,14 +19,20 @@ class MainController extends MY_Controller {
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
 
+	protected $_params;
+
     public function __construct()
     {
         parent::__construct();
         parent::init();
+        
+        $this->_params = parent::getBaseParams();
     }
 
 	public function index()
 	{
-		$this->load->view('home.php');
+        $this->_params['headData']['title'] = 'Accueil';
+	    $this->_params['view'] = 'home.php';
+        $this->load->view('template.php', $this->_params);
 	}
 }

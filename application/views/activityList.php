@@ -1,7 +1,9 @@
+<div class="card-container">
 <?php
 
 //var_dump($activity);
-//foreach ($activity as $activity) {
+if (isset($activity)){
+foreach ($activity as $activity) {
        ?>
 
 
@@ -13,11 +15,11 @@
     </div>
     <div class="card-content">
         <div class="media">
-            <div class="media-left">
-                <figure class="image is-48x48">
-                    <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-                </figure>
-            </div>
+<!--            <div class="media-left">-->
+<!--                <figure class="image is-48x48">-->
+<!--                    <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">-->
+<!--                </figure>-->
+<!--            </div>-->
             <div class="media-content">
                 <p class="title is-4"><?php echo $activity['act_name']; ?></p>
                 <div class="subtitle is-6"><div class="led-green"></div><div class="state">Disponible</div></div>
@@ -32,4 +34,6 @@
         </div>
     </div>
 </div>
-<?php //} ?>
+
+<?php } }?>
+</div>

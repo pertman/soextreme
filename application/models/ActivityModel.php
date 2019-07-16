@@ -12,7 +12,7 @@ class ActivityModel extends CI_Model{
         $act_status = 1;
         $sql = "SELECT * FROM activity WHERE act_status= ?";
         $query = $this->db->query($sql, array($act_status));
-        return $query->row_array();
+        return $query->result_array();
     }
 
     public function createActivity($post){

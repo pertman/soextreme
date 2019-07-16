@@ -1,8 +1,8 @@
 <div class="card-container">
 <?php
 
-//var_dump($activity);
 if (isset($activity)){
+    //var_dump($activity);
 foreach ($activity as $activity) {
        ?>
 
@@ -31,7 +31,9 @@ foreach ($activity as $activity) {
 
             <br>
             <time datetime="2016-1-1">Prochaine session : 11:09 PM - 1 Jan 2016</time>
+
         </div>
+        <a href="<?php echo base_url('ActivityController/planActivity') ?>?id=<?php echo $activity['act_id']; ?>" class="button">Paramétrer</a>
     </div>
 </div>
 

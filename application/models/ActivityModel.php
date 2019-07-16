@@ -8,10 +8,37 @@ class ActivityModel extends CI_Model{
         return $query->row_array();
     }
 
-    public function getActiveActivities(){
+    public function getAllActivities(){
+
+        $sql = "SELECT * FROM activity";
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
+
+    public function getPrivateActivities(){
         $act_status = 1;
         $sql = "SELECT * FROM activity WHERE act_status= ?";
         $query = $this->db->query($sql, array($act_status));
+        return $query->result_array();
+    }
+
+    public function getActiveActivities(){
+        $act_status = 2;
+        $sql = "SELECT * FROM activity WHERE act_status= ?";
+        $query = $this->db->query($sql, array($act_status));
+        return $query->result_array();
+    }
+
+    public function getNotbookableActivities(){
+        $act_status = 3;
+        $sql = "SELECT * FROM activity WHERE act_status= ?";
+        $query = $this->db->query($sql, array($act_status));
+        return $query->result_array();
+    }
+
+    public function getThisActivity($act_id){
+        $sql = "SELECT * FROM activity WHERE act_id= ?";
+        $query = $this->db->query($sql, array($act_id));
         return $query->result_array();
     }
 

@@ -13,7 +13,6 @@
         crossorigin="anonymous"></script>
 
     <link rel="stylesheet" type="text/css" href="../../css/style.css">
-    <link rel="stylesheet" type="text/css" href="../../css/soStyle.css">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <script src="../../js/main.js"></script>
 </head>

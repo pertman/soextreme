@@ -38,14 +38,18 @@ class ActivityController extends MY_Controller{
         }
     }
 
-    public function showActivity(){
+    public function showActivities(){
         $this->_params['headData']['title'] = 'Liste des activités';
         $this->_params['view'] = 'activityList';
-        $this->_params['data']['activity']  = $this->ActivityModel->getActiveActivities();
+        $this->_params['data']['activities']  = $this->ActivityModel->getAllActivities();
         $this->load->view('template', $this->_params);
     }
 
     public function planActivity(){
-
+        $act_id = $this->input->get('id');
+        $this->_params['headData']['title'] = 'Planification';
+        $this->_params['view'] = 'activityPlan';
+        $this->_params['data']['activity']  = $this->ActivityModel->getActivityById($act_id);
+        $this->load->view('template', $this->_params);
     }
 }

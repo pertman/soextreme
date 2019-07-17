@@ -1,7 +1,8 @@
 <?php
+//@TODO WIP
+
 if (isset($activity)){
     var_dump($activity); }
-
 ?>
 <!DOCTYPE html>
 <html>

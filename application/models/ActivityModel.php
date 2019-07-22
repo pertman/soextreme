@@ -15,24 +15,21 @@ class ActivityModel extends CI_Model{
     }
 
     public function getPrivateActivities(){
-        //@TODO CHANGE STATUS IN VARCHAR
-        $act_status = 1;
+        $act_status = 'private';
         $sql = "SELECT * FROM activity WHERE act_status= ?";
         $query = $this->db->query($sql, array($act_status));
         return $query->result_array();
     }
 
     public function getActiveActivities(){
-        //@TODO CHANGE STATUS IN VARCHAR
-        $act_status = 2;
+        $act_status = 'active';
         $sql = "SELECT * FROM activity WHERE act_status= ?";
         $query = $this->db->query($sql, array($act_status));
         return $query->result_array();
     }
 
     public function getUnavailableActivities(){
-        //@TODO CHANGE STATUS IN VARCHAR
-        $act_status = 3;
+        $act_status = 'unavailable';
         $sql = "SELECT * FROM activity WHERE act_status= ?";
         $query = $this->db->query($sql, array($act_status));
         return $query->result_array();
@@ -50,6 +47,6 @@ class ActivityModel extends CI_Model{
         $isSpecialOffer = (isset($post['act_is_special_offer'])) ? 1 : 0;
 
         $sql = 'INSERT INTO activity (act_name, act_description, act_resume, act_is_special_offer, act_description_special_offer, act_monitor_nb, act_operator_nb, act_duration, act_base_price, act_created_at, act_updated_at, act_status, cat_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)';
-        return $this->db->query($sql, array($post['act_name'], $post['act_description'], $post['act_resume'], $isSpecialOffer, $post['act_description_special_offer'], $post['act_monitor_nb'], $post['act_operator_nb'], $post['act_duration'], $post['act_base_price'], $now, $now, 1, $category));
+        return $this->db->query($sql, array($post['act_name'], $post['act_description'], $post['act_resume'], $isSpecialOffer, $post['act_description_special_offer'], $post['act_monitor_nb'], $post['act_operator_nb'], $post['act_duration'], $post['act_base_price'], $now, $now, 'private', $category));
     }
 }

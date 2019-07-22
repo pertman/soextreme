@@ -44,7 +44,7 @@ class UserController extends MY_Controller {
 
                 $_SESSION['messages'][] = "Votre inscription à été faite avec succès";
 
-                $this->redirectHome($this->_params);
+                $this->redirectHome();
             }
         }else{
             $this->load->view('template.php', $this->_params);

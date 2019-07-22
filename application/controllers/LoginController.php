@@ -51,7 +51,7 @@ class LoginController extends MY_Controller {
                 $_SESSION['user']['id']     = $user['usr_id'];
                 $_SESSION['messages'][]     = 'Connexion réussie';
 
-                $this->redirectHome($this->_params);
+                $this->redirectHome();
             }
 
         }else{
@@ -67,6 +67,6 @@ class LoginController extends MY_Controller {
 
         $_SESSION['messages'][] = 'Déconnexion réussie';
 
-        $this->redirectHome($this->_params);
+        $this->redirectHome();
     }
 }

@@ -22,7 +22,7 @@
                     </p>
                     <div class="navbar-dropdown is-boxed">
                         <a href="<?php echo base_url(); ?>ActivityController/createActivity" class="navbar-item">Créer</a>
-                        <a href="<?php echo base_url(); ?>ActivityController/showActivities" class="navbar-item">Voir</a>
+                        <a href="<?php echo base_url(); ?>ActivityController/listActivities" class="navbar-item">Voir</a>
                     </div>
                 </div>
 
@@ -32,6 +32,16 @@
                     </p>
                     <div class="navbar-dropdown is-boxed">
                         <a href="<?php echo base_url(); ?>CategoryController/createCategory" class="navbar-item">Créer</a>
+                    </div>
+                </div>
+
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <p class="navbar-link">
+                        Menu
+                    </p>
+                    <div class="navbar-dropdown is-boxed">
+                        <a href="<?php echo base_url(); ?>MenuController/createMenu" class="navbar-item">Créer</a>
+                        <a href="<?php echo base_url(); ?>MenuController/listMenu" class="navbar-item">Liste</a>
                     </div>
                 </div>
             <?php endif; ?>

@@ -18,7 +18,6 @@ class AdminController extends MY_Controller{
 
     public function connect(){
         if ($post = $this->input->post()){
-            
 
             $isError = false;
 
@@ -43,7 +42,7 @@ class AdminController extends MY_Controller{
                 $_SESSION['admin']['id']     = $admin['usr_id'];
                 $_SESSION['messages'][]     = 'Connexion réussie';
 
-                $this->redirectHome($this->_params);
+                $this->redirectHome();
             }
 
         }else{
@@ -52,11 +51,15 @@ class AdminController extends MY_Controller{
     }
 
     public function disconnect(){
+        //@TODO DUPPLICATE CONTROLLERS FOR ADMIN OR USER TO DO IT ON CONSTRUCT
+        if (getCurrentUserType() != getAdminUserType()){
+            $this->redirectHome();
+        }
 
         unset($_SESSION['admin']);
 
         $_SESSION['messages'][] = 'Déconnexion réussie';
 
-        $this->redirectHome($this->_params);
+        $this->redirectHome();
     }
 }

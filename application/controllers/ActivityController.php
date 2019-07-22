@@ -13,10 +13,14 @@ class ActivityController extends MY_Controller{
         $this->_params = parent::getBaseParams();
         $this->_params['headData']['title'] = 'Nouvelle Activité';
         $this->_params['view'] = 'activityForm';
-
     }
 
     public function createActivity(){
+        //@TODO DUPPLICATE CONTROLLERS FOR ADMIN OR USER TO DO IT ON CONSTRUCT
+        if (getCurrentUserType() != getAdminUserType()){
+            $this->redirectHome();
+        }
+
         if ($post = $this->input->post()) {
 
             $existingActivity = $this->ActivityModel->getActivityByName($post['act_name']);
@@ -27,9 +31,9 @@ class ActivityController extends MY_Controller{
             }else{
                 $this->ActivityModel->createActivity($post);
 
-                $_SESSION['messages'][] = "L'activité ". $post['act_name'] . " à bien été crée";
+                $_SESSION['messages'][] = "L'activité ". $post['act_name'] . " a bien été crée";
 
-                $this->redirectHome($this->_params);
+                $this->redirectHome();
             }
 
         }else{
@@ -38,7 +42,12 @@ class ActivityController extends MY_Controller{
         }
     }
 
-    public function showActivities(){
+    public function listActivities(){
+        //@TODO DUPPLICATE CONTROLLERS FOR ADMIN OR USER TO DO IT ON CONSTRUCT
+        if (getCurrentUserType() != getAdminUserType()){
+            $this->redirectHome();
+        }
+
         $this->_params['headData']['title'] = 'Liste des activités';
         $this->_params['view'] = 'activityList';
         $this->_params['data']['activities']  = $this->ActivityModel->getAllActivities();

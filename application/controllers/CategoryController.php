@@ -16,6 +16,11 @@ class CategoryController extends MY_Controller{
     }
 
     public function createCategory(){
+        //@TODO DUPPLICATE CONTROLLERS FOR ADMIN OR USER TO DO IT ON CONSTRUCT
+        if (getCurrentUserType() != getAdminUserType()){
+            $this->redirectHome();
+        }
+
         if ($post = $this->input->post()) {
 
             $catName = $post['cat_name'];
@@ -28,9 +33,9 @@ class CategoryController extends MY_Controller{
             }else{
                 $this->CategoryModel->createCategory($catName);
 
-                $_SESSION['messages'][] = "La catégorie ". $catName . " à bien été crée";
+                $_SESSION['messages'][] = "La catégorie ". $catName . " a bien été crée";
 
-                $this->redirectHome($this->_params);
+                $this->redirectHome();
             }
         }else{
             $this->load->view('template', $this->_params);

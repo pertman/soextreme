@@ -11,11 +11,11 @@
             <div class="select">
                 <select class="select" name="cat_id">
                     <option value="">Selectionnez une catégorie</option>
-                    <?php if (isset($category)) {
-                        foreach($category as $category) { ?>
+                    <?php if (isset($category)) : ?>
+                        <?php foreach($category as $category) : ?>
                             <option value="<?php echo $category['cat_id']; ?>"><?php echo $category['cat_name']; ?></option>
-                        <?php }
-                    } ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </select>
             </div>
         </div>
@@ -67,15 +67,6 @@
             <textarea class="textarea" name="act_description_special_offer" placeholder="Description de l'offre spéciale..."></textarea>
         </div>
     </div>
-
-
-
-<!--    Visibilité du projet :-->
-<!--    <div class="field">-->
-<!--        <input id="switchRtlExample" type="checkbox" name="switchRtlExample" class="switch is-rtl" checked="checked">-->
-<!--        <label for="switchRtlExample">Switch example</label>-->
-<!--    </div>-->
-
     <div class="field">
         <div class="control">
             <button class="button is-link">Valider</button>

@@ -14,6 +14,7 @@ $beige-light: #D0D1CD;
 $beige-lighter: #EFF0EB;
 
 
+
 // Update Bulma's global variables
 $family-sans-serif: "Nunito", sans-serif;
 $grey-dark: $brown;
@@ -30,6 +31,8 @@ $control-border-width: 2px;
 $input-border-color: transparent;
 //$input-shadow: none;
 
+
+$light-grey : #f0f0f0;
 
 @import "../node_modules/bulma/bulma.sass";
 .input, .textarea{
@@ -79,3 +82,43 @@ $input-border-color: transparent;
   .media-content {
     overflow-x: unset;
   }}
+
+//MenuList.php
+.menu-card{
+  width: 100%;
+  &.is-top-menu{
+    border: 1px solid $orange;
+  }
+  .card-content{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+//MenuItem.php
+
+.menu-item-card{
+  width: 100%;
+  .menu-title{
+    width: 100%;
+  }
+  .category-line{
+    display: flex;
+    padding: 15px 0;
+    justify-content: space-between;
+    border-bottom: 1px solid $light-grey;
+  }
+  .checkbox-is-top-menu{
+    margin-top: 2rem;
+  }
+  .buttons{
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+//OVERRIDE BULMA
+.card-header{
+  padding: 1.5rem;
+}

@@ -22,6 +22,7 @@ class MY_Controller extends CI_Controller {
         $this->load->model('ActivityModel');
         $this->load->model('CategoryModel');
         $this->load->model('AdminModel');
+        $this->load->model('MenuModel');
 
         if (!isset($_SESSION['messages'])){
             $_SESSION['messages'] = array();
@@ -38,9 +39,7 @@ class MY_Controller extends CI_Controller {
         return $params;
     }
 
-    public function redirectHome($params){
-        $params['headData']['title'] = 'Accueil';
-        $params['view'] = 'home.php';
-        $this->load->view('template.php', $params);
+    public function redirectHome(){
+        redirect('/', 'refresh');
     }
 }

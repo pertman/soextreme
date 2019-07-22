@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  lun. 22 juil. 2019 à 09:17
+-- Généré le :  lun. 22 juil. 2019 à 11:46
 -- Version du serveur :  5.7.19
 -- Version de PHP :  7.1.9
 
@@ -132,6 +132,7 @@ DROP TABLE IF EXISTS `menu`;
 CREATE TABLE IF NOT EXISTS `menu` (
   `men_id` int(11) NOT NULL AUTO_INCREMENT,
   `men_name` varchar(255) NOT NULL,
+  `men_is_top_menu` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`men_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

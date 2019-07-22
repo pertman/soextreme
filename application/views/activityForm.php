@@ -67,6 +67,16 @@
             <textarea class="textarea" name="act_description_special_offer" placeholder="Description de l'offre spéciale..."></textarea>
         </div>
     </div>
+    <div class="field">
+        <label for="act_title">Adresse du lieu</label>
+        <div class="control">
+            <input class="input" type="text" name="act_adress" required>
+        </div>
+        <label for="act_title">Code postale</label>
+        <div class="control">
+            <input class="input" type="text" name="act_zip_code" required>
+        </div>
+    </div>
 
 
 

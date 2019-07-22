@@ -25,13 +25,11 @@ class ActivityController extends MY_Controller{
                 $this->_params['messages'][] = "Une activité avec ce nom existe déjà";
                 $this->load->view('template', $this->_params);
             }else{
+                //TODO Attention convertion 'act_duration' fausse, les minutes deviennent des secondes en bdd
                 $this->ActivityModel->createActivity($post);
-
                 $_SESSION['messages'][] = "L'activité ". $post['act_name'] . " à bien été crée";
-
                 $this->redirectHome($this->_params);
             }
-
         }else{
             $this->_params['data']['category']  = $this->CategoryModel->getActiveCategories();
             $this->load->view('template', $this->_params);

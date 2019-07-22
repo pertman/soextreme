@@ -1,5 +1,8 @@
 <?php
 
+const ADMIN_USER_TYPE       = 'admin';
+const CUSTOMER_USER_TYPE    = 'user';
+
 function verifyReferer(){
 
 //    @TODO add Mobile Refferer
@@ -30,6 +33,20 @@ function verifyCSRF(){
     return true;
 }
 
-function isUserConnected(){
-    return isset($_SESSION['user']);
+function getCurrentUserType(){
+    if (isset($_SESSION['admin'])){
+        return 'admin';
+    }
+    if (isset($_SESSION['user'])){
+        return 'user';
+    }
+    return null;
+}
+
+function getAdminUserType(){
+    return 'admin';
+}
+
+function getCustomerUserType(){
+    return 'user';
 }

@@ -52,4 +52,15 @@ class ActivityController extends MY_Controller{
         $this->_params['data']['activity']  = $this->ActivityModel->getActivityById($act_id);
         $this->load->view('template', $this->_params);
     }
+
+//    @WIP
+    public function scheduleActivity(){
+        if ($post = $this->input->post()) {
+            var_dump($post);
+            echo ($this->ActivityModel->scheduleDateActivity($post));
+            for ($i=0; $i<=sizeof($post); $i++){
+
+            }
+        }
+    }
 }

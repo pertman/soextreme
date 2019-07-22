@@ -32,6 +32,7 @@ $input-border-color: transparent;
 
 
 @import "../node_modules/bulma/bulma.sass";
+@import "../node_modules/bulma-calendar/dist/css/bulma-calendar.min.css";
 .input, .textarea{
   box-shadow: none;
 }

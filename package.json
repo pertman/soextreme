@@ -13,5 +13,8 @@
     "css-watch": "npm run css-build -- --watch",
     "browser-sync": "browser-sync start --server --files '*'",
     "start": "npm run css-watch"
+  },
+  "dependencies": {
+    "bulma-calendar": "^6.0.7"
   }
 }

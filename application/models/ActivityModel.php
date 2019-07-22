@@ -52,4 +52,18 @@ class ActivityModel extends CI_Model{
         $sql = 'INSERT INTO activity (act_name, act_description, act_resume, act_is_special_offer, act_description_special_offer, act_monitor_nb, act_operator_nb, act_duration, act_base_price, act_created_at, act_updated_at, act_status, cat_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)';
         return $this->db->query($sql, array($post['act_name'], $post['act_description'], $post['act_resume'], $isSpecialOffer, $post['act_description_special_offer'], $post['act_monitor_nb'], $post['act_operator_nb'], $post['act_duration'], $post['act_base_price'], $now, $now, 1, $category));
     }
+
+    public function scheduleDateActivity($post){
+
+        $sql = 'INSERT INTO `planning` (`pla_id`, `pla_date_start`, `pla_date_end`, `act_id`) VALUES (NULL,?,?,?)';
+        return $this->db->query($sql, array($post['date_start'], $post['date_end'], $post['act_id']));
+    }
+
+    public function scheduleDayActivity($post){
+
+        $sql = 'INSERT INTO `time_slot` (`tsl_id`, `tsl_hour_start`, `tsl_hour_end`, `tsl_day_index`) VALUES (NULL,?,?,?)';
+        return $this->db->query($sql, array($post['hour_start'], $post['hour_end'], $post['day_index']));
+    }
+
+
 }

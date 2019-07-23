@@ -59,10 +59,16 @@ class ActivityModel extends CI_Model{
         return $this->db->query($sql, array($post['date_start'], $post['date_end'], $post['act_id']));
     }
 
-    public function scheduleDayActivity($post){
+    public function scheduleDayActivity($post, $day_index){
 
         $sql = 'INSERT INTO `time_slot` (`tsl_id`, `tsl_hour_start`, `tsl_hour_end`, `tsl_day_index`) VALUES (NULL,?,?,?)';
-        return $this->db->query($sql, array($post['hour_start'], $post['hour_end'], $post['day_index']));
+        return $this->db->query($sql, array($post['hour_start'], $post['hour_end'], $day_index));
+    }
+
+    public function linkDayDateActivity($plaId, $tslId){
+
+        $sql = 'INSERT INTO `time_slot_planning_link` (`tsp_id`, `pla_id`,`tsl_id`) VALUES (NULL,?,?)';
+        return $this->db->query($sql, array($plaId, $tslId));
     }
 
 

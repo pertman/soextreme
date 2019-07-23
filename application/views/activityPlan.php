@@ -4,7 +4,7 @@
     <?php
     //@TODO WIP
     if (isset($activity)) :
-        var_dump($activity)?>
+        //var_dump($activity)?>
     <div class="activity">
         <div class="field">
             <label for="act_title">Titre</label>

@@ -26,9 +26,7 @@ class ActivityController extends MY_Controller{
                 $this->load->view('template', $this->_params);
             }else{
                 $this->ActivityModel->createActivity($post);
-
                 $_SESSION['messages'][] = "L'activité ". $post['act_name'] . " à bien été crée";
-
                 $this->redirectHome($this->_params);
             }
 
@@ -56,11 +54,41 @@ class ActivityController extends MY_Controller{
 //    @WIP
     public function scheduleActivity(){
         if ($post = $this->input->post()) {
-            var_dump($post);
-            echo ($this->ActivityModel->scheduleDateActivity($post));
-            for ($i=0; $i<=sizeof($post); $i++){
+            $this->ActivityModel->scheduleDateActivity($post);
 
+            $plaId = $this->db->insert_id();
+
+            $tabIndex = array();
+
+            if (isset($post['monday'])){
+                $tabIndex[] = 1;
             }
+            if (isset($post['tuesday'])){
+                $tabIndex[] = 2;
+            }
+            if (isset($post['wednesday'])){
+                $tabIndex[] = 3;
+            }
+            if (isset($post['thursday'])){
+                $tabIndex[] = 4;
+            }
+            if (isset($post['friday'])){
+                $tabIndex[] = 5;
+            }
+            if (isset($post['saturday'])){
+                $tabIndex[] = 6;
+            }
+            if (isset($post['sunday'])){
+                $tabIndex[] = 7;
+            }
+
+            foreach ($tabIndex as $dayIndex){
+                $this->ActivityModel->scheduleDayActivity($post, $dayIndex);
+                $tslId = $this->db->insert_id();
+                $this->ActivityModel->linkDayDateActivity($plaId, $tslId);
+            }
+            $_SESSION['messages'][] = "L'activité à bien été planifiée";
+            $this->redirectHome($this->_params);
         }
     }
 }

@@ -68,13 +68,27 @@
         </div>
     </div>
     <div class="field">
-        <label for="act_title">Adresse du lieu</label>
+        <label for="act_title">Rue</label>
         <div class="control">
-            <input class="input" type="text" name="act_adress" required>
+            <input class="input" type="text" name="act_street" required>
         </div>
+    </div>
+    <div class="field">
+        <label for="act_title">Ville</label>
+        <div class="control">
+            <input class="input" type="text" name="act_city" required>
+        </div>
+    </div>
+    <div class="field">
         <label for="act_title">Code postale</label>
         <div class="control">
-            <input class="input" type="text" name="act_zip_code" required>
+            <input class="input" type="text" name="act_zipcode" required>
+        </div>
+    </div>
+    <div class="field">
+        <label for="act_title">Pays</label>
+        <div class="control">
+            <input class="input" type="text" name="act_country" required>
         </div>
     </div>
     <div class="field">

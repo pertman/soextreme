@@ -25,8 +25,14 @@ class MenuModel extends CI_Model {
 
 
     public function getMenuById($menId){
-        $sql = "SELECT * FROM menu WHERE menu.men_id = ? ";
+        $sql = "SELECT * FROM menu WHERE men_id = ? ";
         $query = $this->db->query($sql, array($menId));
+        return $query->row_array();
+    }
+
+    public function getTopMenu(){
+        $sql = "SELECT * FROM menu WHERE men_is_top_menu = ? ";
+        $query = $this->db->query($sql, array(1));
         return $query->row_array();
     }
 

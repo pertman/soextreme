@@ -47,7 +47,19 @@
             <?php endif; ?>
 
             <?php if ($currentUserType == getCustomerUserType()): ?>
-
+                <?php foreach ($categories as $catId => $category): ?>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <p class="navbar-link">
+                            <?php echo $category['name']; ?>
+                        </p>
+                        <div class="navbar-dropdown is-boxed">
+                            <?php foreach ($category['activities'] as $actId => $activity): ?>
+<!--                            --><?php //@TODO create see activity ?>
+                                <a href="<?php echo base_url(); ?>ActivityController/seeActivity?id=<?php echo $actId; ?>" class="navbar-item"><?php echo $activity['name']; ?></a>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
             <?php endif; ?>
         </div>
 

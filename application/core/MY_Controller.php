@@ -35,11 +35,40 @@ class MY_Controller extends CI_Controller {
         $params['data']        = array();
         $params['messages']    = array();
         $params['headData']    = array();
+        $params['topMenu']     = $this->getTopMenuParam();
 
         return $params;
     }
 
     public function redirectHome(){
         redirect('/', 'refresh');
+    }
+
+    public function getTopMenuParam(){
+        //@TODO cache
+        $topMenuParam   = array();
+        $topMenu        = $this->MenuModel->getTopMenu();
+        $menuCategories = $this->MenuModel->getMenuCategories($topMenu['men_id']);
+
+        foreach ($menuCategories as $menuCategory){
+            $catId = $menuCategory['cat_id'];
+            $topMenuParam['categories'][$catId]['name'] = $menuCategory['cat_name'];
+
+            $activities = $this->ActivityModel->getActivitiesByCategoryId($catId);
+
+            $topMenuParam['categories'][$catId]['activities'] = array();
+
+            foreach ($activities as $activity){
+                $actId = $activity['act_id'];
+                $topMenuParam['categories'][$catId]['activities'][$actId]['name'] = $activity['act_name'];
+            }
+
+            //Remove categories without activities
+            if (!$topMenuParam['categories'][$catId]['activities']){
+                unset($topMenuParam['categories'][$catId]);
+            }
+        }
+
+        return $topMenuParam;
     }
 }

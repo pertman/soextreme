@@ -23,7 +23,7 @@
             <div class="label">Durée:</div>
             <?php echo getDurationValueFromMinute($activity['act_duration']); ?>
         </div>
-        <?php if (getCurrentUserType() == getAdminUserType()): ?>
+        <?php if (isCurrentUserAdmin()): ?>
             <div class="act-description row">
                 <div class="label">Nombre de moniteurs requis:</div>
                 <?php echo $activity['act_monitor_nb']; ?>

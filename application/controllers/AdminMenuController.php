@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class MenuController extends MY_Controller{
+class AdminMenuController extends MY_Controller{
 
     protected $_params;
 
@@ -13,13 +13,13 @@ class MenuController extends MY_Controller{
         $this->_params = parent::getBaseParams();
         $this->_params['headData']['title'] = 'Gestion du Menu';
         $this->_params['view'] = 'menuForm';
+
+        if (!isCurrentUserAdmin()){
+            $this->redirectHome();
+        }
     }
 
     public function createMenu(){
-        //@TODO DUPPLICATE CONTROLLERS FOR ADMIN OR USER TO DO IT ON CONSTRUCT
-        if (getCurrentUserType() != getAdminUserType()){
-            $this->redirectHome();
-        }
 
         if ($post = $this->input->post()) {
             $menuName = $post['men_name'];
@@ -40,7 +40,7 @@ class MenuController extends MY_Controller{
 
             $_SESSION['messages'][] = "Le menu ". $menuName . " a bien été crée";
 
-            redirect('/MenuController/listMenu', 'refresh');
+            redirect('/AdminMenuController/listMenu', 'refresh');
         }else{
             $this->_params['data']['category']  = $this->CategoryModel->getActiveCategories();
             $this->load->view('template', $this->_params);
@@ -48,10 +48,6 @@ class MenuController extends MY_Controller{
     }
 
     public function listMenu(){
-        //@TODO DUPPLICATE CONTROLLERS FOR ADMIN OR USER TO DO IT ON CONSTRUCT
-        if (getCurrentUserType() != getAdminUserType()){
-            $this->redirectHome();
-        }
 
         $this->_params['view'] = 'menuList';
         $this->_params['data']['menus']  = $this->MenuModel->getAllMenus();
@@ -59,17 +55,13 @@ class MenuController extends MY_Controller{
     }
     
     public function modifyMenu(){
-        //@TODO DUPPLICATE CONTROLLERS FOR ADMIN OR USER TO DO IT ON CONSTRUCT
-        if (getCurrentUserType() != getAdminUserType()){
-            $this->redirectHome();
-        }
 
         $menuId = $this->input->get('id');
 
         if (!$menuId){
             $_SESSION['messages'][] = "Aucun identifiant de menu renseigné";
 
-            redirect('/MenuController/listMenu', 'refresh');
+            redirect('/AdminMenuController/listMenu', 'refresh');
         }
 
         $menu = $this->MenuModel->getMenuById($menuId);
@@ -77,7 +69,7 @@ class MenuController extends MY_Controller{
         if (!$menu){
             $_SESSION['messages'][] = "Ce menu n'existe pas";
 
-            redirect('/MenuController/listMenu', 'refresh');
+            redirect('/AdminMenuController/listMenu', 'refresh');
         }
 
         $this->_params['view']                  = 'menuItem';
@@ -87,10 +79,6 @@ class MenuController extends MY_Controller{
     }
     
     public function update(){
-        //@TODO DUPPLICATE CONTROLLERS FOR ADMIN OR USER TO DO IT ON CONSTRUCT
-        if (getCurrentUserType() != getAdminUserType()){
-            $this->redirectHome();
-        }
 
         if ($post = $this->input->post()){
             $menId = $post['men_id'];
@@ -113,17 +101,13 @@ class MenuController extends MY_Controller{
     }
 
     public function deleteMenu(){
-        //@TODO DUPPLICATE CONTROLLERS FOR ADMIN OR USER TO DO IT ON CONSTRUCT
-        if (getCurrentUserType() != getAdminUserType()){
-            $this->redirectHome();
-        }
 
         $menuId = $this->input->get('id');
 
         if (!$menuId){
             $_SESSION['messages'][] = "Aucun identifiant de menu renseigné";
 
-            redirect('/MenuController/listMenu', 'refresh');
+            redirect('/AdminMenuController/listMenu', 'refresh');
         }
 
         $menu = $this->MenuModel->getMenuById($menuId);
@@ -131,7 +115,7 @@ class MenuController extends MY_Controller{
         if (!$menu){
             $_SESSION['messages'][] = "Ce menu n'existe pas";
 
-            redirect('/MenuController/listMenu', 'refresh');
+            redirect('/AdminMenuController/listMenu', 'refresh');
         }
 
         $this->MenuModel->deleteMenuCategoryLink($menuId);
@@ -139,6 +123,6 @@ class MenuController extends MY_Controller{
 
         $_SESSION['messages'][] = "La suppression du menu id " . $menuId . " a bien été effectuée";
 
-        redirect('/MenuController/listMenu', 'refresh');
+        redirect('/AdminMenuController/listMenu', 'refresh');
     }
 }

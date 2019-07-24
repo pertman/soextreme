@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class CategoryController extends MY_Controller{
+class AdminCategoryController extends MY_Controller{
 
     protected $_params;
 
@@ -13,13 +13,13 @@ class CategoryController extends MY_Controller{
         $this->_params = parent::getBaseParams();
         $this->_params['headData']['title'] = 'Nouvelle Catégorie';
         $this->_params['view'] = 'categoryForm';
+
+        if (!isCurrentUserAdmin()){
+            $this->redirectHome();
+        }
     }
 
     public function createCategory(){
-        //@TODO DUPPLICATE CONTROLLERS FOR ADMIN OR USER TO DO IT ON CONSTRUCT
-        if (getCurrentUserType() != getAdminUserType()){
-            $this->redirectHome();
-        }
 
         if ($post = $this->input->post()) {
 

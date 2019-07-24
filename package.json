@@ -6,7 +6,8 @@
   "devDependencies": {
     "bulma": "^0.7.4",
     "node-sass": "^4.9.2",
-    "browser-sync": "^2.26.3"
+    "browser-sync": "^2.26.3",
+    "bulma-calendar": "^6.0.7"
   },
   "scripts": {
     "css-build": "node-sass --omit-source-map-url sass/style.scss css/style.css -- --watch",

@@ -1,3 +1,5 @@
 /.idea
 /application/config
 _git*
+node_modules
+package-lock\.json

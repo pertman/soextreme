@@ -54,41 +54,54 @@ class ActivityController extends MY_Controller{
 //    @WIP
     public function scheduleActivity(){
         if ($post = $this->input->post()) {
-            $this->ActivityModel->scheduleDateActivity($post);
 
-            $plaId = $this->db->insert_id();
+            var_dump($post);
 
-            $tabIndex = array();
+            //On vérifie si un jour a bien été sélectionné
+//            if (!(isset($post['monday'])) && !(isset($post['tuesday'])) && !(isset($post['wednesday'])) && !(isset($post['thursday']))
+//                && !(isset($post['friday'])) && !(isset($post['saturday'])) && !(isset($post['sunday']))){
+//                $_SESSION['messages'][] = "Erreur : Aucun jour n'a été sélectionné";
+//                $this->redirectHome($this->_params);
+//
+//            }else{
+//                $this->ActivityModel->scheduleDateActivity($post);
+//
+//                $plaId = $this->db->insert_id();
+//
+//                $tabIndex = array();
+//
+//                if (isset($post['monday'])){
+//                    $tabIndex[] = 1;
+//                }
+//                if (isset($post['tuesday'])){
+//                    $tabIndex[] = 2;
+//                }
+//                if (isset($post['wednesday'])){
+//                    $tabIndex[] = 3;
+//                }
+//                if (isset($post['thursday'])){
+//                    $tabIndex[] = 4;
+//                }
+//                if (isset($post['friday'])){
+//                    $tabIndex[] = 5;
+//                }
+//                if (isset($post['saturday'])){
+//                    $tabIndex[] = 6;
+//                }
+//                if (isset($post['sunday'])){
+//                    $tabIndex[] = 7;
+//                }
+//
+//                foreach ($tabIndex as $dayIndex){
+//                    $this->ActivityModel->scheduleDayActivity($post, $dayIndex);
+//                    $tslId = $this->db->insert_id();
+//                    $this->ActivityModel->linkDayDateActivity($plaId, $tslId);
+//                }
+//                $_SESSION['messages'][] = "L'activité à bien été planifiée";
+//                $this->redirectHome($this->_params);
+//            }
 
-            if (isset($post['monday'])){
-                $tabIndex[] = 1;
-            }
-            if (isset($post['tuesday'])){
-                $tabIndex[] = 2;
-            }
-            if (isset($post['wednesday'])){
-                $tabIndex[] = 3;
-            }
-            if (isset($post['thursday'])){
-                $tabIndex[] = 4;
-            }
-            if (isset($post['friday'])){
-                $tabIndex[] = 5;
-            }
-            if (isset($post['saturday'])){
-                $tabIndex[] = 6;
-            }
-            if (isset($post['sunday'])){
-                $tabIndex[] = 7;
-            }
 
-            foreach ($tabIndex as $dayIndex){
-                $this->ActivityModel->scheduleDayActivity($post, $dayIndex);
-                $tslId = $this->db->insert_id();
-                $this->ActivityModel->linkDayDateActivity($plaId, $tslId);
-            }
-            $_SESSION['messages'][] = "L'activité à bien été planifiée";
-            $this->redirectHome($this->_params);
         }
     }
 }

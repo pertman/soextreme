@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Nunito:400,700");
 /*! bulma.io v0.7.5 | MIT License | github.com/jgthms/bulma */
+@import url(../node_modules/bulma-calendar/dist/css/bulma-calendar.min.css);
 @keyframes spinAround {
   from {
     transform: rotate(0deg); }
@@ -6435,3 +6436,10 @@ label.panel-block {
 @media screen and (max-width: 1011px) {
   .media-content {
     overflow-x: unset; } }
+
+.daySelectPlan > label {
+  margin: 5px;
+  padding: 2px;
+  background: #fff5df;
+  border-radius: 3px;
+  border: 1px solid #ff9b38; }

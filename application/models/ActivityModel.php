@@ -41,7 +41,7 @@ class ActivityModel extends CI_Model{
     public function getActivityById($act_id){
         $sql = "SELECT * FROM activity WHERE act_id= ?";
         $query = $this->db->query($sql, array($act_id));
-        return $query->result_array();
+        return $query->row_array();
     }
 
     public function createActivity($post){

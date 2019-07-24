@@ -1,11 +1,11 @@
 
 
-<div class="container">
+<div class="activityPlan-container">
     <?php
     //@TODO WIP
     if (isset($activity)) :
         //var_dump($activity)?>
-    <div class="activity">
+    <div class="activityPlan">
         <div class="field">
             <label for="act_title">Titre</label>
             <div class="control">
@@ -66,15 +66,15 @@
 
         </div>
     </div>
-    <div class="calendar">
+    <div class="calendarPlan">
         <form method="post" action="scheduleActivity">
         <div class="field">
         Début
         <input type="date" name="date_start" required>
         Fin
-        <input type="date" name="date_end" required>
+<!--        <input type="date" name="date_end" required>-->
         </div>
-        <div class="field" >
+        <div class="field daySelectPlan" >
         Jours :
             <label class="checkbox">
                 Lundi
@@ -121,23 +121,30 @@
     <?php endif; ?>
 </div>
 <script>
-    // // Initialize all input of date type.
-    // const calendars = bulmaCalendar.attach('[type="date"]', '[displayMode="inline"]');
-    //
-    // // Loop on each calendar initialized
-    // calendars.forEach(calendar => {
-    //     // Add listener to date:selected event
-    //     calendar.on('date:selected', date => {
-    //         console.log(date);
-    //     });
-    // });
-    //
-    // // To access to bulmaCalendar instance of an element
-    // const element = document.querySelector('#my-element');
-    // if (element) {
-    //     // bulmaCalendar instance is available as element.bulmaCalendar
-    //     element.bulmaCalendar.on('select', datepicker => {
-    //         console.log(datepicker.data.value());
-    //     });
-    // }
+    // Initialize all input of date type.
+    const calendars = bulmaCalendar.attach('[type="date"]' ,{
+        dateFormat: 'YYYY-MM-DD',
+        displayMode: 'inline',
+        isRange: true,
+    });
+    const timepicker = bulmaCalendar.attach('[type="time"]',{
+        minuteSteps: '1',
+        displayMode: 'inline',
+    });
+    // Loop on each calendar initialized
+    calendars.forEach(calendar => {
+        // Add listener to date:selected event
+        calendar.on('date:selected', date => {
+            console.log(date);
+        });
+    });
+
+    // To access to bulmaCalendar instance of an element
+    const element = document.querySelector('#my-element');
+    if (element) {
+        // bulmaCalendar instance is available as element.bulmaCalendar
+        element.bulmaCalendar.on('select', datepicker => {
+            console.log(datepicker.data.value());
+        });
+    }
 </script>

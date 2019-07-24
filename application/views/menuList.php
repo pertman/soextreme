@@ -9,7 +9,7 @@
                 <?php echo $menu['men_name']; ?>
             </div>
             <div class="buttons">
-                <a class="button update-button is-link" href="<?php echo base_url(); ?>MenuController/modifyMenu?id=<?php echo $menuId?>">Modifier</a>
+                <a class="button update-button is-link" href="<?php echo base_url("MenuController/modifyMenu"); ?>?id=<?php echo $menuId?>">Modifier</a>
                 <button class="button delete-button is-link" id="delete-menu-<?php echo $menu['men_id']?>"<?php if ($menu['men_is_top_menu']): ?> disabled<?php endif; ?>>Supprimer</button>
             </div>
         </div>
@@ -20,7 +20,7 @@
     $('.delete-button').click(function () {
         let menuId = this.id.replace('delete-menu-','');
         if ( confirm( "Êtes-vous sûr de vouloir supprimer le menu n° " + menuId + "  ?" ) ) {
-            window.location.replace("<?php echo base_url(); ?>MenuController/deleteMenu?id=" + menuId);
+            window.location.replace("<?php echo base_url("MenuController/deleteMenu"); ?>?id=" + menuId);
         }
     });
 </script>

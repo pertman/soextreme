@@ -1,2 +1,8 @@
 /.idea
 /application/config
+/node_modules
+package-lock\.json
+
+package\.json
+application/config/config.php
+application/config/database.php

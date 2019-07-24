@@ -47,6 +47,11 @@ $light-grey : #f0f0f0;
   }
 }
 
+
+//OVERRIDE BULMA
+.card-header,.card-footer{
+  padding: 1.5rem;
+}
 .card {
   background-color: white;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
@@ -54,40 +59,47 @@ $light-grey : #f0f0f0;
   width: 300px;
   position: relative;
   margin: 10px;
+  @media screen and (max-width: 600px){
+    max-width: 100%;
+  }
+  .card-content{
+    .row{
+      word-break: break-all;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      font-size: 1.2rem;
+      &:not(:last-child){
+        border-bottom: 1px solid $light-grey;
+        margin-bottom: 5px;
+      }
+      .label{
+        font-size: 1.1rem;
+      }
+    }
+  }
 }
 
-.card-container {
+.buttons{
+  width: 100%;
   display: flex;
+  justify-content: flex-end;
 }
 
-.led-green {
-  margin: 0 10px;
-  width: 12px;
-  height: 12px;
-  background-color: #ABFF00;
-  border-radius: 50%;
-  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #304701 0 -1px 9px, #89FF00 0 2px 12px;
-}
-
-.subtitle {
-  display: flex;
-  flex-direction: row;
-}
-
-@media screen and (max-width: 600px){ .card{
-  max-width: 100%;
-}}
-
-@media screen and (max-width: 1011px){
-  .media-content {
+.media-content {
+  @media screen and (max-width: 1011px) {
     overflow-x: unset;
-  }}
+  }
+}
+
 
 //MenuList.php
 .menu-card{
   width: 100%;
   &.is-top-menu{
     border: 1px solid $orange;
+  }
+  .menu-title{
+    width: 100%;
   }
   .card-content{
     display: flex;
@@ -97,7 +109,6 @@ $light-grey : #f0f0f0;
 }
 
 //MenuItem.php
-
 .menu-item-card{
   width: 100%;
   .menu-title{
@@ -112,13 +123,63 @@ $light-grey : #f0f0f0;
   .checkbox-is-top-menu{
     margin-top: 2rem;
   }
-  .buttons{
+}
+
+//ActivityView.php
+.activity-card{
+  width: 100%;
+  .card-header{
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    .title{
+      margin-bottom: 0;
+    }
   }
 }
 
-//OVERRIDE BULMA
-.card-header{
-  padding: 1.5rem;
+//listActivities.php
+.activity-list{
+  display: flex;
+  flex-wrap: wrap;
+  .card{
+    width: 45%;
+    margin: 0 0 50px 0;
+    &:nth-child(2n){
+      margin-left: 10%;
+    }
+    @media (max-width: 921px){
+      width: 100%;
+      &:nth-child(2n){
+        margin-left: 0;
+      }
+    }
+    .card-header{
+      display: flex;
+      flex-direction: column;
+      .title{
+        margin-bottom: 0;
+      }
+      .act-status {
+        display: flex;
+        align-items: center;
+        padding: 10px 0;
+        font-size: 1.2rem;
+        .led{
+          margin-right: 10px;
+          width: 15px;
+          height: 15px;
+          border-radius: 50%;
+          &.green{
+            background-color: green;
+          }
+          &.orange{
+            background-color: red;
+          }
+          &.red{
+            background-color: orange;
+          }
+        }
+      }
+    }
+  }
 }

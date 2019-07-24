@@ -50,3 +50,36 @@ function getAdminUserType(){
 function getCustomerUserType(){
     return 'user';
 }
+
+function getActivitiesStatusMapping(){
+    return array(
+        'active' => 'Active',
+        'unavailable' => 'Non Disponible',
+        'private' => 'Privée',
+    );
+}
+
+function getActivitiesStatusColorMapping(){
+    return array(
+        'active' => 'green',
+        'unavailable' => 'orange',
+        'private' => 'red',
+    );
+}
+
+
+function getDurationValueFromMinute($minutes){
+    if ($minutes >= 60){
+        $hours = round($minutes / 60, 0);
+        $minutes = $minutes - ($hours * 60);
+        
+        if (($minutes / 10) < 1){
+            $minutes = "0".$minutes;
+        }
+
+        return $hours .'h'. $minutes;
+    }
+    else{
+        return $minutes .  'min';
+    }
+}

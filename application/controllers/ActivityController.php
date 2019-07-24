@@ -34,7 +34,7 @@ class ActivityController extends MY_Controller{
 
                 $_SESSION['messages'][] = "L'activité ". $post['act_name'] . " a bien été crée";
 
-                $this->redirectHome();
+                redirect('/ActivityController/listActivities', 'refresh');
             }
         }else{
             $this->_params['data']['category']  = $this->CategoryModel->getActiveCategories();
@@ -55,10 +55,64 @@ class ActivityController extends MY_Controller{
     }
 
     public function planActivity(){
-        $act_id = $this->input->get('id');
+        //@TODO DUPPLICATE CONTROLLERS FOR ADMIN OR USER TO DO IT ON CONSTRUCT
+        if (getCurrentUserType() != getAdminUserType()){
+            $this->redirectHome();
+        }
+
+        $actId = $this->input->get('id');
+
+        if (!$actId){
+            $_SESSION['messages'][] = "Aucun identifiant d'activité renseigné";
+
+            $this->redirectHome();
+        }
+
+        $activity = $this->ActivityModel->getActivityById($actId);
+
+        if (!$activity){
+            $_SESSION['messages'][] = "Cette activité n'existe pas";
+
+            $this->redirectHome();
+        }
+
         $this->_params['headData']['title'] = 'Planification';
         $this->_params['view'] = 'activityPlan';
-        $this->_params['data']['activity']  = $this->ActivityModel->getActivityById($act_id);
+        $this->_params['data']['activity']  = $activity;
+        $this->load->view('template', $this->_params);
+    }
+
+    public function seeActivity(){
+        $actId = $this->input->get('id');
+
+        if (!$actId){
+            $_SESSION['messages'][] = "Aucun identifiant d'activité renseigné";
+
+            $this->redirectHome();
+        }
+
+        $activity = $this->ActivityModel->getActivityById($actId);
+
+        if (!$activity){
+            $_SESSION['messages'][] = "Cette activité n'existe pas";
+
+            $this->redirectHome();
+        }
+
+        $this->_params['headData']['title'] = $activity['act_name'];
+        $this->_params['view'] = 'activityView';
+        $this->_params['data']['activity']  = $activity;
+        $this->_params['data']['category']  = array();
+
+        if ($catId = $activity['cat_id']){
+
+            $category = $this->CategoryModel->getCategoryById($catId);
+
+            if ($category){
+                $this->_params['data']['category'] = $category;
+            }
+        }
+
         $this->load->view('template', $this->_params);
     }
 }

@@ -67,11 +67,21 @@ class MenuController extends MY_Controller{
         $menuId = $this->input->get('id');
 
         if (!$menuId){
+            $_SESSION['messages'][] = "Aucun identifiant de menu renseigné";
+
+            redirect('/MenuController/listMenu', 'refresh');
+        }
+
+        $menu = $this->MenuModel->getMenuById($menuId);
+
+        if (!$menu){
+            $_SESSION['messages'][] = "Ce menu n'existe pas";
+
             redirect('/MenuController/listMenu', 'refresh');
         }
 
         $this->_params['view']                  = 'menuItem';
-        $this->_params['data']['menu']          = $this->MenuModel->getMenuById($menuId);
+        $this->_params['data']['menu']          = $menu;
         $this->_params['data']['categories']    = $this->MenuModel->getMenuCategories($menuId);
         $this->load->view('template', $this->_params);
     }
@@ -111,6 +121,16 @@ class MenuController extends MY_Controller{
         $menuId = $this->input->get('id');
 
         if (!$menuId){
+            $_SESSION['messages'][] = "Aucun identifiant de menu renseigné";
+
+            redirect('/MenuController/listMenu', 'refresh');
+        }
+
+        $menu = $this->MenuModel->getMenuById($menuId);
+
+        if (!$menu){
+            $_SESSION['messages'][] = "Ce menu n'existe pas";
+
             redirect('/MenuController/listMenu', 'refresh');
         }
 

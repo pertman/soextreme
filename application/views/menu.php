@@ -21,8 +21,8 @@
                         Activités
                     </p>
                     <div class="navbar-dropdown is-boxed">
-                        <a href="<?php echo base_url(); ?>ActivityController/createActivity" class="navbar-item">Créer</a>
-                        <a href="<?php echo base_url(); ?>ActivityController/listActivities" class="navbar-item">Voir</a>
+                        <a href="<?php echo base_url("ActivityController/createActivity"); ?>" class="navbar-item">Créer</a>
+                        <a href="<?php echo base_url("ActivityController/listActivities"); ?>" class="navbar-item">Voir</a>
                     </div>
                 </div>
 
@@ -31,7 +31,7 @@
                         Catégories
                     </p>
                     <div class="navbar-dropdown is-boxed">
-                        <a href="<?php echo base_url(); ?>CategoryController/createCategory" class="navbar-item">Créer</a>
+                        <a href="<?php echo base_url("CategoryController/createCategory"); ?>" class="navbar-item">Créer</a>
                     </div>
                 </div>
 
@@ -40,8 +40,8 @@
                         Menu
                     </p>
                     <div class="navbar-dropdown is-boxed">
-                        <a href="<?php echo base_url(); ?>MenuController/createMenu" class="navbar-item">Créer</a>
-                        <a href="<?php echo base_url(); ?>MenuController/listMenu" class="navbar-item">Liste</a>
+                        <a href="<?php echo base_url("MenuController/createMenu"); ?>" class="navbar-item">Créer</a>
+                        <a href="<?php echo base_url("MenuController/listMenu"); ?>" class="navbar-item">Liste</a>
                     </div>
                 </div>
             <?php endif; ?>
@@ -54,8 +54,7 @@
                         </p>
                         <div class="navbar-dropdown is-boxed">
                             <?php foreach ($category['activities'] as $actId => $activity): ?>
-<!--                            --><?php //@TODO create see activity ?>
-                                <a href="<?php echo base_url(); ?>ActivityController/seeActivity?id=<?php echo $actId; ?>" class="navbar-item"><?php echo $activity['name']; ?></a>
+                                <a href="<?php echo base_url("ActivityController/seeActivity"); ?>?id=<?php echo $actId; ?>" class="navbar-item"><?php echo $activity['name']; ?></a>
                             <?php endforeach; ?>
                         </div>
                     </div>
@@ -65,14 +64,14 @@
 
         <div class="navbar-end">
             <?php if ($currentUserType == getAdminUserType()): ?>
-                <a href="<?php echo base_url(); ?>AdminController/disconnect" class="navbar-item">Déconnexion</a>
+                <a href="<?php echo base_url("AdminController/disconnect"); ?>" class="navbar-item">Déconnexion</a>
             <?php endif; ?>
             <?php if ($currentUserType == getCustomerUserType()): ?>
-                <a href="<?php echo base_url(); ?>LoginController/disconnect" class="navbar-item">Déconnexion</a>
+                <a href="<?php echo base_url("LoginController/disconnect"); ?>" class="navbar-item">Déconnexion</a>
             <?php endif; ?>
             <?php if(!$currentUserType): ?>
-                <a href="<?php echo base_url(); ?>LoginController/connect" class="navbar-item">Connexion</a>
-                <a href="<?php echo base_url(); ?>UserController/create" class="navbar-item">Inscription</a>
+                <a href="<?php echo base_url("LoginController/connect"); ?>" class="navbar-item">Connexion</a>
+                <a href="<?php echo base_url("UserController/create"); ?>" class="navbar-item">Inscription</a>
             <?php endif; ?>
         </div>
     </div>

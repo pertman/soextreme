@@ -4,17 +4,15 @@
   "main": "sass/styles.scss",
   "license": "MIT",
   "devDependencies": {
+    "browser-sync": "^2.26.3",
     "bulma": "^0.7.4",
-    "node-sass": "^4.9.2",
-    "browser-sync": "^2.26.3"
+    "bulma-calendar": "^6.0.7",
+    "node-sass": "^4.12.0"
   },
   "scripts": {
     "css-build": "node-sass --omit-source-map-url sass/style.scss css/style.css -- --watch",
     "css-watch": "npm run css-build -- --watch",
     "browser-sync": "browser-sync start --server --files '*'",
     "start": "npm run css-watch"
-  },
-  "dependencies": {
-    "bulma-calendar": "^6.0.7"
   }
 }

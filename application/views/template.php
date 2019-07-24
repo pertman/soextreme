@@ -1,6 +1,6 @@
 <?php $this->load->view('head',$headData); ?>
 
-<?php $this->load->view('menu'); ?>
+<?php $this->load->view('menu', $topMenu); ?>
 
 <?php $this->load->view('header') ?>
 <div class="messages-container">

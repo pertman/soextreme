@@ -1,30 +1,40 @@
-<div class="card-container">
+<?php //@TODO Activities status :  ?>
+<?php //@TODO active : if planned ?>
+<?php //@TODO private : on create if no category ?>
+<?php //@TODO unavailable : on create if category ?>
+<?php //@TODO allow admin status management ?>
+
+<?php $activitiesStatusMapping      = getActivitiesStatusMapping(); ?>
+<?php $activitiesStatusColorMapping = getActivitiesStatusColorMapping(); ?>
+
+<div class="card-container activity-list">
     <?php if (isset($activities)) : ?>
         <?php foreach ($activities as $activity) : ?>
             <div class="card">
-                <div class="card-image">
+                <div class="card-header">
+                    <a class="title is-4" href="<?php echo base_url("ActivityController/seeActivity"); ?>?id=<?php echo $activity['act_id']; ?>"><?php echo $activity['act_name']; ?></a>
+                    <div class="act-status is-6">
+                        <div class="led <?php echo $activitiesStatusColorMapping[$activity['act_status']]; ?>">
+
+                        </div>
+                        <div class="state"><?php echo $activitiesStatusMapping[$activity['act_status']]; ?></div>
+                    </div>
+                </div>
+                <a class="card-image" href="<?php echo base_url("ActivityController/seeActivity"); ?>?id=<?php echo $activity['act_id']; ?>">
                     <figure class="image is-4by3">
                         <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
                     </figure>
-                </div>
+                </a>
                 <div class="card-content">
-                    <div class="media">
-                        <div class="media-left">
-                            <figure class="image is-48x48">
-                                <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-                            </figure>
-                        </div>
-                        <div class="media-content">
-                            <p class="title is-4"><?php echo $activity['act_name']; ?></p>
-                            <div class="subtitle is-6"><div class="led-green"></div><div class="state">Disponible</div></div>
-                        </div>
-                    </div>
-                    <div class="content">
+                    <div class="act_resume row">
                         <?php echo $activity['act_resume']; ?>.
-                        <br>
-                        <time datetime="2016-1-1">Prochaine session : 11:09 PM - 1 Jan 2016</time>
                     </div>
-                    <a href="<?php echo base_url('ActivityController/planActivity') ?>?id=<?php echo $activity['act_id']; ?>" class="button">Paramétrer</a>
+                </div>
+                <div class="card-footer">
+                    <div class="buttons">
+                        <a class="button is-link" href="<?php echo base_url('ActivityController/planActivity') ?>?id=<?php echo $activity['act_id']; ?>" class="button">Plannifier</a>
+                        <a class="button is-link" href="<?php echo base_url("PlanningController/seeActivityPlanning"); ?>?id=<?php echo $activity['act_id'];?>">Voir le planning</a>
+                    </div>
                 </div>
             </div>
         <?php endforeach; ?>

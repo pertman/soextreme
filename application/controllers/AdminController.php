@@ -1,45 +1,36 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class LoginController extends MY_Controller {
+class AdminController extends MY_Controller{
 
     protected $_params;
-    
+
     public function __construct()
     {
         parent::__construct();
         parent::init();
 
         $this->_params = parent::getBaseParams();
-        $this->_params['headData']['title'] = 'Connexion';
-        $this->_params['view'] = 'loginForm.php';
-        
-//        @TODO REFERER
-//        if (!verifyReferer()){
-//            die('REFERER ERROR');
-//        }
+        $this->_params['headData']['title'] = 'Connection Administrateur';
+        $this->_params['view'] = 'adminLoginForm';
+
     }
 
     public function connect(){
-//        @TODO CSRF
-//        if (!verifyCSRF()){
-//            die('CSRF ERROR');
-//        }
-
-
         if ($post = $this->input->post()){
 
             $isError = false;
 
-            $user = $this->UserModel->getUserByEmail($post['usr_email']);
-    
-            if (!$user){
+            $admin = $this->AdminModel->getAdminByEmail($post['usr_email']);
+
+
+            if (!$admin){
                 $isError = true;
 
                 $this->_params['messages'][] = 'Cet email n\'est pas enregistré';
             }
-    
-            if (sha1($post['usr_password']) != $user['usr_password']){
+
+            if ($post['usr_password'] != $admin['usr_password']){
                 $isError = true;
 
                 $this->_params['messages'][] = 'Le mot de passe ne correspond pas';
@@ -48,7 +39,7 @@ class LoginController extends MY_Controller {
             if ($isError){
                 $this->load->view('template.php', $this->_params);
             }else{
-                $_SESSION['user']['id']     = $user['usr_id'];
+                $_SESSION['admin']['id']     = $admin['usr_id'];
                 $_SESSION['messages'][]     = 'Connexion réussie';
 
                 $this->redirectHome();
@@ -57,13 +48,15 @@ class LoginController extends MY_Controller {
         }else{
             $this->load->view('template.php', $this->_params);
         }
-        
-
     }
 
     public function disconnect(){
+        //@TODO DUPPLICATE CONTROLLERS FOR ADMIN OR USER TO DO IT ON CONSTRUCT
+        if (getCurrentUserType() != getAdminUserType()){
+            $this->redirectHome();
+        }
 
-        unset($_SESSION['user']);
+        unset($_SESSION['admin']);
 
         $_SESSION['messages'][] = 'Déconnexion réussie';
 

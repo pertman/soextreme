@@ -19,4 +19,10 @@ class CategoryModel extends CI_Model{
         $query = $this->db->query($sql, array(1));
         return $query->result_array();
     }
+
+    public function getCategoryById($catId){
+        $sql = "SELECT * FROM category WHERE cat_id = ?";
+        $query = $this->db->query($sql, array($catId));
+        return $query->row_array();
+    }
 }

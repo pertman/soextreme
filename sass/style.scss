@@ -35,6 +35,7 @@ $input-border-color: transparent;
 $light-grey : #f0f0f0;
 
 @import "../node_modules/bulma/bulma.sass";
+@import "../node_modules/bulma-calendar/dist/css/bulma-calendar.min.css";
 .input, .textarea{
   box-shadow: none;
 }
@@ -190,4 +191,27 @@ $light-grey : #f0f0f0;
       }
     }
   }
+}
+@media screen and (max-width: 1011px){
+  .media-content {
+    overflow-x: unset;
+  }}
+
+.daySelectPlan > label{
+  margin: 5px;
+  padding: 4px;
+  background: #fffbff;
+  border-radius: 3px;
+  border: 1px solid #ff9b38;
+  user-select:none;
+}
+
+.timepicker-input{
+  padding-top : 12px;
+  padding-bottom: 5px;
+}
+
+.datetimepicker-container{
+  display: flex;
+  flex-direction: column-reverse;
 }

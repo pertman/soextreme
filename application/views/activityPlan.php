@@ -1,19 +1,147 @@
-<?php
-//@TODO WIP
-
-if (isset($activity)){
-    var_dump($activity); }
-?>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hello Bulma!</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.4/dist/css/bulma-carousel.min.css">
-</head>
-<body>
 
 
-</body>
-</html>
+<div class="activityPlan-container">
+    <?php
+    //@TODO WIP
+    if (isset($activity)) :
+        //var_dump($activity)?>
+    <div class="activityPlan">
+        <div class="field">
+            <label for="act_title">Titre</label>
+            <div class="control">
+                <input class="input" value="<?php echo $activity["act_name"]; ?>" type="text" name="act_name" readonly>
+            </div>
+        </div>
+        <div class="field">
+            <label for="act_description">Description</label>
+            <div class="control">
+                <textarea class="textarea"  name="act_description" placeholder="Description de l'activité..." readonly><?php echo $activity["act_description"]; ?></textarea>
+            </div>
+        </div>
+        <div class="field">
+            <label for="act_resume">Description courte</label>
+            <div class="control">
+                <textarea class="textarea" name="act_resume" placeholder="Description courte de l'activité..." readonly><?php echo $activity["act_resume"]; ?></textarea>
+            </div>
+        </div>
+        <div class="field">
+            <label for="act_base_price">Prix hors promotion (€)</label>
+            <div class="control">
+                <input class="input" value="<?php echo $activity["act_base_price"]; ?>" min="0.00" step="0.01" name="act_base_price" readonly>
+            </div>
+        </div>
+        <div class="field">
+            <label for="act_duration">Durée d'une session (min)</label>
+            <div class="control">
+                <input class="input" value="<?php echo $activity["act_duration"]; ?>" name="act_duration" readonly>
+            </div>
+        </div>
+        <div class="field">
+            <label for="act_monitor_nb">Nombre de moniteur requis</label>
+            <div class="control">
+                <input class="input" value="<?php echo $activity["act_monitor_nb"]; ?>" min="0" name="act_monitor_nb" readonly>
+            </div>
+        </div>
+        <div class="field">
+            <label for="act_operator_nb">Nombre d'opérateur requis</label>
+            <div class="control">
+                <input class="input" type="number" value="<?php echo $activity["act_operator_nb"]; ?>" min="0" name="act_operator_nb" readonly>
+            </div>
+        </div>
+        <div class="field">
+            <label class="checkbox">
+                L'activité fait partie d'une offre spéciale ?
+                <input type="checkbox" name="act_is_special_offer">
+            </label>
+        </div>
+        <div class="field">
+            <div class="control">
+                <textarea class="textarea" name="act_description_special_offer" placeholder="Description de l'offre spéciale..."></textarea>
+            </div>
+        </div>
+
+
+
+        <div class="field">
+
+        </div>
+    </div>
+    <div class="calendarPlan">
+        <form method="post" action="scheduleActivity">
+        <div class="field">
+        Période
+        <input type="datetime" id="my-element" name="date_range" required>
+        </div>
+        <div class="field daySelectPlan" >
+        Jours :
+            <label class="checkbox">
+                Lundi
+                <input type="checkbox" name="monday">
+            </label>
+            <label class="checkbox">
+                Mardi
+                <input type="checkbox" name="tuesday">
+            </label>
+            <label class="checkbox">
+                Mercredi
+                <input type="checkbox" name="wednesday">
+            </label>
+            <label class="checkbox">
+                Jeudi
+                <input type="checkbox" name="thursday">
+            </label>
+            <label class="checkbox">
+                Vendredi
+                <input type="checkbox" name="friday">
+            </label>
+            <label class="checkbox">
+                Samedi
+                <input type="checkbox" name="saturday">
+            </label>
+            <label class="checkbox">
+                Dimanche
+                <input type="checkbox" name="sunday">
+            </label>
+        </div>
+            <div class="field">
+                <input type="hidden" name="act_id" value="<?php echo $activity["act_id"]; ?>">
+                <div class="control">
+                    <button id="validate-button" class="button is-link" disabled>Valider</button>
+                </div>
+            </div>
+    </div>
+    <?php endif; ?>
+</div>
+<script>
+    // Initialize all input of date type.
+    const calendars = bulmaCalendar.attach('[type="datetime"]' ,{
+        dateFormat: 'YYYY-MM-DD',
+        displayMode: 'inline',
+        isRange: true,
+        weekStart: 1,
+        minuteSteps: '1',
+        showFooter: 'false',
+
+    });
+
+    // Loop on each calendar initialized
+    calendars.forEach(calendar => {
+        // Add listener to date:selected event
+        calendar.on('date:selected', date => {
+            console.log(date);
+        });
+    });
+
+    // To access to bulmaCalendar instance of an element
+    const element = document.querySelector('#my-element');
+    if (element) {
+        // bulmaCalendar instance is available as element.bulmaCalendar
+        element.bulmaCalendar.on('select', datepicker => {
+            document.getElementById("validate-button").disabled = false;
+        });
+        element.bulmaCalendar.on('select:start', datepicker => {
+            document.getElementById("validate-button").disabled = true;
+        });
+
+    }
+</script>

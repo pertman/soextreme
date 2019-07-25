@@ -1,79 +1,13 @@
-
-
-<div class="activityPlan-container">
-    <?php
-    //@TODO WIP
-    if (isset($activity)) :
-        //var_dump($activity)?>
-    <div class="activityPlan">
-        <div class="field">
-            <label for="act_title">Titre</label>
-            <div class="control">
-                <input class="input" value="<?php echo $activity["act_name"]; ?>" type="text" name="act_name" readonly>
-            </div>
-        </div>
-        <div class="field">
-            <label for="act_description">Description</label>
-            <div class="control">
-                <textarea class="textarea"  name="act_description" placeholder="Description de l'activité..." readonly><?php echo $activity["act_description"]; ?></textarea>
-            </div>
-        </div>
-        <div class="field">
-            <label for="act_resume">Description courte</label>
-            <div class="control">
-                <textarea class="textarea" name="act_resume" placeholder="Description courte de l'activité..." readonly><?php echo $activity["act_resume"]; ?></textarea>
-            </div>
-        </div>
-        <div class="field">
-            <label for="act_base_price">Prix hors promotion (€)</label>
-            <div class="control">
-                <input class="input" value="<?php echo $activity["act_base_price"]; ?>" min="0.00" step="0.01" name="act_base_price" readonly>
-            </div>
-        </div>
-        <div class="field">
-            <label for="act_duration">Durée d'une session (min)</label>
-            <div class="control">
-                <input class="input" value="<?php echo $activity["act_duration"]; ?>" name="act_duration" readonly>
-            </div>
-        </div>
-        <div class="field">
-            <label for="act_monitor_nb">Nombre de moniteur requis</label>
-            <div class="control">
-                <input class="input" value="<?php echo $activity["act_monitor_nb"]; ?>" min="0" name="act_monitor_nb" readonly>
-            </div>
-        </div>
-        <div class="field">
-            <label for="act_operator_nb">Nombre d'opérateur requis</label>
-            <div class="control">
-                <input class="input" type="number" value="<?php echo $activity["act_operator_nb"]; ?>" min="0" name="act_operator_nb" readonly>
-            </div>
-        </div>
-        <div class="field">
-            <label class="checkbox">
-                L'activité fait partie d'une offre spéciale ?
-                <input type="checkbox" name="act_is_special_offer">
-            </label>
-        </div>
-        <div class="field">
-            <div class="control">
-                <textarea class="textarea" name="act_description_special_offer" placeholder="Description de l'offre spéciale..."></textarea>
-            </div>
-        </div>
-
-
-
-        <div class="field">
-
-        </div>
-    </div>
+<div class="activity-plan-container">
+    <?php if (isset($activity)) : ?>
     <div class="calendarPlan">
-        <form method="post" action="scheduleActivity">
+        <form method="post" action="planActivity">
         <div class="field">
-        Période
-        <input type="datetime" id="my-element" name="date_range" required>
+            <label for="date_range">Période</label>
+            <input type="datetime" id="dateTimePicker" name="date_range" required>
         </div>
-        <div class="field daySelectPlan" >
-        Jours :
+            <label>Jours :</label>
+            <div class="field daySelectPlan" >
             <label class="checkbox">
                 Lundi
                 <input type="checkbox" name="monday">
@@ -113,29 +47,17 @@
     <?php endif; ?>
 </div>
 <script>
-    // Initialize all input of date type.
-    const calendars = bulmaCalendar.attach('[type="datetime"]' ,{
+    const calendars = bulmaCalendar.attach('#dateTimePicker' ,{
         dateFormat: 'YYYY-MM-DD',
         displayMode: 'inline',
         isRange: true,
         weekStart: 1,
         minuteSteps: '1',
         showFooter: 'false',
-
     });
 
-    // Loop on each calendar initialized
-    calendars.forEach(calendar => {
-        // Add listener to date:selected event
-        calendar.on('date:selected', date => {
-            console.log(date);
-        });
-    });
-
-    // To access to bulmaCalendar instance of an element
-    const element = document.querySelector('#my-element');
+    const element = document.querySelector('#dateTimePicker');
     if (element) {
-        // bulmaCalendar instance is available as element.bulmaCalendar
         element.bulmaCalendar.on('select', datepicker => {
             document.getElementById("validate-button").disabled = false;
         });

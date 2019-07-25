@@ -36,15 +36,46 @@ class AdminActivityController extends MY_Controller{
                 redirect('/ActivityController/listActivities', 'refresh');
             }
         }else{
-            $this->_params['data']['category']  = $this->CategoryModel->getActiveCategories();
+            $this->_params['data']['categories']  = $this->CategoryModel->getActiveCategories();
             $this->load->view('template', $this->_params);
         }
     }
 
     public function planActivity(){
 
-        $actId = $this->input->get('id');
+        $actId      = $this->input->get('id');
+        $activity   = $this->activityCheck($actId);
 
+        $this->_params['headData']['title'] = 'Planification';
+        $this->_params['view'] = 'activityPlan';
+        $this->_params['data']['activity']  = $activity;
+        $this->load->view('template', $this->_params);
+    }
+
+    public function updateActivity(){
+        $this->_params['headData']['title'] = 'Modification d\'activité';
+        $this->_params['view'] = 'activityForm';
+        $this->_params['data']['categories']  = $this->CategoryModel->getActiveCategories();
+
+        if ($post = $this->input->post()){
+            $actId = $post['act_id'];
+            $this->activityCheck($actId);
+
+            $this->ActivityModel->updateActivity($post);
+
+            $activity = $this->ActivityModel->getActivityById($actId);
+
+            $_SESSION['messages'][] = "L'activité " . $activity['act_name'] . " a bien été modifiée";
+        }else{
+            $actId      = $this->input->get('id');
+            $activity   = $this->activityCheck($actId);
+        }
+
+        $this->_params['data']['activity']  = $activity;
+        $this->load->view('template', $this->_params);
+    }
+
+    public function activityCheck($actId){
         if (!$actId){
             $_SESSION['messages'][] = "Aucun identifiant d'activité renseigné";
 
@@ -59,9 +90,6 @@ class AdminActivityController extends MY_Controller{
             $this->redirectHome();
         }
 
-        $this->_params['headData']['title'] = 'Planification';
-        $this->_params['view'] = 'activityPlan';
-        $this->_params['data']['activity']  = $activity;
-        $this->load->view('template', $this->_params);
+        return $activity;
     }
 }

@@ -11,14 +11,12 @@ class ActivityController extends MY_Controller{
         parent::init();
 
         $this->_params = parent::getBaseParams();
-        $this->_params['headData']['title'] = 'Nouvelle Activité';
-        $this->_params['view'] = 'activityForm';
+        $this->_params['headData']['title'] = 'Liste des activités';
+        $this->_params['view'] = 'activityList';
     }
 
     public function listActivities(){
 
-        $this->_params['headData']['title'] = 'Liste des activités';
-        $this->_params['view'] = 'activityList';
         $this->_params['data']['activities']  = $this->ActivityModel->getAllActivities();
         $this->load->view('template', $this->_params);
     }

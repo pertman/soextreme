@@ -21,6 +21,9 @@ class AdminCategoryController extends MY_Controller{
 
     public function createCategory(){
 
+        $this->_params['data']['activities'] = $this->ActivityModel->getAllActivities();
+        $this->_params['data']['menus']      = $this->MenuModel->getAllMenus();
+
         if ($post = $this->input->post()) {
 
             $catName = $post['cat_name'];
@@ -33,8 +36,25 @@ class AdminCategoryController extends MY_Controller{
             }else{
                 $this->CategoryModel->createCategory($catName);
 
+                $catId = $this->db->insert_id();
+                
                 $_SESSION['messages'][] = "La catégorie ". $catName . " a bien été crée";
 
+                if (isset($post['act_ids'])){
+                    foreach ($post['act_ids'] as $actId){
+                        $this->ActivityModel->addActivityCategoryId($actId, $catId);
+                    }
+
+                    $_SESSION['messages'][] = "Les activités sélectionnées ont bien été ajoutées à " . $catName;
+                }
+
+                if (isset($post['men_ids'])){
+                    foreach ($post['men_ids'] as $menId){
+                        $this->MenuModel->createMenuCategoryLink($menId, $catId);
+                    }
+
+                    $_SESSION['messages'][] = $catName ." a bien été ajoutées aux menus sélectionnés";
+                }
                 $this->redirectHome();
             }
         }else{

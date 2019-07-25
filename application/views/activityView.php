@@ -54,11 +54,14 @@
             <?php echo $activity['act_country']; ?>
         </div>
     </div>
-    <?php if ($activity['act_status'] == 'active'): ?>
         <div class="card-footer">
             <div class="buttons">
-                <a class="button is-link" href="<?php echo base_url("PlanningController/seeActivityPlanning"); ?>?id=<?php echo $activity['act_id']; ?>">Voir le planning</a>
+                <?php if ($activity['act_status'] == 'active'): ?>
+                    <a class="button is-link" href="<?php echo base_url("PlanningController/seeActivityPlanning"); ?>?id=<?php echo $activity['act_id']; ?>">Voir le planning</a>
+                <?php endif; ?>
+                <?php if (isCurrentUserAdmin()): ?>
+                    <a class="button is-link" href="<?php echo base_url("AdminActivityController/updateActivity"); ?>?id=<?php echo $activity['act_id']; ?>">Modifier l'activité</a>
+                <?php endif; ?>
             </div>
         </div>
-    <?php endif; ?>
 </div>

@@ -6438,6 +6438,11 @@ label.panel-block {
   .media-content {
     overflow-x: unset; } }
 
+.field .select {
+  width: 100%; }
+  .field .select select {
+    width: 100%; }
+
 .menu-card {
   width: 100%; }
   .menu-card.is-top-menu {
@@ -6503,3 +6508,9 @@ label.panel-block {
             background-color: red; }
           .activity-list .card .card-header .act-status .led.red {
             background-color: orange; }
+
+.activity-add-field:not(.show) {
+  display: none; }
+
+.menu-add-field:not(.show) {
+  display: none; }

@@ -42,7 +42,7 @@ class AdminMenuController extends MY_Controller{
 
             redirect('/AdminMenuController/listMenu', 'refresh');
         }else{
-            $this->_params['data']['category']  = $this->CategoryModel->getActiveCategories();
+            $this->_params['data']['categories']  = $this->CategoryModel->getActiveCategories();
             $this->load->view('template', $this->_params);
         }
     }

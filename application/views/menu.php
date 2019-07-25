@@ -45,18 +45,20 @@
             <?php endif; ?>
 
             <?php if (isCurrentUserCustomer()): ?>
-                <?php foreach ($categories as $catId => $category): ?>
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        <p class="navbar-link">
-                            <?php echo $category['name']; ?>
-                        </p>
-                        <div class="navbar-dropdown is-boxed">
-                            <?php foreach ($category['activities'] as $actId => $activity): ?>
-                                <a href="<?php echo base_url("ActivityController/seeActivity"); ?>?id=<?php echo $actId; ?>" class="navbar-item"><?php echo $activity['name']; ?></a>
-                            <?php endforeach; ?>
+                <?php if (isset($categories)): ?>
+                    <?php foreach ($categories as $catId => $category): ?>
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <p class="navbar-link">
+                                <?php echo $category['name']; ?>
+                            </p>
+                            <div class="navbar-dropdown is-boxed">
+                                <?php foreach ($category['activities'] as $actId => $activity): ?>
+                                    <a href="<?php echo base_url("ActivityController/seeActivity"); ?>?id=<?php echo $actId; ?>" class="navbar-item"><?php echo $activity['name']; ?></a>
+                                <?php endforeach; ?>
+                            </div>
                         </div>
-                    </div>
-                <?php endforeach; ?>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             <?php endif; ?>
         </div>
 

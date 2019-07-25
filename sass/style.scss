@@ -91,6 +91,14 @@ $light-grey : #f0f0f0;
   }
 }
 
+.field{
+  .select{
+    width: 100%;
+    select{
+      width: 100%;
+    }
+  }
+}
 
 //MenuList.php
 .menu-card{
@@ -182,4 +190,13 @@ $light-grey : #f0f0f0;
       }
     }
   }
+}
+
+//categoryForm
+.activity-add-field:not(.show){
+  display: none;
+}
+
+.menu-add-field:not(.show){
+  display: none;
 }

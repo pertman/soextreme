@@ -11,8 +11,8 @@
             <div class="select is-multiple">
                 <select multiple size="4" name="cat_ids[]" required>
                     <option value="" disabled>Selectionnez une ou plusieurs catégories</option>
-                    <?php if (isset($category)) : ?>
-                        <?php foreach($category as $category) : ?>
+                    <?php if (isset($categories)) : ?>
+                        <?php foreach($categories as $category) : ?>
                             <option value="<?php echo $category['cat_id']; ?>"><?php echo $category['cat_name']; ?></option>
                         <?php endforeach; ?>
                     <?php endif; ?>

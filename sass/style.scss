@@ -36,6 +36,12 @@ $light-grey : #f0f0f0;
 
 @import "../node_modules/bulma/bulma.sass";
 @import "../node_modules/bulma-calendar/dist/css/bulma-calendar.min.css";
+//Calendar
+@import '../node_modules/@fullcalendar/core/main.css';
+@import '../node_modules/@fullcalendar/daygrid/main.css';
+@import '../node_modules/@fullcalendar/timegrid/main.css';
+@import '../node_modules/@fullcalendar/list/main.css';
+
 .input, .textarea{
   box-shadow: none;
 }
@@ -214,3 +220,4 @@ $light-grey : #f0f0f0;
     flex-direction: column-reverse;
   }
 }
+

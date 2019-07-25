@@ -1,6 +1,10 @@
 @import url("https://fonts.googleapis.com/css?family=Nunito:400,700");
 /*! bulma.io v0.7.5 | MIT License | github.com/jgthms/bulma */
 @import url(../node_modules/bulma-calendar/dist/css/bulma-calendar.min.css);
+@import url(../node_modules/@fullcalendar/core/main.css);
+@import url(../node_modules/@fullcalendar/daygrid/main.css);
+@import url(../node_modules/@fullcalendar/timegrid/main.css);
+@import url(../node_modules/@fullcalendar/list/main.css);
 @keyframes spinAround {
   from {
     transform: rotate(0deg); }
@@ -6510,11 +6514,7 @@ label.panel-block {
           .activity-list .card .card-header .act-status .led.red {
             background-color: orange; }
 
-@media screen and (max-width: 1011px) {
-  .media-content {
-    overflow-x: unset; } }
-
-.daySelectPlan > label {
+.activity-plan-container .daySelectPlan > label {
   margin: 5px;
   padding: 4px;
   background: #fffbff;
@@ -6522,10 +6522,10 @@ label.panel-block {
   border: 1px solid #ff9b38;
   user-select: none; }
 
-.timepicker-input {
+.activity-plan-container .timepicker-input {
   padding-top: 12px;
   padding-bottom: 5px; }
 
-.datetimepicker-container {
+.activity-plan-container .datetimepicker-container {
   display: flex;
   flex-direction: column-reverse; }

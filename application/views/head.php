@@ -14,4 +14,8 @@
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <script src="../../js/main.js"></script>
     <script src="../../node_modules/bulma-calendar/dist/js/bulma-calendar.min.js"></script>
+    <script src='../../node_modules/@fullcalendar/core/main.js'></script>
+    <script src='../../node_modules/@fullcalendar/daygrid/main.js'></script>
+    <script src='../../node_modules/@fullcalendar/timegrid/main.js'></script>
+    <script src='../../node_modules/@fullcalendar/list/main.js'></script>
 </head>

@@ -59,7 +59,6 @@ $light-grey : #f0f0f0;
   color: #757763;
   width: 300px;
   position: relative;
-  margin: 10px;
   @media screen and (max-width: 600px){
     max-width: 100%;
   }
@@ -101,9 +100,18 @@ $light-grey : #f0f0f0;
   }
 }
 
+.page-title{
+  width: 100%;
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
 //MenuList.php //
 .menu-card, .category-card{
   width: 100%;
+  &:not(:last-child){
+    margin-bottom: 20px;
+  }
   &.is-top-menu{
     border: 1px solid $orange;
   }

@@ -1,5 +1,8 @@
+<div class="page-title">
+    Plannification d'activité
+</div>
+
 <div class="activity-plan-container">
-    <?php if (isset($activity)) : ?>
     <div class="calendarPlan">
         <form method="post" action="planActivity">
         <div class="field">
@@ -44,7 +47,6 @@
                 </div>
             </div>
     </div>
-    <?php endif; ?>
 </div>
 <script>
     const calendars = bulmaCalendar.attach('#dateTimePicker' ,{

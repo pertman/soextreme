@@ -1,3 +1,7 @@
+<div class="page-title">
+    Modification des index des catégories
+</div>
+
 <form class="card menu-item-card" method="post" action="editCategoryMenuIndex">
     <div class="card-header">
         <div class="menu-title">

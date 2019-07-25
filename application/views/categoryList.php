@@ -1,3 +1,7 @@
+<div class="page-title">
+    Liste des catégories
+</div>
+
 <?php foreach ($categories as $category): ?>
     <?php $catId = $category['cat_id']; ?>
     <div class="card category-card">

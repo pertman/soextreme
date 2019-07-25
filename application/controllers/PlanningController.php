@@ -33,7 +33,7 @@ class PlanningController extends MY_Controller
             $this->redirectHome();
         }
 
-        if ($activity['act_status'] != 'active'){
+        if ($activity['act_status'] != 'active' && !isCurrentUserAdmin()){
             $_SESSION['messages'][] = "Cette activité n'est pas publique";
 
             $this->redirectHome();

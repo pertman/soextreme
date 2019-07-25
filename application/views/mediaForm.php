@@ -1,3 +1,7 @@
+<div class="page-title">
+    Import de Media
+</div>
+
 <form>
     <div class="field">
         <div class="file is-boxed">

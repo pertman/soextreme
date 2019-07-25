@@ -1,3 +1,7 @@
+<div class="page-title">
+    Liste des menus
+</div>
+
 <?php foreach ($menus as $menu): ?>
     <?php $menuId = $menu['men_id']; ?>
     <div class="card menu-card<?php if ($menu['men_is_top_menu']): ?> is-top-menu<?php endif; ?>">

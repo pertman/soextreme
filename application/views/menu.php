@@ -46,6 +46,9 @@
             <?php endif; ?>
 
             <?php if (isCurrentUserCustomer()): ?>
+                <a class="navbar-item" href="<?php echo base_url("ActivityController/listActivities"); ?>">
+                    Activitées
+                </a>
                 <?php if (isset($categories)): ?>
                     <?php foreach ($categories as $catId => $category): ?>
                         <div class="navbar-item has-dropdown is-hoverable">

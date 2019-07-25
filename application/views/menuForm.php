@@ -5,6 +5,10 @@
     <?php $catIds = array_map(function($men_categories) { return $men_categories['cat_id']; }, $men_categories);?>
 <?php endif; ?>
 
+<div class="page-title">
+    <?php if ($isMen): ?>Modification de menu<?php else: ?>Création de menu<?php endif; ?>
+</div>
+
 <form method="post" action="<?php if ($isMen): ?>updateMenu<?php else: ?>createMenu<?php endif; ?>">
     <div class="field">
         <label for="act_title">Titre</label>

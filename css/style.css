@@ -6414,8 +6414,7 @@ label.panel-block {
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
   color: #757763;
   width: 300px;
-  position: relative;
-  margin: 10px; }
+  position: relative; }
   @media screen and (max-width: 600px) {
     .card {
       max-width: 100%; } }
@@ -6444,8 +6443,15 @@ label.panel-block {
   .field .select select {
     width: 100%; }
 
+.page-title {
+  width: 100%;
+  font-size: 2rem;
+  margin-bottom: 30px; }
+
 .menu-card, .category-card {
   width: 100%; }
+  .menu-card:not(:last-child), .category-card:not(:last-child) {
+    margin-bottom: 20px; }
   .menu-card.is-top-menu, .category-card.is-top-menu {
     border: 1px solid #e38b40; }
   .menu-card .menu-title, .menu-card .cat-title, .category-card .menu-title, .category-card .cat-title {
@@ -6510,11 +6516,7 @@ label.panel-block {
           .activity-list .card .card-header .act-status .led.red {
             background-color: orange; }
 
-@media screen and (max-width: 1011px) {
-  .media-content {
-    overflow-x: unset; } }
-
-.daySelectPlan > label {
+.activity-plan-container .daySelectPlan > label {
   margin: 5px;
   padding: 4px;
   background: #fffbff;
@@ -6522,10 +6524,10 @@ label.panel-block {
   border: 1px solid #ff9b38;
   user-select: none; }
 
-.timepicker-input {
+.activity-plan-container .timepicker-input {
   padding-top: 12px;
   padding-bottom: 5px; }
 
-.datetimepicker-container {
+.activity-plan-container .datetimepicker-container {
   display: flex;
   flex-direction: column-reverse; }

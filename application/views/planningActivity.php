@@ -1,3 +1,5 @@
 <?php //@TODO calendar activity ?>
-<?php echo "Planning " . $activity['act_name']; ?>
+<div class="page-title">
+    <?php echo "Planning " . $activity['act_name']; ?>
+</div>
 

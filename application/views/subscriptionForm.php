@@ -1,3 +1,7 @@
+<div class="page-title">
+    Inscription
+</div>
+
 <form method="post" action="create">
     <div class="columns">
         <div class="column">

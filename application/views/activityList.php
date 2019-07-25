@@ -8,8 +8,8 @@
 <div class="card-container activity-list">
     <?php if (isset($activities)) : ?>
         <?php foreach ($activities as $activity) : ?>
-            <div class="card">
-                <div class="card-header">
+            <div class="card activity-list-card">
+                <div class="card-header activity-list-card-header">
                     <a class="title is-4" href="<?php echo base_url("ActivityController/seeActivity"); ?>?id=<?php echo $activity['act_id']; ?>"><?php echo $activity['act_name']; ?></a>
                     <div class="act-status is-6">
                         <div class="led <?php echo $activitiesStatusColorMapping[$activity['act_status']]; ?>">

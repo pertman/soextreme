@@ -21,6 +21,9 @@ class AdminMenuController extends MY_Controller{
 
     public function createMenu(){
 
+        $this->_params['headData']['title'] = 'Création de Menu';
+        $this->_params['view'] = 'menuForm';
+
         if ($post = $this->input->post()) {
             $menuName = $post['men_name'];
 
@@ -54,22 +57,41 @@ class AdminMenuController extends MY_Controller{
         $this->load->view('template', $this->_params);
     }
     
-    public function modifyMenu(){
+    public function editCategoryMenuIndex(){
 
-        $menuId = $this->input->get('id');
-
-        $menu = $this->menuCheck($menuId);
-
-        $this->_params['view']                  = 'menuItem';
-        $this->_params['data']['menu']          = $menu;
-        $this->_params['data']['categories']    = $this->MenuModel->getMenuCategories($menuId);
-        $this->load->view('template', $this->_params);
-    }
-    
-    public function update(){
+        $this->_params['headData']['title'] = 'Edition des index';
+        $this->_params['view'] = 'menuItem';
 
         if ($post = $this->input->post()){
             $menId = $post['men_id'];
+
+            foreach ($post['cat_ids'] as $catId => $category){
+                $this->MenuModel->updateCategoryMenuIndex($menId, $catId, $category['mcl_index']);
+            }
+
+            $_SESSION['messages'][] = "La modification du menu id " . $menId . " a bien été effectuée";
+
+            redirect('/AdminMenuController/listMenu', 'refresh');
+        }else{
+            $menuId = $this->input->get('id');
+
+            $menu = $this->menuCheck($menuId);
+
+            $this->_params['data']['menu']          = $menu;
+            $this->_params['data']['categories']    = $this->MenuModel->getMenuCategories($menuId);
+            $this->load->view('template', $this->_params);
+        }
+    }
+    
+    public function updateMenu(){
+
+        $this->_params['headData']['title'] = 'Edition de Menu';
+        $this->_params['view'] = 'menuForm';
+
+        if ($post = $this->input->post()) {
+            $menId = $post['men_id'];
+
+            $menu = $this->menuCheck($menId);
 
             $isTopMenu = (isset($post['is_top_menu'])) ? 1 : 0;
 
@@ -78,13 +100,26 @@ class AdminMenuController extends MY_Controller{
                 $this->MenuModel->disableOldTopMenu($menId);
             }
 
-            foreach ($post['cat_ids'] as $catId => $category){
-                $this->MenuModel->updateCategoryMenuIndex($menId, $catId, $category['mcl_index']);
+            $this->MenuModel->updateMenuName($menId, $post['men_name']);
+
+            $this->MenuModel->deleteMenuCategoryLinkByMenuId($menId);
+
+            foreach($post['cat_ids'] as $catId){
+                $this->MenuModel->createMenuCategoryLink($menId, $catId);
             }
 
-            $_SESSION['messages'][] = "La modification du menu id " . $menId . " a bien été effectuée";
+            $_SESSION['messages'][] = "Le menu ". $menu['men_name'] . " a bien été crée";
 
-            $this->listMenu();
+            redirect('/AdminMenuController/listMenu', 'refresh');
+        }else{
+            $menId = $this->input->get('id');
+
+            $menu = $this->menuCheck($menId);
+
+            $this->_params['data']['menu']              = $menu;
+            $this->_params['data']['categories']        = $this->CategoryModel->getActiveCategories();
+            $this->_params['data']['men_categories']    = $this->MenuModel->getMenuCategories($menId);
+            $this->load->view('template', $this->_params);
         }
     }
 
@@ -103,6 +138,7 @@ class AdminMenuController extends MY_Controller{
     }
 
     public function menuCheck($menId){
+
         if (!$menId){
             $_SESSION['messages'][] = "Aucun identifiant de menu renseigné";
 

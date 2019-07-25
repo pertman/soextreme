@@ -7,6 +7,11 @@ class MenuModel extends CI_Model {
         return $this->db->query($sql, array($MenuName, $isTopMenu));
     }
 
+    public function updateMenuName($menId, $menName){
+        $sql = 'UPDATE menu SET men_name = ? WHERE men_id = ?';
+        return $this->db->query($sql, array($menName, $menId));
+    }
+
     public function disableOldTopMenu($newMenuId){
         $sql = 'UPDATE menu SET men_is_top_menu = ? WHERE men_id <> ?';
         return $this->db->query($sql, array(0, $newMenuId));

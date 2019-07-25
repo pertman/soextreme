@@ -7,7 +7,8 @@
                 <?php echo $menu['men_name']; ?>
             </div>
             <div class="buttons">
-                <a class="button update-button is-link" href="<?php echo base_url("AdminMenuController/modifyMenu"); ?>?id=<?php echo $menuId; ?>">Modifier</a>
+                <a class="button update-button is-link" href="<?php echo base_url("AdminMenuController/updateMenu"); ?>?id=<?php echo $menuId; ?>">Modifier</a>
+                <a class="button update-button is-link" href="<?php echo base_url("AdminMenuController/editCategoryMenuIndex"); ?>?id=<?php echo $menuId; ?>">Edition des index</a>
                 <button class="button delete-button is-link" id="delete-menu-<?php echo $menuId; ?>"<?php if ($menu['men_is_top_menu']): ?> disabled<?php endif; ?>>Supprimer</button>
             </div>
         </div>

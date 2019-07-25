@@ -100,13 +100,13 @@ $light-grey : #f0f0f0;
   }
 }
 
-//MenuList.php
-.menu-card{
+//MenuList.php //
+.menu-card, .category-card{
   width: 100%;
   &.is-top-menu{
     border: 1px solid $orange;
   }
-  .menu-title{
+  .menu-title, .cat-title{
     width: 100%;
   }
   .card-content{
@@ -190,13 +190,4 @@ $light-grey : #f0f0f0;
       }
     }
   }
-}
-
-//categoryForm
-.activity-add-field:not(.show){
-  display: none;
-}
-
-.menu-add-field:not(.show){
-  display: none;
 }

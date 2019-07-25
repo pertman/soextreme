@@ -6443,13 +6443,13 @@ label.panel-block {
   .field .select select {
     width: 100%; }
 
-.menu-card {
+.menu-card, .category-card {
   width: 100%; }
-  .menu-card.is-top-menu {
+  .menu-card.is-top-menu, .category-card.is-top-menu {
     border: 1px solid #e38b40; }
-  .menu-card .menu-title {
+  .menu-card .menu-title, .menu-card .cat-title, .category-card .menu-title, .category-card .cat-title {
     width: 100%; }
-  .menu-card .card-content {
+  .menu-card .card-content, .category-card .card-content {
     display: flex;
     align-items: center;
     justify-content: space-between; }
@@ -6508,9 +6508,3 @@ label.panel-block {
             background-color: red; }
           .activity-list .card .card-header .act-status .led.red {
             background-color: orange; }
-
-.activity-add-field:not(.show) {
-  display: none; }
-
-.menu-add-field:not(.show) {
-  display: none; }

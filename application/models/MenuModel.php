@@ -23,7 +23,6 @@ class MenuModel extends CI_Model {
         return $this->db->query($sql, array($menId, $catId));
     }
 
-
     public function getMenuById($menId){
         $sql = "SELECT * FROM menu WHERE men_id = ? ";
         $query = $this->db->query($sql, array($menId));
@@ -54,7 +53,7 @@ class MenuModel extends CI_Model {
         return $this->db->query($sql, array($mclIndex, $menId, $catId));
     }
 
-    public function deleteMenuCategoryLink($menId){
+    public function deleteMenuCategoryLinkByMenuId($menId){
         $sql = 'DELETE FROM menu_category_link WHERE men_id = ?';
         return $this->db->query($sql, array($menId));
     }
@@ -62,5 +61,18 @@ class MenuModel extends CI_Model {
     public function deleteMenu($menId){
         $sql = 'DELETE FROM menu WHERE men_id = ?';
         return $this->db->query($sql, array($menId));
+    }
+
+    public function getMenusByCategoryId($catId){
+        $sql = "SELECT * FROM menu 
+                LEFT JOIN menu_category_link ON menu.men_id = menu_category_link.men_id 
+                WHERE menu_category_link.cat_id = ?";
+        $query = $this->db->query($sql, array($catId));
+        return $query->result_array();
+    }
+
+    public function deleteMenuCategoryLinkByCategoryId($catId){
+        $sql = 'DELETE FROM menu_category_link WHERE cat_id = ?';
+        return $this->db->query($sql, array($catId));
     }
 }

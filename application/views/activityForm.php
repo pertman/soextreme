@@ -1,8 +1,5 @@
 <?php //@TODO Title on each view ?>
-<?php $isAct = false; ?>
-<?php if (isset($activity)):  ?>
-    <?php $isAct = true; ?>
-<?php endif; ?>
+<?php $isAct = (isset($activity)) ? true : false; ?>
 
 <?php $actName                      = ($isAct) ? $activity['act_name']: ""; ?>
 <?php $actCatId                     = ($isAct) ? $activity['cat_id']: ""; ?>

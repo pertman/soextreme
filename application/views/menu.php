@@ -20,7 +20,7 @@
                     </p>
                     <div class="navbar-dropdown is-boxed">
                         <a href="<?php echo base_url("AdminActivityController/createActivity"); ?>" class="navbar-item">Créer</a>
-                        <a href="<?php echo base_url("ActivityController/listActivities"); ?>" class="navbar-item">Voir</a>
+                        <a href="<?php echo base_url("ActivityController/listActivities"); ?>" class="navbar-item">Liste</a>
                     </div>
                 </div>
 
@@ -30,6 +30,7 @@
                     </p>
                     <div class="navbar-dropdown is-boxed">
                         <a href="<?php echo base_url("AdminCategoryController/createCategory"); ?>" class="navbar-item">Créer</a>
+                        <a href="<?php echo base_url("AdminCategoryController/listCategory"); ?>" class="navbar-item">Liste</a>
                     </div>
                 </div>
 

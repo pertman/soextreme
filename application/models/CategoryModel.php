@@ -25,4 +25,14 @@ class CategoryModel extends CI_Model{
         $query = $this->db->query($sql, array($catId));
         return $query->row_array();
     }
+
+    public function updateCategoryName($catId, $catName){
+        $sql = 'UPDATE category SET cat_name = ? WHERE cat_id = ?';
+        return $this->db->query($sql, array($catName, $catId));
+    }
+
+    public function deleteCategoryById($catId){
+        $sql = 'DELETE FROM category WHERE cat_id = ?';
+        return $this->db->query($sql, array($catId));
+    }
 }

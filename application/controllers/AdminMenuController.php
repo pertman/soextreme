@@ -58,19 +58,7 @@ class AdminMenuController extends MY_Controller{
 
         $menuId = $this->input->get('id');
 
-        if (!$menuId){
-            $_SESSION['messages'][] = "Aucun identifiant de menu renseigné";
-
-            redirect('/AdminMenuController/listMenu', 'refresh');
-        }
-
-        $menu = $this->MenuModel->getMenuById($menuId);
-
-        if (!$menu){
-            $_SESSION['messages'][] = "Ce menu n'existe pas";
-
-            redirect('/AdminMenuController/listMenu', 'refresh');
-        }
+        $menu = $this->menuCheck($menuId);
 
         $this->_params['view']                  = 'menuItem';
         $this->_params['data']['menu']          = $menu;
@@ -104,13 +92,24 @@ class AdminMenuController extends MY_Controller{
 
         $menuId = $this->input->get('id');
 
-        if (!$menuId){
+        $this->menuCheck($menuId);
+
+        $this->MenuModel->deleteMenuCategoryLinkByMenuId($menuId);
+        $this->MenuModel->deleteMenu($menuId);
+
+        $_SESSION['messages'][] = "La suppression du menu id " . $menuId . " a bien été effectuée";
+
+        redirect('/AdminMenuController/listMenu', 'refresh');
+    }
+
+    public function menuCheck($menId){
+        if (!$menId){
             $_SESSION['messages'][] = "Aucun identifiant de menu renseigné";
 
             redirect('/AdminMenuController/listMenu', 'refresh');
         }
 
-        $menu = $this->MenuModel->getMenuById($menuId);
+        $menu = $this->MenuModel->getMenuById($menId);
 
         if (!$menu){
             $_SESSION['messages'][] = "Ce menu n'existe pas";
@@ -118,11 +117,6 @@ class AdminMenuController extends MY_Controller{
             redirect('/AdminMenuController/listMenu', 'refresh');
         }
 
-        $this->MenuModel->deleteMenuCategoryLink($menuId);
-        $this->MenuModel->deleteMenu($menuId);
-
-        $_SESSION['messages'][] = "La suppression du menu id " . $menuId . " a bien été effectuée";
-
-        redirect('/AdminMenuController/listMenu', 'refresh');
+        return $menu;
     }
 }

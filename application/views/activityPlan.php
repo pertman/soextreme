@@ -69,10 +69,8 @@
     <div class="calendarPlan">
         <form method="post" action="scheduleActivity">
         <div class="field">
-        Début
-        <input type="date" name="date_start" required>
-        Fin
-<!--        <input type="date" name="date_end" required>-->
+        Période
+        <input type="datetime" id="my-element" name="date_range" required>
         </div>
         <div class="field daySelectPlan" >
         Jours :
@@ -105,16 +103,10 @@
                 <input type="checkbox" name="sunday">
             </label>
         </div>
-        <div class="field">
-            Heure Début
-            <input type="time" name="hour_start" required>
-            Heure Fin
-            <input type="time" name="hour_end" required>
-        </div>
             <div class="field">
                 <input type="hidden" name="act_id" value="<?php echo $activity["act_id"]; ?>">
                 <div class="control">
-                    <button class="button is-link">Valider</button>
+                    <button id="validate-button" class="button is-link" disabled>Valider</button>
                 </div>
             </div>
     </div>
@@ -122,15 +114,16 @@
 </div>
 <script>
     // Initialize all input of date type.
-    const calendars = bulmaCalendar.attach('[type="date"]' ,{
+    const calendars = bulmaCalendar.attach('[type="datetime"]' ,{
         dateFormat: 'YYYY-MM-DD',
         displayMode: 'inline',
         isRange: true,
-    });
-    const timepicker = bulmaCalendar.attach('[type="time"]',{
+        weekStart: 1,
         minuteSteps: '1',
-        displayMode: 'inline',
+        showFooter: 'false',
+
     });
+
     // Loop on each calendar initialized
     calendars.forEach(calendar => {
         // Add listener to date:selected event
@@ -144,7 +137,11 @@
     if (element) {
         // bulmaCalendar instance is available as element.bulmaCalendar
         element.bulmaCalendar.on('select', datepicker => {
-            console.log(datepicker.data.value());
+            document.getElementById("validate-button").disabled = false;
         });
+        element.bulmaCalendar.on('select:start', datepicker => {
+            document.getElementById("validate-button").disabled = true;
+        });
+
     }
 </script>

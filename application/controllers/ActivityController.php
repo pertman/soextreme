@@ -119,52 +119,68 @@ class ActivityController extends MY_Controller{
 //    @WIP
     public function scheduleActivity(){
         if ($post = $this->input->post()) {
+            //var_dump($post);
 
-            var_dump($post);
+            //Traitements de la string date_range
+            $dateArray = explode(' - ', $post['date_range']);
+            $datetime_start = $dateArray[0];
+            $datetime_end  = $dateArray[1];
 
-            //On vérifie si un jour a bien été sélectionné
-//            if (!(isset($post['monday'])) && !(isset($post['tuesday'])) && !(isset($post['wednesday'])) && !(isset($post['thursday']))
-//                && !(isset($post['friday'])) && !(isset($post['saturday'])) && !(isset($post['sunday']))){
-//                $_SESSION['messages'][] = "Erreur : Aucun jour n'a été sélectionné";
-//                $this->redirectHome($this->_params);
-//
-//            }else{
-//                $this->ActivityModel->scheduleDateActivity($post);
-//
-//                $plaId = $this->db->insert_id();
-//
-//                $tabIndex = array();
-//
-//                if (isset($post['monday'])){
-//                    $tabIndex[] = 1;
-//                }
-//                if (isset($post['tuesday'])){
-//                    $tabIndex[] = 2;
-//                }
-//                if (isset($post['wednesday'])){
-//                    $tabIndex[] = 3;
-//                }
-//                if (isset($post['thursday'])){
-//                    $tabIndex[] = 4;
-//                }
-//                if (isset($post['friday'])){
-//                    $tabIndex[] = 5;
-//                }
-//                if (isset($post['saturday'])){
-//                    $tabIndex[] = 6;
-//                }
-//                if (isset($post['sunday'])){
-//                    $tabIndex[] = 7;
-//                }
-//
-//                foreach ($tabIndex as $dayIndex){
-//                    $this->ActivityModel->scheduleDayActivity($post, $dayIndex);
-//                    $tslId = $this->db->insert_id();
-//                    $this->ActivityModel->linkDayDateActivity($plaId, $tslId);
-//                }
-//                $_SESSION['messages'][] = "L'activité à bien été planifiée";
-//                $this->redirectHome($this->_params);
-//            }
+            $datetime_startArray = explode(' ', $datetime_start);
+            $datetime_endArray = explode(' ', $datetime_end);
+
+            $date_start = $datetime_startArray[0];
+            $hour_start = $datetime_startArray[1];
+            $date_end  = $datetime_endArray[0];
+            $hour_end = $datetime_endArray[1];
+
+                //On vérifie si un jour a bien été sélectionné
+                if (!(isset($post['monday'])) && !(isset($post['tuesday'])) && !(isset($post['wednesday'])) && !(isset($post['thursday']))
+                    && !(isset($post['friday'])) && !(isset($post['saturday'])) && !(isset($post['sunday']))){
+
+                    $_SESSION['messages'][] = "Erreur : Aucun jour n'a été sélectionné";
+                    redirect('/ActivityController/planActivity?id='.$post['act_id'], 'refresh');
+
+                }else{
+
+                    $this->ActivityModel->scheduleDateActivity($date_start,$date_end, $post);
+                    $plaId = $this->db->insert_id();
+                    $tabIndex = array();
+
+                    if (isset($post['monday'])){
+                        $tabIndex[] = 1;
+                    }
+                    if (isset($post['tuesday'])){
+                        $tabIndex[] = 2;
+                    }
+                    if (isset($post['wednesday'])){
+                        $tabIndex[] = 3;
+                    }
+                    if (isset($post['thursday'])){
+                        $tabIndex[] = 4;
+                    }
+                    if (isset($post['friday'])){
+                        $tabIndex[] = 5;
+                    }
+                    if (isset($post['saturday'])){
+                        $tabIndex[] = 6;
+                    }
+                    if (isset($post['sunday'])){
+                        $tabIndex[] = 7;
+                    }
+
+                    foreach ($tabIndex as $dayIndex){
+                        $this->ActivityModel->scheduleDayActivity($hour_start,$hour_end,$dayIndex);
+                        $tslId = $this->db->insert_id();
+                        $this->ActivityModel->linkDayDateActivity($plaId, $tslId);
+                    }
+                    $_SESSION['messages'][] = "L'activité à bien été planifiée";
+                    redirect('/ActivityController/planActivity?id='.$post['act_id'], 'refresh');
+                }
+
+
+
+
 
 
         }

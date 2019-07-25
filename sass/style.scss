@@ -191,10 +191,19 @@ $light-grey : #f0f0f0;
 
 .daySelectPlan > label{
   margin: 5px;
-  padding: 2px;
+  padding: 4px;
   background: #fffbff;
   border-radius: 3px;
   border: 1px solid #ff9b38;
+  user-select:none;
 }
 
+.timepicker-input{
+  padding-top : 12px;
+  padding-bottom: 5px;
+}
 
+.datetimepicker-container{
+  display: flex;
+  flex-direction: column-reverse;
+}

@@ -23,6 +23,7 @@ class MY_Controller extends CI_Controller {
         $this->load->model('CategoryModel');
         $this->load->model('AdminModel');
         $this->load->model('MenuModel');
+        $this->load->model('PlanningModel');
 
         if (!isset($_SESSION['messages'])){
             $_SESSION['messages'] = array();

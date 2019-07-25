@@ -74,24 +74,4 @@ class ActivityModel extends CI_Model{
         $sql = 'UPDATE activity SET cat_id = ? WHERE cat_id = ?';
         return $this->db->query($sql, array(NULL, $catId));
     }
-
-    public function scheduleDateActivity($date_start,$date_end, $post){
-
-        $sql = 'INSERT INTO `planning` (`pla_id`, `pla_date_start`, `pla_date_end`, `act_id`) VALUES (NULL,?,?,?)';
-        return $this->db->query($sql, array($date_start, $date_end, $post['act_id']));
-    }
-
-    public function scheduleDayActivity($hour_start,$hour_end,$day_index){
-
-        $sql = 'INSERT INTO `time_slot` (`tsl_id`, `tsl_hour_start`, `tsl_hour_end`, `tsl_day_index`) VALUES (NULL,?,?,?)';
-        return $this->db->query($sql, array($hour_start, $hour_end, $day_index));
-    }
-
-    public function linkDayDateActivity($plaId, $tslId){
-
-        $sql = 'INSERT INTO `time_slot_planning_link` (`tsp_id`, `pla_id`,`tsl_id`) VALUES (NULL,?,?)';
-        return $this->db->query($sql, array($plaId, $tslId));
-    }
-
-
 }

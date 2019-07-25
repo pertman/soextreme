@@ -32,7 +32,11 @@
                 </div>
                 <div class="card-footer">
                     <div class="buttons">
-                        <a class="button is-link" href="<?php echo base_url('ActivityController/planActivity') ?>?id=<?php echo $activity['act_id']; ?>" class="button">Plannifier</a>
+                        <?php //@TODO remove palnActivity if user AND show only active activities if user ?>
+                        <?php if (isCurrentUserAdmin()): ?>
+                            <a class="button is-link" href="<?php echo base_url("AdminActivityController/updateActivity"); ?>?id=<?php echo $activity['act_id']; ?>">Modifier l'activité</a>
+                            <a class="button is-link" href="<?php echo base_url('AdminActivityController/planActivity') ?>?id=<?php echo $activity['act_id']; ?>" class="button">Plannifier</a>
+                        <?php endif; ?>
                         <a class="button is-link" href="<?php echo base_url("PlanningController/seeActivityPlanning"); ?>?id=<?php echo $activity['act_id'];?>">Voir le planning</a>
                     </div>
                 </div>

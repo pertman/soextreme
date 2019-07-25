@@ -3,36 +3,6 @@
 const ADMIN_USER_TYPE       = 'admin';
 const CUSTOMER_USER_TYPE    = 'user';
 
-function verifyReferer(){
-
-//    @TODO add Mobile Refferer
-    if (!isset($_SERVER['HTTP_REFERER'])){
-        return false;
-    }
-
-    $address = 'http://' . $_SERVER['SERVER_NAME'];
-
-    if (strpos($_SERVER['HTTP_REFERER'], $address) !== 0) {
-        return false;
-    }
-
-    return true;
-}
-
-function verifyCSRF(){
-    $headers = apache_request_headers();
-
-    if (!isset($headers['Csrftoken'])) {
-        return false;
-    }
-
-    if ($headers['Csrftoken'] !== $_SESSION['csrf_token']) {
-        return false;
-    }
-
-    return true;
-}
-
 function getCurrentUserType(){
     if (isset($_SESSION['admin'])){
         return 'admin';
@@ -43,12 +13,16 @@ function getCurrentUserType(){
     return null;
 }
 
-function getAdminUserType(){
-    return 'admin';
+function isCurrentUserCustomer(){
+    return getCurrentUserType() == 'user';
 }
 
-function getCustomerUserType(){
-    return 'user';
+function isCurrentUserAdmin(){
+    return getCurrentUserType() == 'admin';
+}
+
+function isCurrentUserNotLoggedIn(){
+    return getCurrentUserType() == null;
 }
 
 function getActivitiesStatusMapping(){
@@ -66,7 +40,6 @@ function getActivitiesStatusColorMapping(){
         'private' => 'red',
     );
 }
-
 
 function getDurationValueFromMinute($minutes){
     if ($minutes >= 60){

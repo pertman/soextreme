@@ -13,19 +13,9 @@ class LoginController extends MY_Controller {
         $this->_params = parent::getBaseParams();
         $this->_params['headData']['title'] = 'Connexion';
         $this->_params['view'] = 'loginForm.php';
-        
-//        @TODO REFERER
-//        if (!verifyReferer()){
-//            die('REFERER ERROR');
-//        }
     }
 
     public function connect(){
-//        @TODO CSRF
-//        if (!verifyCSRF()){
-//            die('CSRF ERROR');
-//        }
-
 
         if ($post = $this->input->post()){
 

@@ -17,12 +17,11 @@ class AdminController extends MY_Controller{
     }
 
     public function connect(){
+
         if ($post = $this->input->post()){
 
             $isError = false;
-
-            $admin = $this->AdminModel->getAdminByEmail($post['usr_email']);
-
+            $admin  = $this->AdminModel->getAdminByEmail($post['usr_email']);
 
             if (!$admin){
                 $isError = true;
@@ -51,8 +50,8 @@ class AdminController extends MY_Controller{
     }
 
     public function disconnect(){
-        //@TODO DUPPLICATE CONTROLLERS FOR ADMIN OR USER TO DO IT ON CONSTRUCT
-        if (getCurrentUserType() != getAdminUserType()){
+
+        if (!isCurrentUserAdmin()){
             $this->redirectHome();
         }
 

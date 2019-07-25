@@ -48,24 +48,27 @@ class MY_Controller extends CI_Controller {
         //@TODO cache
         $topMenuParam   = array();
         $topMenu        = $this->MenuModel->getTopMenu();
-        $menuCategories = $this->MenuModel->getMenuCategories($topMenu['men_id']);
 
-        foreach ($menuCategories as $menuCategory){
-            $catId = $menuCategory['cat_id'];
-            $topMenuParam['categories'][$catId]['name'] = $menuCategory['cat_name'];
+        if ($topMenu){
+            $menuCategories = $this->MenuModel->getMenuCategories($topMenu['men_id']);
 
-            $activities = $this->ActivityModel->getActivitiesByCategoryId($catId);
+            foreach ($menuCategories as $menuCategory){
+                $catId = $menuCategory['cat_id'];
+                $topMenuParam['categories'][$catId]['name'] = $menuCategory['cat_name'];
 
-            $topMenuParam['categories'][$catId]['activities'] = array();
+                $activities = $this->ActivityModel->getActivitiesByCategoryId($catId);
 
-            foreach ($activities as $activity){
-                $actId = $activity['act_id'];
-                $topMenuParam['categories'][$catId]['activities'][$actId]['name'] = $activity['act_name'];
-            }
+                $topMenuParam['categories'][$catId]['activities'] = array();
 
-            //Remove categories without activities
-            if (!$topMenuParam['categories'][$catId]['activities']){
-                unset($topMenuParam['categories'][$catId]);
+                foreach ($activities as $activity){
+                    $actId = $activity['act_id'];
+                    $topMenuParam['categories'][$catId]['activities'][$actId]['name'] = $activity['act_name'];
+                }
+
+                //Remove categories without activities
+                if (!$topMenuParam['categories'][$catId]['activities']){
+                    unset($topMenuParam['categories'][$catId]);
+                }
             }
         }
 

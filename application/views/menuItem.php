@@ -1,4 +1,4 @@
-<form class="card menu-item-card" method="post" action="update">
+<form class="card menu-item-card" method="post" action="editCategoryMenuIndex">
     <div class="card-header">
         <div class="menu-title">
             <?php echo $menu['men_name']; ?>
@@ -22,14 +22,6 @@
                 </div>
             </div>
         <?php endforeach; ?>
-        <?php if (!$menu['men_is_top_menu']): ?>
-            <div class="field checkbox-is-top-menu">
-                <label class="checkbox">
-                    <input type="checkbox" name="is_top_menu">
-                    Menu Principal (Cette action remplacera le menu principal).
-                </label>
-            </div>
-        <?php endif; ?>
         <input type="hidden" name="men_id" value="<?php echo $menu['men_id'] ?>">
         <div class="field buttons">
             <div class="control">

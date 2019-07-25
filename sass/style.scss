@@ -92,14 +92,22 @@ $light-grey : #f0f0f0;
   }
 }
 
+.field{
+  .select{
+    width: 100%;
+    select{
+      width: 100%;
+    }
+  }
+}
 
-//MenuList.php
-.menu-card{
+//MenuList.php //
+.menu-card, .category-card{
   width: 100%;
   &.is-top-menu{
     border: 1px solid $orange;
   }
-  .menu-title{
+  .menu-title, .cat-title{
     width: 100%;
   }
   .card-content{

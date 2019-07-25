@@ -16,10 +16,6 @@ class UserController extends MY_Controller {
     }
 
     public function create(){
-//        @TODO CSRF
-//        if (!verifyCSRF()){
-//            die('CSRF ERROR');
-//        }
 
         if ($post = $this->input->post()){
 

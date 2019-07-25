@@ -6439,13 +6439,18 @@ label.panel-block {
   .media-content {
     overflow-x: unset; } }
 
-.menu-card {
+.field .select {
   width: 100%; }
-  .menu-card.is-top-menu {
-    border: 1px solid #e38b40; }
-  .menu-card .menu-title {
+  .field .select select {
     width: 100%; }
-  .menu-card .card-content {
+
+.menu-card, .category-card {
+  width: 100%; }
+  .menu-card.is-top-menu, .category-card.is-top-menu {
+    border: 1px solid #e38b40; }
+  .menu-card .menu-title, .menu-card .cat-title, .category-card .menu-title, .category-card .cat-title {
+    width: 100%; }
+  .menu-card .card-content, .category-card .card-content {
     display: flex;
     align-items: center;
     justify-content: space-between; }

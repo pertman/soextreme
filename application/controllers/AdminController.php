@@ -61,4 +61,12 @@ class AdminController extends MY_Controller{
 
         $this->redirectHome();
     }
+
+    //@TODO remove autoconnect
+    public function autoconnect(){
+        $_SESSION['admin']['id']    = 'autoconnectId';
+        $_SESSION['messages'][]     = 'Connexion réussie';
+
+        $this->redirectHome();
+    }
 }

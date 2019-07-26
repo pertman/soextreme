@@ -42,8 +42,12 @@ $light-grey : #f0f0f0;
 @import '../node_modules/@fullcalendar/timegrid/main.css';
 @import '../node_modules/@fullcalendar/list/main.css';
 
+//General
 .input, .textarea{
   box-shadow: none;
+}
+.main-container.full-size{
+  max-width : none;
 }
 
 @media screen and (max-width: 1023px) {

@@ -5,6 +5,16 @@ class PlanningController extends MY_Controller
 {
 
     protected $_params;
+    
+    protected $_dayIndexLabelMapping = array(
+          '1' => 'monday',
+          '2' => 'tuesday',
+          '3' => 'wednesday',
+          '4' => 'thursday',
+          '5' => 'friday',
+          '6' => 'saturday',
+          '7' => 'sunday'
+        );
 
     public function __construct()
     {
@@ -39,7 +49,51 @@ class PlanningController extends MY_Controller
             $this->redirectHome();
         }
 
+        $activityDate = array();
+
+        $allPlanningItemsForActivity =  $this->PlanningModel->getAllPlanningItemsForActivity($activity['act_id']);
+
+        foreach ($allPlanningItemsForActivity as $planningItem){
+            $periodStart    = $planningItem['pla_date_start'];
+            $periodEnd      = $planningItem['pla_date_end'];
+            $dayIndex       = $planningItem['tsl_day_index'];
+            $startHour      = $planningItem['tsl_hour_start'];
+            $endHour        = $planningItem['tsl_hour_end'];
+
+            $planningItemResult = $this->getIndexDayInRange($periodStart, $periodEnd, $dayIndex);
+
+            foreach ($planningItemResult as $date){
+                $activityDate[$date]['start'] = $startHour;
+                $activityDate[$date]['end']   = $endHour;
+            }
+        }
+
+        $this->_params['data']['dates']     =  $activityDate;
         $this->_params['data']['activity']  = $activity;
         $this->load->view('template', $this->_params);
+    }
+
+    public function getIndexDayInRange($periodStart, $periodEnd, $dayIndex)
+    {
+        $dateFrom = new \DateTime($periodStart);
+        $dateTo = new \DateTime($periodEnd);
+        $dates = array();
+
+        if ($dateFrom > $dateTo) {
+            return $dates;
+        }
+        
+        $dayLabel = $this->_dayIndexLabelMapping[$dayIndex];
+
+        if ($dayIndex != $dateFrom->format('N')) {
+            $dateFrom->modify('next ' . $dayLabel);
+        }
+
+        while ($dateFrom <= $dateTo) {
+            $dates[] = $dateFrom->format('Y-m-d');
+            $dateFrom->modify('+1 week');
+        }
+
+        return $dates;
     }
 }

@@ -1,12 +1,29 @@
-<?php //@TODO calendar activity ?>
 <?php echo "Planning " . $activity['act_name']; ?>
 <button class="button zoom-in-button">Plus</button>
 <button class="button zoom-out-button">Moins</button>
 <div id="calendar" class="calendar-activity-container">
 
 </div>
+<?php
+
+$events = array();
+foreach ($dates as $dateKey => $date){
+    $events[$dateKey]['title'] = 'eventTitle';
+    foreach ($date as $timeKey => $time){
+        $events[$dateKey][$timeKey] = $dateKey . "T" . $time;
+    }
+}
+?>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        let jsonString = '';
+        <?php foreach ($events as $event) { ?>
+            jsonString += JSON.stringify(<?php echo json_encode($event); ?>);
+            jsonString += ',';
+        <?php }?>
+        jsonString = jsonString.slice(0, -1);
+        let events = $.parseJSON('[' + jsonString + ']');
+
         var calendarEl = document.getElementById('calendar');
 
         const calendar = new FullCalendar.Calendar(calendarEl, {
@@ -23,22 +40,7 @@
 
                 // your event source
                 {
-                    events: [ // put the array in the `events` property
-                        {
-                            title  : 'event1',
-                            start  : '2019-07-26T08:05:00',
-                            end: '2019-07-26T08:10:00'
-                        },
-                        {
-                            title  : 'event2',
-                            start  : '2019-07-26',
-                            end    : '2019-07-28'
-                        },
-                        {
-                            title  : 'event3',
-                            start  : '2019-07-29T12:30:00',
-                        }
-                    ],
+                    events: events,
                     color: '#e38b3f',     // an option!
                     textColor: 'white' // an option!
                 }

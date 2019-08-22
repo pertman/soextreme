@@ -46,6 +46,9 @@
             <?php endif; ?>
 
             <?php if (isCurrentUserCustomer()): ?>
+                <a class="navbar-item" href="<?php echo base_url("ActivityController/listActivities"); ?>">
+                    Activitées
+                </a>
                 <?php if (isset($categories)): ?>
                     <?php foreach ($categories as $catId => $category): ?>
                         <div class="navbar-item has-dropdown is-hoverable">
@@ -71,6 +74,8 @@
                 <a href="<?php echo base_url("LoginController/disconnect"); ?>" class="navbar-item">Déconnexion</a>
             <?php endif; ?>
             <?php if(isCurrentUserNotLoggedIn()): ?>
+                <?php //@TODO remove dev autoconnect ?>
+                <a href="<?php echo base_url("AdminController/autoconnect"); ?>" class="navbar-item">Admin Autoconnect dev</a>
                 <a href="<?php echo base_url("LoginController/connect"); ?>" class="navbar-item">Connexion</a>
                 <a href="<?php echo base_url("UserController/create"); ?>" class="navbar-item">Inscription</a>
             <?php endif; ?>

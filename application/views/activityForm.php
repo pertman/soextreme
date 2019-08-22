@@ -17,6 +17,10 @@
 <?php $actZipcode                   = ($isAct) ? $activity['act_zipcode']: ""; ?>
 <?php $actCountry                   = ($isAct) ? $activity['act_country']: ""; ?>
 
+<div class="page-title">
+    <?php if ($isAct): ?>Modification d'activité<?php else: ?>Création d'activité<?php endif; ?>
+</div>
+
 <form method="post" action="<?php if ($isAct): ?>updateActivity<?php else: ?>createActivity<?php endif; ?>">
     <div class="field">
         <label for="act_title">Titre</label>

@@ -1,4 +1,3 @@
-<?php //@TODO Title on each view ?>
 <?php $actIds = array(); ?>
 <?php $menIds = array(); ?>
 
@@ -12,6 +11,10 @@
 <?php if (isset($cat_menus)): ?>
     <?php $menIds = array_map(function($cat_menus) { return $cat_menus['men_id']; }, $cat_menus);?>
 <?php endif; ?>
+
+<div class="page-title">
+    <?php if ($isCat): ?>Modification de catégorie<?php else: ?>Création de catégorie<?php endif; ?>
+</div>
 
 <form method="post" action="<?php if ($isCat): ?>updateCategory<?php else: ?>createCategory<?php endif; ?>">
     <div class="field">

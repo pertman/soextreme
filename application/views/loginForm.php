@@ -1,3 +1,7 @@
+<div class="page-title">
+    Connexion
+</div>
+
 <form method="post" action="connect">
     <div class="field">
         <label for="usr_email">Email</label>

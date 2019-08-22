@@ -50,6 +50,67 @@ $light-grey : #f0f0f0;
   max-width : none;
 }
 
+label{
+  font-size: 1.2rem;
+}
+
+.control{
+  margin-top: 10px;
+}
+
+.card-header{
+  //&:not(.activity-list-card-header){
+  background: $primary;
+  .title{
+    color: white;
+  }
+  .led{
+    border: 1px solid white;
+  }
+  .state{
+    color: white;
+  }
+  //}
+}
+
+//Override calendar
+.datetimepicker .datepicker-body .datepicker-dates .datepicker-days .datepicker-date.datepicker-range{
+  background: $primary;
+}
+.datetimepicker .datepicker-body .datepicker-dates .datepicker-days .datepicker-date.datepicker-range.datepicker-range-end .date-item, .datetimepicker .datepicker-body .datepicker-dates .datepicker-days .datepicker-date.datepicker-range.datepicker-range-start .date-item {
+  border: .1rem solid $primary;
+  color: $primary!important;
+}
+
+.datetimepicker .datepicker-body .datepicker-dates .datepicker-days .datepicker-date.datepicker-range .date-item {
+  background-color: $primary;
+}
+.datetimepicker .datepicker-body .datepicker-dates .datepicker-days .datepicker-date .date-item.is-active{
+  background: $primary;
+  border-color: $primary;
+}
+.datetimepicker .datepicker-body .datepicker-dates .datepicker-days .datepicker-date .date-item:hover {
+  border: .1rem solid $primary;
+}
+.datetimepicker .datepicker-body .datepicker-dates .datepicker-days .datepicker-date .date-item.is-today{
+  border: .1rem dotted $primary;
+  color: $primary;
+}
+.datetimepicker .datepicker-nav{
+  background: $primary;
+}
+.datetimepicker .timepicker .timepicker-end .timepicker-hours .timepicker-input, .datetimepicker .timepicker .timepicker-end .timepicker-minutes .timepicker-input, .datetimepicker .timepicker .timepicker-start .timepicker-hours .timepicker-input, .datetimepicker .timepicker .timepicker-start .timepicker-minutes .timepicker-input{
+  color: $primary;
+}
+.datetimepicker .datetimepicker-header .datetimepicker-selection-end .datetimepicker-selection-day, .datetimepicker .datetimepicker-header .datetimepicker-selection-start .datetimepicker-selection-day{
+  color: $primary;
+}
+
+.datetimepicker{
+  max-width: 100%;
+  margin: auto;
+}
+
 @media screen and (max-width: 1023px) {
   .navbar-menu.is-active {
     //display: block;
@@ -69,7 +130,6 @@ $light-grey : #f0f0f0;
   color: #757763;
   width: 300px;
   position: relative;
-  margin: 10px;
   @media screen and (max-width: 600px){
     max-width: 100%;
   }
@@ -111,9 +171,18 @@ $light-grey : #f0f0f0;
   }
 }
 
+.page-title{
+  width: 100%;
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
 //MenuList.php //
 .menu-card, .category-card{
   width: 100%;
+  &:not(:last-child){
+    margin-bottom: 20px;
+  }
   &.is-top-menu{
     border: 1px solid $orange;
   }
@@ -132,6 +201,7 @@ $light-grey : #f0f0f0;
   width: 100%;
   .menu-title{
     width: 100%;
+    color: white;
   }
   .category-line{
     display: flex;
@@ -177,6 +247,9 @@ $light-grey : #f0f0f0;
       flex-direction: column;
       .title{
         margin-bottom: 0;
+        &:hover{
+          color: $grey-light;
+        }
       }
       .act-status {
         display: flex;
@@ -205,13 +278,32 @@ $light-grey : #f0f0f0;
 
 //activityPlan.php
 .activity-plan-container{
-  .daySelectPlan > label{
-    margin: 5px;
-    padding: 4px;
-    background: #fffbff;
-    border-radius: 3px;
-    border: 1px solid #ff9b38;
-    user-select:none;
+  .daySelectPlan{
+    display: flex;
+    width: 100%;
+    @media (max-width: 768px) {
+      flex-wrap: wrap;
+    }
+    label{
+      width: 100%;
+      margin: 5px;
+      padding: 10px;
+      background: #fffbff;
+      border-radius: 3px;
+      border: 1px solid $primary;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      user-select:none;
+      color: $primary;
+      &.selected{
+        color: $link;
+        border: 1px solid $link;
+      }
+    }
+    input{
+      display: none;
+    }
   }
 
   .timepicker-input{

@@ -16,8 +16,12 @@ class ActivityController extends MY_Controller{
     }
 
     public function listActivities(){
-
-        $this->_params['data']['activities']  = $this->ActivityModel->getAllActivities();
+    //@TODO put pramas headData and view in each functions
+        if (isCurrentUserAdmin()){
+            $this->_params['data']['activities']  = $this->ActivityModel->getAllActivities();
+        }else{
+            $this->_params['data']['activities']  = $this->ActivityModel->getActiveActivities();
+        }
         $this->load->view('template', $this->_params);
     }
 

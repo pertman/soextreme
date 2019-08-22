@@ -2,6 +2,10 @@
 <button class="button zoom-in-button">Plus</button>
 <button class="button zoom-out-button">Moins</button>
 <div id="calendar" class="calendar-activity-container">
+<?php //@TODO calendar activity ?>
+<div class="page-title">
+    <?php echo "Planning " . $activity['act_name']; ?>
+</div>
 
 </div>
 <?php

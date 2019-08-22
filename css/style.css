@@ -6408,6 +6408,55 @@ label.panel-block {
 .main-container.full-size {
   max-width: none; }
 
+label {
+  font-size: 1.2rem; }
+
+.control {
+  margin-top: 10px; }
+
+.card-header {
+  background: #4462a5; }
+  .card-header .title {
+    color: white; }
+  .card-header .led {
+    border: 1px solid white; }
+  .card-header .state {
+    color: white; }
+
+.datetimepicker .datepicker-body .datepicker-dates .datepicker-days .datepicker-date.datepicker-range {
+  background: #4462a5; }
+
+.datetimepicker .datepicker-body .datepicker-dates .datepicker-days .datepicker-date.datepicker-range.datepicker-range-end .date-item, .datetimepicker .datepicker-body .datepicker-dates .datepicker-days .datepicker-date.datepicker-range.datepicker-range-start .date-item {
+  border: 0.1rem solid #4462a5;
+  color: #4462a5 !important; }
+
+.datetimepicker .datepicker-body .datepicker-dates .datepicker-days .datepicker-date.datepicker-range .date-item {
+  background-color: #4462a5; }
+
+.datetimepicker .datepicker-body .datepicker-dates .datepicker-days .datepicker-date .date-item.is-active {
+  background: #4462a5;
+  border-color: #4462a5; }
+
+.datetimepicker .datepicker-body .datepicker-dates .datepicker-days .datepicker-date .date-item:hover {
+  border: 0.1rem solid #4462a5; }
+
+.datetimepicker .datepicker-body .datepicker-dates .datepicker-days .datepicker-date .date-item.is-today {
+  border: 0.1rem dotted #4462a5;
+  color: #4462a5; }
+
+.datetimepicker .datepicker-nav {
+  background: #4462a5; }
+
+.datetimepicker .timepicker .timepicker-end .timepicker-hours .timepicker-input, .datetimepicker .timepicker .timepicker-end .timepicker-minutes .timepicker-input, .datetimepicker .timepicker .timepicker-start .timepicker-hours .timepicker-input, .datetimepicker .timepicker .timepicker-start .timepicker-minutes .timepicker-input {
+  color: #4462a5; }
+
+.datetimepicker .datetimepicker-header .datetimepicker-selection-end .datetimepicker-selection-day, .datetimepicker .datetimepicker-header .datetimepicker-selection-start .datetimepicker-selection-day {
+  color: #4462a5; }
+
+.datetimepicker {
+  max-width: 100%;
+  margin: auto; }
+
 @media screen and (max-width: 1023px) {
   .navbar-menu.is-active {
     position: absolute;
@@ -6421,8 +6470,7 @@ label.panel-block {
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
   color: #757763;
   width: 300px;
-  position: relative;
-  margin: 10px; }
+  position: relative; }
   @media screen and (max-width: 600px) {
     .card {
       max-width: 100%; } }
@@ -6451,8 +6499,15 @@ label.panel-block {
   .field .select select {
     width: 100%; }
 
+.page-title {
+  width: 100%;
+  font-size: 2rem;
+  margin-bottom: 30px; }
+
 .menu-card, .category-card {
   width: 100%; }
+  .menu-card:not(:last-child), .category-card:not(:last-child) {
+    margin-bottom: 20px; }
   .menu-card.is-top-menu, .category-card.is-top-menu {
     border: 1px solid #e38b40; }
   .menu-card .menu-title, .menu-card .cat-title, .category-card .menu-title, .category-card .cat-title {
@@ -6465,7 +6520,8 @@ label.panel-block {
 .menu-item-card {
   width: 100%; }
   .menu-item-card .menu-title {
-    width: 100%; }
+    width: 100%;
+    color: white; }
   .menu-item-card .category-line {
     display: flex;
     padding: 15px 0;
@@ -6500,6 +6556,8 @@ label.panel-block {
       flex-direction: column; }
       .activity-list .card .card-header .title {
         margin-bottom: 0; }
+        .activity-list .card .card-header .title:hover {
+          color: #D0D1CD; }
       .activity-list .card .card-header .act-status {
         display: flex;
         align-items: center;
@@ -6517,13 +6575,29 @@ label.panel-block {
           .activity-list .card .card-header .act-status .led.red {
             background-color: orange; }
 
-.activity-plan-container .daySelectPlan > label {
-  margin: 5px;
-  padding: 4px;
-  background: #fffbff;
-  border-radius: 3px;
-  border: 1px solid #ff9b38;
-  user-select: none; }
+.activity-plan-container .daySelectPlan {
+  display: flex;
+  width: 100%; }
+  @media (max-width: 768px) {
+    .activity-plan-container .daySelectPlan {
+      flex-wrap: wrap; } }
+  .activity-plan-container .daySelectPlan label {
+    width: 100%;
+    margin: 5px;
+    padding: 10px;
+    background: #fffbff;
+    border-radius: 3px;
+    border: 1px solid #4462a5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    color: #4462a5; }
+    .activity-plan-container .daySelectPlan label.selected {
+      color: #e38b40;
+      border: 1px solid #e38b40; }
+  .activity-plan-container .daySelectPlan input {
+    display: none; }
 
 .activity-plan-container .timepicker-input {
   padding-top: 12px;

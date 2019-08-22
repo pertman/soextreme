@@ -11,11 +11,13 @@
 <?php
 
 $events = array();
+$sessionNumber = 1;
 foreach ($dates as $dateKey => $date){
-    $events[$dateKey]['title'] = 'eventTitle';
+    $events[$dateKey]['title'] = $activity['act_name'] . " Session " . $sessionNumber;
     foreach ($date as $timeKey => $time){
         $events[$dateKey][$timeKey] = $dateKey . "T" . $time;
     }
+    $sessionNumber++;
 }
 ?>
 <script>

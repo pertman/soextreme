@@ -1,13 +1,18 @@
-<?php echo "Planning " . $activity['act_name']; ?>
-<button class="button zoom-in-button">Plus</button>
-<button class="button zoom-out-button">Moins</button>
-<div id="calendar" class="calendar-activity-container">
-<?php //@TODO calendar activity ?>
 <div class="page-title">
     <?php echo "Planning " . $activity['act_name']; ?>
 </div>
 
+<?php //@TODO remove if month view ?>
+<div class="fc-button-group zoom-buttons">
+    <button type="button" class="fc-button fc-button-primary zoom-in-button" aria-label="zoom-in">
+        <i class="fas fa-plus"></i>
+    </button>
+    <button type="button" class="fc-button fc-button-primary zoom-out-button" aria-label="zoom-out">
+        <i class="fas fa-minus"></i>
+    </button>
 </div>
+
+<div id="calendar" class="calendar-activity-container"></div>
 <?php
 
 $events = array();
@@ -38,6 +43,7 @@ foreach ($dates as $index => $date){
             plugins: [ 'dayGrid', 'timeGrid', 'list'], // an array of strings!
             locale: 'fr',
             defaultView: 'timeGridWeek',
+            header: { center: 'dayGridMonth,timeGridWeek,timeGridDay' },
             displayEventEnd: true,
             minTime: "08:00:00",
             maxTime: "18:00:00",
@@ -45,7 +51,6 @@ foreach ($dates as $index => $date){
             aspectRatio: 1,
             height: "auto",
             eventSources: [
-
                 {
                     events: events,
                     color: '#e38b3f',     // an option!

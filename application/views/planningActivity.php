@@ -42,8 +42,8 @@ foreach ($dates as $index => $date){
         const calendar = new FullCalendar.Calendar(calendarEl, {
             plugins: [ 'dayGrid', 'timeGrid', 'list'], // an array of strings!
             locale: 'fr',
-            defaultView: 'timeGridWeek',
-            header: { center: 'dayGridMonth,timeGridWeek,timeGridDay' },
+            defaultView: $(window).width() < 760 ? 'timeGridDay' : 'timeGridWeek',
+            header: { right: $(window).width() < 760 ? 'timeGridDay,today prev,next': 'dayGridMonth,timeGridWeek,timeGridDay,today prev,next' },
             displayEventEnd: true,
             minTime: "08:00:00",
             maxTime: "18:00:00",
@@ -53,8 +53,8 @@ foreach ($dates as $index => $date){
             eventSources: [
                 {
                     events: events,
-                    color: '#e38b3f',     // an option!
-                    textColor: 'white' // an option!
+                    color: '#e38b3f',
+                    textColor: 'white'
                 }
             ],
         });

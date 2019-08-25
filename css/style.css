@@ -6606,3 +6606,12 @@ label {
 .activity-plan-container .datetimepicker-container {
   display: flex;
   flex-direction: column-reverse; }
+
+@media (max-width: 760px) {
+  .fc-header-toolbar {
+    display: flex;
+    flex-direction: column; }
+    .fc-header-toolbar .fc-left {
+      width: 100%; }
+    .fc-header-toolbar .fc-right {
+      width: 100%; } }

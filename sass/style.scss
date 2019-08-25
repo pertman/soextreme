@@ -317,3 +317,16 @@ label{
   }
 }
 
+//Calendar
+.fc-header-toolbar{
+  @media (max-width: 760px) {
+    display: flex;
+    flex-direction: column;
+    .fc-left{
+      width: 100%;
+    }
+    .fc-right{
+      width: 100%;
+    }
+  }
+}

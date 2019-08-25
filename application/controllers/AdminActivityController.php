@@ -156,4 +156,11 @@ class AdminActivityController extends MY_Controller{
             $this->load->view('template', $this->_params);
         }
     }
+
+    public function modifyPlanning(){
+//        @TODO Modify planning
+        $plaId      = $this->input->get('id');
+        var_dump("Modify planning n°" . $plaId);
+        die();
+    }
 }

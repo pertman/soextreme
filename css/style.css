@@ -6615,3 +6615,9 @@ label {
       width: 100%; }
     .fc-header-toolbar .fc-right {
       width: 100%; } }
+
+a[data-goto], .fc-day-header {
+  color: #4462a5; }
+
+.modal-card {
+  width: 80%; }

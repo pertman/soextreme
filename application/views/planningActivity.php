@@ -13,22 +13,49 @@
 </div>
 
 <div id="calendar" class="calendar-activity-container"></div>
+
+<div class="modal event-modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title"></p>
+            <button class="delete close-event-modal" aria-label="close"></button>
+        </header>
+        <input type="hidden" class="event_modal_pla_id">
+        <footer class="modal-card-foot">
+            <button class="button is-primary modify-event-modal">Modifier</button>
+            <button class="button close-event-modal">Annuler</button>
+        </footer>
+    </div>
+</div>
 <?php
 
 $events = array();
 $sessionNumber = 1;
 
 foreach ($dates as $index => $date){
-    $events[$index]['title'] = $activity['act_name'] . " Session " . $sessionNumber;
-    $events[$index]['date']  = $date['date'];
-    $events[$index]['start'] = $date['date'] . "T" . $date['start'];
-    $events[$index]['end']   = $date['date'] . "T" . $date['end'];
-
+    $events[$index]['title']    = $activity['act_name'] . " Session " . $sessionNumber;
+    $events[$index]['date']     = $date['date'];
+    $events[$index]['start']    = $date['date'] . "T" . $date['start'];
+    $events[$index]['end']      = $date['date'] . "T" . $date['end'];
+    $events[$index]['plaId']    = $date['pla_id'];
     $sessionNumber++;
 }
 ?>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        var baseUrl             = '<?php echo base_url() ?>';
+        var eventModal          = $('.event-modal');
+        var eventModalTitle     = $('.modal-card-title');
+        var evenModalPlaId      = $('.event_modal_pla_id');
+
+        $('.modify-event-modal').click(function () {
+            window.location.replace(baseUrl + "AdminActivityController/modifyPlanning?id=" + evenModalPlaId[0].value);
+        });
+        $('.close-event-modal').click(function () {
+            eventModal[0].classList.remove('is-active')
+        });
+
         let jsonString = '';
         <?php foreach ($events as $event) { ?>
             jsonString += JSON.stringify(<?php echo json_encode($event); ?>);
@@ -42,6 +69,8 @@ foreach ($dates as $index => $date){
         const calendar = new FullCalendar.Calendar(calendarEl, {
             plugins: [ 'dayGrid', 'timeGrid', 'list'], // an array of strings!
             locale: 'fr',
+            navLinks: true,
+            // eventLimit: 1,
             defaultView: $(window).width() < 760 ? 'timeGridDay' : 'timeGridWeek',
             header: { right: $(window).width() < 760 ? 'timeGridDay,today prev,next': 'dayGridMonth,timeGridWeek,timeGridDay,today prev,next' },
             displayEventEnd: true,
@@ -57,6 +86,11 @@ foreach ($dates as $index => $date){
                     textColor: 'white'
                 }
             ],
+            eventClick: function(calEvent, jsEvent, view, resourceObj) {
+                eventModal[0].classList.add('is-active');
+                eventModalTitle[0].innerHTML = calEvent.event.title;
+                evenModalPlaId[0].value = calEvent.event._def.extendedProps.plaId;
+            }
         });
 
         calendar.render();

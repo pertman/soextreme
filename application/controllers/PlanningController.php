@@ -54,6 +54,7 @@ class PlanningController extends MY_Controller
         $allPlanningItemsForActivity =  $this->PlanningModel->getAllPlanningItemsForActivity($activity['act_id']);
 
         foreach ($allPlanningItemsForActivity as $planningItem){
+            $plaId          = $planningItem['pla_id'];
             $periodStart    = $planningItem['pla_date_start'];
             $periodEnd      = $planningItem['pla_date_end'];
             $dayIndex       = $planningItem['tsl_day_index'];
@@ -64,9 +65,10 @@ class PlanningController extends MY_Controller
 
             foreach ($planningItemResult as $date){
                 $dateData = array(
-                    'date'  => $date,
-                    'start' => $startHour,
-                    'end'   => $endHour
+                    'date'      => $date,
+                    'start'     => $startHour,
+                    'end'       => $endHour,
+                    'pla_id'    => $plaId
                 );
 
                 $activityDate[] = $dateData;

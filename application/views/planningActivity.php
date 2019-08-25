@@ -12,11 +12,13 @@
 
 $events = array();
 $sessionNumber = 1;
-foreach ($dates as $dateKey => $date){
-    $events[$dateKey]['title'] = $activity['act_name'] . " Session " . $sessionNumber;
-    foreach ($date as $timeKey => $time){
-        $events[$dateKey][$timeKey] = $dateKey . "T" . $time;
-    }
+
+foreach ($dates as $index => $date){
+    $events[$index]['title'] = $activity['act_name'] . " Session " . $sessionNumber;
+    $events[$index]['date']  = $date['date'];
+    $events[$index]['start'] = $date['date'] . "T" . $date['start'];
+    $events[$index]['end']   = $date['date'] . "T" . $date['end'];
+
     $sessionNumber++;
 }
 ?>
@@ -44,15 +46,11 @@ foreach ($dates as $dateKey => $date){
             height: "auto",
             eventSources: [
 
-                // your event source
                 {
                     events: events,
                     color: '#e38b3f',     // an option!
                     textColor: 'white' // an option!
                 }
-
-                // any other event sources...
-
             ],
         });
 

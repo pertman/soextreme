@@ -63,8 +63,13 @@ class PlanningController extends MY_Controller
             $planningItemResult = $this->getIndexDayInRange($periodStart, $periodEnd, $dayIndex);
 
             foreach ($planningItemResult as $date){
-                $activityDate[$date]['start'] = $startHour;
-                $activityDate[$date]['end']   = $endHour;
+                $dateData = array(
+                    'date'  => $date,
+                    'start' => $startHour,
+                    'end'   => $endHour
+                );
+
+                $activityDate[] = $dateData;
             }
         }
 

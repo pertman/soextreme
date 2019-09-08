@@ -45,7 +45,13 @@ $light-grey : #f0f0f0;
 //General
 .input, .textarea{
   box-shadow: none;
+  border-color: #D0D1CD;
 }
+
+select.select{
+  border: 2px solid #D0D1CD;
+}
+
 .main-container.full-size{
   max-width : none;
 }

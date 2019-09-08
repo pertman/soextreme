@@ -8,6 +8,7 @@
 <?php $actBasePrice                 = ($isAct) ? $activity['act_base_price']: ""; ?>
 <?php $actDuration                  = ($isAct) ? $activity['act_duration']: ""; ?>
 <?php $actMonitorNb                 = ($isAct) ? $activity['act_monitor_nb']: ""; ?>
+<?php $actParticipantNb             = ($isAct) ? $activity['act_participant_nb']: ""; ?>
 <?php $actOperatorNb                = ($isAct) ? $activity['act_operator_nb']: ""; ?>
 <?php $actIsSpecialOffer            = ($isAct) ? $activity['act_is_special_offer']: ""; ?>
 <?php $actDescriptionSpecialOffer   = ($isAct) ? $activity['act_description_special_offer']: ""; ?>
@@ -65,6 +66,12 @@
         <label for="act_duration">Durée d'une session (min)</label>
         <div class="control">
             <input class="input" type="number" min="1" name="act_duration" value="<?php echo $actDuration; ?>" required>
+        </div>
+    </div>
+    <div class="field">
+        <label for="act_participant_nb">Nombre de participants</label>
+        <div class="control">
+            <input class="input" type="number" min="0" name="act_participant_nb" value="<?php echo $actParticipantNb; ?>" required>
         </div>
     </div>
     <div class="field">

@@ -6403,7 +6403,11 @@ label.panel-block {
   padding: 3rem 1.5rem 6rem; }
 
 .input, .textarea {
-  box-shadow: none; }
+  box-shadow: none;
+  border-color: #D0D1CD; }
+
+select.select {
+  border: 2px solid #D0D1CD; }
 
 .main-container.full-size {
   max-width: none; }

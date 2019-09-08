@@ -5,6 +5,7 @@ class PlanningController extends MY_Controller
 {
 
     protected $_params;
+    protected $_time;
     
     protected $_dayIndexLabelMapping = array(
           '1' => 'monday',
@@ -60,15 +61,21 @@ class PlanningController extends MY_Controller
             $dayIndex       = $planningItem['tsl_day_index'];
             $startHour      = $planningItem['tsl_hour_start'];
             $endHour        = $planningItem['tsl_hour_end'];
+            $duration       = $activity['act_duration'];
+            $participantNb  = $activity['act_participant_nb'];
 
             $planningItemResult = $this->getIndexDayInRange($periodStart, $periodEnd, $dayIndex);
+
+            //@TODO ADD AVAILABILITY TO SLOTS
+            $slots = getSessionsBetweenHours($startHour, $endHour, $duration);
 
             foreach ($planningItemResult as $date){
                 $dateData = array(
                     'date'      => $date,
                     'start'     => $startHour,
                     'end'       => $endHour,
-                    'pla_id'    => $plaId
+                    'pla_id'    => $plaId,
+                    'slots'     => $slots
                 );
 
                 $activityDate[] = $dateData;

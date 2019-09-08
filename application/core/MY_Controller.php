@@ -17,6 +17,7 @@ class MY_Controller extends CI_Controller {
     public function init(){
         $this->load->helper('url');
         $this->load->helper('main_helper');
+        $this->load->helper('planning_helper');
         $this->load->database();
         $this->load->model('UserModel');
         $this->load->model('ActivityModel');

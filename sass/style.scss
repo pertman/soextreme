@@ -343,4 +343,34 @@ a[data-goto], .fc-day-header{
 
 .modal-card{
   width: 80%;
+  .modal-card-foot{
+    flex-direction: column;
+    .time-slots{
+      display: flex;
+      flex-wrap: wrap;
+      label{
+        width: 40%;
+        margin: 5px;
+        padding: 10px;
+        background: #fffbff;
+        border-radius: 3px;
+        border: 1px solid $primary;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        user-select:none;
+        color: $primary;
+        &.selected{
+          color: $link;
+          border: 1px solid $link;
+        }
+        &:nth-child(2n){
+          margin-left: 10%;
+        }
+      }
+      input{
+        display: none;
+      }
+    }
+  }
 }

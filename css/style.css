@@ -6625,27 +6625,30 @@ a[data-goto], .fc-day-header {
 
 .modal-card {
   width: 80%; }
+  .modal-card .modal-card-body .time-slots {
+    display: flex;
+    flex-wrap: wrap; }
+    .modal-card .modal-card-body .time-slots label {
+      width: 40%;
+      margin-right: 10%;
+      margin-bottom: 10px;
+      padding: 10px;
+      background: #fffbff;
+      border-radius: 3px;
+      border: 1px solid #4462a5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      user-select: none;
+      color: #4462a5; }
+      .modal-card .modal-card-body .time-slots label.selected {
+        color: #e38b40;
+        border: 1px solid #e38b40; }
+      .modal-card .modal-card-body .time-slots label:nth-child(2n) {
+        margin-right: 0; }
+    .modal-card .modal-card-body .time-slots input {
+      display: none; }
+    .modal-card .modal-card-body .time-slots .value {
+      width: 30%; }
   .modal-card .modal-card-foot {
     flex-direction: column; }
-    .modal-card .modal-card-foot .time-slots {
-      display: flex;
-      flex-wrap: wrap; }
-      .modal-card .modal-card-foot .time-slots label {
-        width: 40%;
-        margin: 5px;
-        padding: 10px;
-        background: #fffbff;
-        border-radius: 3px;
-        border: 1px solid #4462a5;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        user-select: none;
-        color: #4462a5; }
-        .modal-card .modal-card-foot .time-slots label.selected {
-          color: #e38b40;
-          border: 1px solid #e38b40; }
-        .modal-card .modal-card-foot .time-slots label:nth-child(2n) {
-          margin-left: 10%; }
-      .modal-card .modal-card-foot .time-slots input {
-        display: none; }

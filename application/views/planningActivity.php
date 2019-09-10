@@ -21,14 +21,19 @@
             <p class="modal-card-title"></p>
             <button class="delete close-event-modal" aria-label="close"></button>
         </header>
-        <input type="hidden" class="event_modal_pla_id">
+        <section class="modal-card-body">
+            <form class='slot-form' action='<?php if (isCurrentUserCustomer()): ?>createReservation<?php else: ?>../AdminActivityController/modifyPlanning<?php endif; ?>' method='post'>
+                <?php if(isCurrentUserCustomer()): ?>
+                    <div class="time-slots"></div>
+                    <input type="hidden" name="event_modal_time" class="event_modal_time">
+                    <input type="hidden" name="event_modal_date" class="event_modal_date">
+                <?php endif; ?>
+                <input type="hidden" name="event_modal_pla_id" class="event_modal_pla_id">
+                <input type="hidden" name="event_modal_tsl_id" class="event_modal_tsl_id">
+            </form>
+        </section>
+
         <footer class="modal-card-foot">
-            <?php if(isCurrentUserCustomer()): ?>
-                <form class='slot-form' action='' method='post'>
-                    <div class="time-slots">
-                    </div>
-                </form>
-            <?php endif; ?>
             <div class="buttons">
                 <button class="button is-primary action-event-modal"></button>
                 <button class="button close-event-modal">Annuler</button>
@@ -47,6 +52,7 @@ foreach ($dates as $index => $date){
     $events[$index]['start']    = $date['date'] . "T" . $date['start'];
     $events[$index]['end']      = $date['date'] . "T" . $date['end'];
     $events[$index]['plaId']    = $date['pla_id'];
+    $events[$index]['tslId']    = $date['tsl_id'];
     $events[$index]['slots']    = $date['slots'];
 
     $sessionNumber++;
@@ -54,17 +60,14 @@ foreach ($dates as $index => $date){
 ?>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        var baseUrl             = '<?php echo base_url() ?>';
         var eventModal          = $('.event-modal');
         var eventModalTitle     = $('.modal-card-title');
         var evenModalPlaId      = $('.event_modal_pla_id');
+        var evenModalTslId      = $('.event_modal_tsl_id');
 
         $('.action-event-modal').click(function () {
-            <?php if(isCurrentUserCustomer()): ?>
-                console.log('user');
-            <?php else: ?>
-                window.location.replace(baseUrl + "AdminActivityController/modifyPlanning?id=" + evenModalPlaId[0].value);
-            <?php endif; ?>
+            $('.slot-form').submit();
+
         });
         $('.close-event-modal').click(function () {
             eventModal[0].classList.remove('is-active')
@@ -104,18 +107,31 @@ foreach ($dates as $index => $date){
                 eventModal[0].classList.add('is-active');
                 eventModalTitle[0].innerHTML = calEvent.event.title;
                 evenModalPlaId[0].value = calEvent.event._def.extendedProps.plaId;
+                evenModalTslId[0].value = calEvent.event._def.extendedProps.tslId;
                 <?php if(isCurrentUserCustomer()): ?>
                     $('.action-event-modal').text("Continuer");
                     let slots = calEvent.event._def.extendedProps.slots;
 
                     let slotsDiv = $('.time-slots');
                     slotsDiv.empty();
+
+
+                    let selectedDate = new Date(calEvent.event.start);
+
+                    let day     = ("0" + selectedDate.getDate()).slice(-2);
+                    let month   = ("0" + (selectedDate.getMonth() + 1)).slice(-2);
+                    let date    = day + '-' + month + '-' + selectedDate.getFullYear();
+
+                    $('.event_modal_date').attr('value', date);
+
                     for (let i = 0; i < slots.length; i++ ){
-                        let value = slots[i]['start'].slice(0, -3) + ' - ' + slots[i]['end'].slice(0, -3);
-                        slotsDiv.append('<label class="checkbox"> <span class="value">' + value + '</span><input type="checkbox" name="' + value + '"></label>');
+                        let value            = slots[i]['start'].slice(0, -3) + ' ' + slots[i]['end'].slice(0, -3);
+                        let availableTickets = slots[i]['participantNb'];
+                        slotsDiv.append('<label class="checkbox"> <span class="value">' + value + '</span><input type="checkbox" name="' + value + '"><div class="availableTickets">' + availableTickets + ' places disponibles</div></label>');
                     }
 
-                    $('.action-event-modal').attr("disabled", true)
+                    $('.action-event-modal').attr("disabled", true);
+
                     $('label.checkbox').change(function () {
                         $('label.checkbox.selected').each(function () {
                             $(this).removeClass('selected');
@@ -124,6 +140,10 @@ foreach ($dates as $index => $date){
                         this.classList.toggle('selected');
 
                         $('.action-event-modal').attr("disabled", false);
+
+                        let selectedCheckboxSpan    = $('.checkbox.selected > span');
+                        let selectedTimeSlotValue   = selectedCheckboxSpan[0].innerHTML.replace(' ','-');
+                        $('.event_modal_time').attr('value', selectedTimeSlotValue);
                     });
                 <?php else: ?>
                     $('.action-event-modal').text("Modifier");

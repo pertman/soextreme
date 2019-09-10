@@ -26,4 +26,18 @@ class PlanningModel extends CI_Model{
         $query = $this->db->query($sql, array($actId));
         return $query->result_array();
     }
+
+    public function getPlanningTimeSlotsById($tslId){
+        $sql = "SELECT * FROM time_slot 
+                WHERE tsl_id = ?";
+        $query = $this->db->query($sql, array($tslId));
+        return $query->row_array();
+    }
+
+    public function getPlanningByPlanningId($plaId){
+        $sql = "SELECT * FROM planning
+                WHERE planning.pla_id = ?";
+        $query = $this->db->query($sql, array($plaId));
+        return $query->row_array();
+    }
 }

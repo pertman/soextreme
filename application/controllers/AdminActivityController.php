@@ -158,8 +158,8 @@ class AdminActivityController extends MY_Controller{
     }
 
     public function modifyPlanning(){
-//        @TODO Modify planning
-        $plaId      = $this->input->get('id');
+//      @TODO Modify planning
+        $plaId      = $this->input->post('event_modal_pla_id');
         var_dump("Modify planning n°" . $plaId);
         die();
     }

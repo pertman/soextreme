@@ -343,14 +343,14 @@ a[data-goto], .fc-day-header{
 
 .modal-card{
   width: 80%;
-  .modal-card-foot{
-    flex-direction: column;
+  .modal-card-body{
     .time-slots{
       display: flex;
       flex-wrap: wrap;
       label{
         width: 40%;
-        margin: 5px;
+        margin-right: 10%;
+        margin-bottom: 10px;
         padding: 10px;
         background: #fffbff;
         border-radius: 3px;
@@ -365,12 +365,18 @@ a[data-goto], .fc-day-header{
           border: 1px solid $link;
         }
         &:nth-child(2n){
-          margin-left: 10%;
+          margin-right: 0;
         }
       }
       input{
         display: none;
       }
+      .value{
+        width: 30%;
+      }
     }
+  }
+  .modal-card-foot{
+    flex-direction: column;
   }
 }

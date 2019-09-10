@@ -10,6 +10,7 @@
 <?php $actMonitorNb                 = ($isAct) ? $activity['act_monitor_nb']: ""; ?>
 <?php $actParticipantNb             = ($isAct) ? $activity['act_participant_nb']: ""; ?>
 <?php $actOperatorNb                = ($isAct) ? $activity['act_operator_nb']: ""; ?>
+<?php $actRequiredAge               = ($isAct) ? $activity['act_required_age']: ""; ?>
 <?php $actIsSpecialOffer            = ($isAct) ? $activity['act_is_special_offer']: ""; ?>
 <?php $actDescriptionSpecialOffer   = ($isAct) ? $activity['act_description_special_offer']: ""; ?>
 <?php $actStatus                    = ($isAct) ? $activity['act_status']: ""; ?>
@@ -84,6 +85,12 @@
         <label for="act_operator_nb">Nombre d'opérateur requis</label>
         <div class="control">
             <input class="input" type="number" min="0" name="act_operator_nb" value="<?php echo $actOperatorNb; ?>" required>
+        </div>
+    </div>
+    <div class="field">
+        <label for="act_required_age">Age minimum requis</label>
+        <div class="control">
+            <input class="input" type="number" min="0" name="act_required_age" value="<?php echo $actRequiredAge; ?>" required>
         </div>
     </div>
     <div class="field">

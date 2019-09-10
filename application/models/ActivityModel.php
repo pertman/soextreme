@@ -46,8 +46,8 @@ class ActivityModel extends CI_Model{
         $category       = ($post['cat_id']) ? $post['cat_id'] : null;
         $isSpecialOffer = (isset($post['act_is_special_offer'])) ? 1 : 0;
 
-        $sql = 'INSERT INTO activity (act_name, act_description, act_resume, act_is_special_offer, act_description_special_offer,act_participant_nb, act_monitor_nb, act_operator_nb, act_duration, act_base_price, act_street, act_city, act_zipcode, act_country, act_created_at, act_updated_at, act_status, cat_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
-        return $this->db->query($sql, array($post['act_name'], $post['act_description'], $post['act_resume'], $isSpecialOffer, $post['act_description_special_offer'],  $post['act_participant_nb'], $post['act_monitor_nb'], $post['act_operator_nb'], $post['act_duration'], $post['act_base_price'], $post['act_street'], $post['act_city'], $post['act_zipcode'], $post['act_country'], $now, $now, $post['act_status'], $category));
+        $sql = 'INSERT INTO activity (act_name, act_description, act_resume, act_is_special_offer, act_description_special_offer,act_participant_nb, act_monitor_nb, act_operator_nb, act_duration, act_base_price, act_required_age, act_street, act_city, act_zipcode, act_country, act_created_at, act_updated_at, act_status, cat_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+        return $this->db->query($sql, array($post['act_name'], $post['act_description'], $post['act_resume'], $isSpecialOffer, $post['act_description_special_offer'],  $post['act_participant_nb'], $post['act_monitor_nb'], $post['act_operator_nb'], $post['act_duration'], $post['act_base_price'], $post['act_required_age'], $post['act_street'], $post['act_city'], $post['act_zipcode'], $post['act_country'], $now, $now, $post['act_status'], $category));
     }
 
     public function getActivitiesByCategoryId($catId){
@@ -66,8 +66,8 @@ class ActivityModel extends CI_Model{
         $category       = ($post['cat_id']) ? $post['cat_id'] : null;
         $isSpecialOffer = (isset($post['act_is_special_offer'])) ? 1 : 0;
 
-        $sql = 'UPDATE activity SET act_name = ?, act_description = ?, act_resume = ?, act_is_special_offer = ?, act_description_special_offer = ?, act_participant_nb = ?, act_monitor_nb = ?, act_operator_nb = ?, act_duration = ?, act_base_price = ?, act_street = ?, act_city = ?, act_zipcode = ?, act_country = ?, act_updated_at = ?, act_status = ?, cat_id = ? WHERE act_id = ?';
-        return $this->db->query($sql, array($post['act_name'], $post['act_description'], $post['act_resume'], $isSpecialOffer, $post['act_description_special_offer'], $post['act_participant_nb'], $post['act_monitor_nb'], $post['act_operator_nb'], $post['act_duration'], $post['act_base_price'], $post['act_street'], $post['act_city'], $post['act_zipcode'], $post['act_country'], $now, $post['act_status'], $category, $post['act_id']));
+        $sql = 'UPDATE activity SET act_name = ?, act_description = ?, act_resume = ?, act_is_special_offer = ?, act_description_special_offer = ?, act_participant_nb = ?, act_monitor_nb = ?, act_operator_nb = ?, act_duration = ?, act_base_price = ?, act_required_age = ?, act_street = ?, act_city = ?, act_zipcode = ?, act_country = ?, act_updated_at = ?, act_status = ?, cat_id = ? WHERE act_id = ?';
+        return $this->db->query($sql, array($post['act_name'], $post['act_description'], $post['act_resume'], $isSpecialOffer, $post['act_description_special_offer'], $post['act_participant_nb'], $post['act_monitor_nb'], $post['act_operator_nb'], $post['act_duration'], $post['act_base_price'], $post['act_required_age'], $post['act_street'], $post['act_city'], $post['act_zipcode'], $post['act_country'], $now, $post['act_status'], $category, $post['act_id']));
     }
 
     public function removeActivityCategoryId($catId){

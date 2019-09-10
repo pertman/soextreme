@@ -380,3 +380,18 @@ a[data-goto], .fc-day-header{
     flex-direction: column;
   }
 }
+
+//ReservationForm
+.reservationForm{
+  .participant{
+    margin: 25px 0;
+    .participant-label{
+      font-size: 1.5rem;
+      background: none;
+      margin-bottom: 10px;
+    }
+  }
+  .validate-reservation-form.hidden{
+    display: none;
+  }
+}

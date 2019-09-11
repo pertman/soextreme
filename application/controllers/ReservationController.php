@@ -66,9 +66,19 @@ class ReservationController extends MY_Controller
             $this->redirectHome();
         }
 
-        //@TODO check participant number availability with tslId
+        $formattedDate = formatDateFromFrToUs(str_replace('-','/', $inputDate));
+        $timeSlotReservationsNb = $this->ReservationModel->getReservationsNumberForTimeSlot($formattedDate, $timeSlot);
+
         $availableTickets = $activity['act_participant_nb'];
-        
+        if ($timeSlotReservationsNb){
+            $availableTickets -= $timeSlotReservationsNb['reservation_nb'];
+        }
+
+        if ($availableTickets == 0){
+            $_SESSION['messages'][] = "Tous les tickets de ce créneau horaire ont été réservés";
+            $this->redirectHome();
+        }
+
         $this->_params['headData']['title']         = 'Reservation d\' activité Etape 1';
         $this->_params['view']                      = 'reservationFormStep1';
         $this->_params['data']['tslId']             = $tslId;

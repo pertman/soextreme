@@ -12,4 +12,10 @@ class ReservationModel extends CI_Model{
         $query = $this->db->query($sql, array($date));
         return $query->result_array();
     }
+
+    public function getReservationsNumberForTimeSlot($date, $timeSlot){
+        $sql = "SELECT SUM(res_participant_nb) as reservation_nb FROM reservation WHERE res_date = ? AND res_time_slot = ?";
+        $query = $this->db->query($sql, array($date, $timeSlot));
+        return $query->row_array();
+    }
 }

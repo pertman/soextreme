@@ -22,11 +22,12 @@
             <button class="delete close-event-modal" aria-label="close"></button>
         </header>
         <section class="modal-card-body">
-            <form class='slot-form' action='<?php if (isCurrentUserCustomer()): ?>createReservation<?php else: ?>../AdminActivityController/modifyPlanning<?php endif; ?>' method='post'>
+            <form class='slot-form' action='<?php if (isCurrentUserCustomer()): ?>../ReservationController/reservationStep1<?php else: ?>../AdminActivityController/modifyPlanning<?php endif; ?>' method='post'>
                 <?php if(isCurrentUserCustomer()): ?>
                     <div class="time-slots"></div>
                     <input type="hidden" name="event_modal_time" class="event_modal_time">
                     <input type="hidden" name="event_modal_date" class="event_modal_date">
+                    <input type="hidden" name="event_modal_price" class="event_modal_price">
                 <?php endif; ?>
                 <input type="hidden" name="event_modal_pla_id" class="event_modal_pla_id">
                 <input type="hidden" name="event_modal_tsl_id" class="event_modal_tsl_id">
@@ -127,12 +128,19 @@ foreach ($dates as $index => $date){
                     for (let i = 0; i < slots.length; i++ ){
                         let value            = slots[i]['start'].slice(0, -3) + ' ' + slots[i]['end'].slice(0, -3);
                         let availableTickets = slots[i]['participantNb'];
-                        slotsDiv.append('<label class="checkbox"> <span class="value">' + value + '</span><input type="checkbox" name="' + value + '"><div class="availableTickets">' + availableTickets + ' places disponibles</div></label>');
+                        let price            = slots[i]['price'];
+
+                        let className = '';
+                        if (availableTickets === 0){
+                            className = 'disabled';
+                        }
+
+                        slotsDiv.append('<label class="checkbox ' + className + '"><div class="row"><span class="time">' + value + '</span><input type="checkbox" name="' + value + '"><div class="price">' + price + ' €</div></div><div class="row"><div class="availableTickets">' + availableTickets + ' places disponibles</div></div></label>');
                     }
 
                     $('.action-event-modal').attr("disabled", true);
 
-                    $('label.checkbox').change(function () {
+                    $('label.checkbox:not(.disabled)').change(function () {
                         $('label.checkbox.selected').each(function () {
                             $(this).removeClass('selected');
                         });
@@ -141,9 +149,14 @@ foreach ($dates as $index => $date){
 
                         $('.action-event-modal').attr("disabled", false);
 
-                        let selectedCheckboxSpan    = $('.checkbox.selected > span');
+                        let selectedCheckboxSpan    = $('.checkbox.selected .time');
                         let selectedTimeSlotValue   = selectedCheckboxSpan[0].innerHTML.replace(' ','-');
+                        
+                        let priceDiv                =  $('.checkbox.selected .price');
+                        let price                   = priceDiv[0].innerHTML.replace(' €','');
+
                         $('.event_modal_time').attr('value', selectedTimeSlotValue);
+                        $('.event_modal_price').attr('value', price);
                     });
                 <?php else: ?>
                     $('.action-event-modal').text("Modifier");

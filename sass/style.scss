@@ -2,12 +2,13 @@
 
 @import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
 
-$blue: #4462a5;
+//$blue: #4462a5;
+$blue: #1f3158;
+$orange: #ff9437;
 
 $tablet: 1012px !default
 
 $grey: #dbdbdb;
-$orange: #e38b40;
 $brown: #757763;
 
 $beige-light: #D0D1CD;
@@ -355,11 +356,17 @@ a[data-goto], .fc-day-header{
         background: #fffbff;
         border-radius: 3px;
         border: 1px solid $primary;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         user-select:none;
         color: $primary;
+        &.disabled{
+          cursor: default;
+          background: darkgrey;
+        }
+        .row{
+          display: flex;
+          justify-content: space-between;
+          margin: 5px 0;
+        }
         &.selected{
           color: $link;
           border: 1px solid $link;
@@ -382,7 +389,11 @@ a[data-goto], .fc-day-header{
 }
 
 //ReservationForm
-.reservationForm{
+.session-description{
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+.reservationForm1{
   .participant{
     margin: 25px 0;
     .participant-label{
@@ -394,4 +405,21 @@ a[data-goto], .fc-day-header{
   .validate-reservation-form.hidden{
     display: none;
   }
+}
+
+.reservation-tickets{
+  .ticket{
+    padding: 10px;
+    border: 1px solid $primary;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+  }
+}
+
+.reservation-total{
+  font-size: 1.4rem;
+  color: $orange;
+  float: right;
 }

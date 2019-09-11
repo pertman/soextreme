@@ -1,11 +1,12 @@
 <div class="page-title">
-    Réservation
+    Réservation Etape 1
 </div>
 
-<div class="session-title">
-    <?php echo $activity['act_name']; ?>
-    <?php echo $selectedDate; ?>
-    <?php echo $selectedTime; ?>
+<div class="session-description">
+    <div class="session-name"><?php echo $activity['act_name']; ?></div>
+    <div class="session-date"><?php echo $selectedDate; ?></div>
+    <div class="session-hours"><?php echo $selectedTime; ?></div>
+    <div class="session-price">Prix hors réduction age : <?php echo $price." €"; ?></div>
 </div>
 
 
@@ -23,15 +24,19 @@
 </div>
 
 
-    <div class="buttons">
-        <button class="button is-link validate-participant-nb">Valider</button>
-    </div>
+<div class="buttons">
+    <button class="button is-link validate-participant-nb">Valider</button>
+</div>
 
 
-<form class="reservationForm" method="post" action="create">
+<form class="reservationForm1" method="post" action="reservationStep2">
     <div class="participants">
     </div>
     <input type="hidden" name="tsl_id" value="<?php echo $tslId; ?>">
+    <input type="hidden" name="pla_id" value="<?php echo $plaId; ?>">
+    <input type="hidden" name="date" value="<?php echo $selectedDate; ?>">
+    <input type="hidden" name="time" value="<?php echo $selectedTime; ?>">
+    <input type="hidden" name="price" value="<?php echo $price; ?>">
     <div class="buttons">
         <div class="field">
             <div class="control">
@@ -71,7 +76,7 @@
 '                    <div class="field">\n'+
 '                        <label for="usr_firstname">Prénom</label>\n'+
 '                        <div class="control">\n'+
-'                            <input type="text" class="input" name="participant-[' + participantIndex + '][usr_firstname]" required>\n'+
+'                            <input type="text" class="input" name="participants[' + participantIndex + '][usr_firstname]" required>\n'+
 '                        </div>\n'+
 '                    </div>\n'+
 '                </div>\n'+
@@ -79,7 +84,7 @@
 '                    <div class="field">\n'+
 '                        <label for="usr_lastname">Nom</label>\n'+
 '                        <div class="control">\n'+
-'                            <input type="text" class="input" name="participant-[' + participantIndex + '][usr_lastname]" required>\n'+
+'                            <input type="text" class="input" name="participants[' + participantIndex + '][usr_lastname]" required>\n'+
 '                        </div>\n'+
 '                     </div>\n'+
 '                 </div>\n'+
@@ -89,7 +94,7 @@
 '                    <div class="field">\n'+
 '                        <label for="usr_age">Age</label>\n'+
 '                        <div class="control">\n'+
-'                            <input type="number" class="input" min="<?php echo $activity['act_required_age']; ?>" name="participant-[' + participantIndex + '][usr_age]" required>\n'+
+'                            <input type="number" class="input" min="<?php echo $activity['act_required_age']; ?>" name="participants[' + participantIndex + '][usr_age]" required>\n'+
 '                        </div>\n'+
 '                    </div>\n'+
 '                </div>\n'+
@@ -97,7 +102,7 @@
 '                    <div class="field">\n'+
 '                       <label for="usr_gift_email">Email du destinataire du cadeau (Optionnel) </label>\n'+
 '                         <div class="control">\n'+
-'                           <input type="text" class="input" name="participant-[' + participantIndex + '][usr_gift_email]">\n'+
+'                           <input type="text" class="input" name="participants[' + participantIndex + '][usr_gift_email]">\n'+
 '                        </div>\n'+
 '                    </div>\n'+
 '                </div>\n'+

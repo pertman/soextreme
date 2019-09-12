@@ -89,17 +89,13 @@ class AdminActivityController extends MY_Controller{
         if ($post = $this->input->post()) {
 
             $dateArray      = explode(' - ', $post['date_range']);
-            $datetimeStart = (isset($dateArray[0])) ? $dateArray[0] : null;
-            $datetimeEnd   = (isset($dateArray[1])) ? $dateArray[1] : null;
+            $dateStart = (isset($dateArray[0])) ? $dateArray[0] : null;
+            $dateEnd   = (isset($dateArray[1])) ? $dateArray[1] : null;
 
-            if ($datetimeEnd  && $datetimeStart){
-                $datetimeStartArray    = explode(' ', $datetimeStart);
-                $datetimeEndArray      = explode(' ', $datetimeEnd);
+            $hourStart = $post['timeStart'];
+            $hourEnd   = $post['timeEnd'];
 
-                $dateStart             = $datetimeStartArray[0];
-                $hourStart             = $datetimeStartArray[1];
-                $dateEnd               = $datetimeEndArray[0];
-                $hourEnd               = $datetimeEndArray[1];
+            if ($dateStart  && $dateEnd && $hourStart && $hourEnd){
 
                 $monday     = (isset($post['monday'])) ? 1 : 0;
                 $tuesday    = (isset($post['tuesday'])) ? 1 : 0;
@@ -159,5 +155,12 @@ class AdminActivityController extends MY_Controller{
             $this->_params['data']['activity']  = $activity;
             $this->load->view('template', $this->_params);
         }
+    }
+
+    public function modifyPlanning(){
+//      @TODO Modify planning
+        $plaId      = $this->input->post('event_modal_pla_id');
+        var_dump("Modify planning n°" . $plaId);
+        die();
     }
 }

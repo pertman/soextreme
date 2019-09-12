@@ -25,4 +25,12 @@ class UserModel extends CI_Model {
         $query = $this->db->query($sql,array($id));
         return $query->row_array();
     }
+
+    public function getAllUsersFromType($type){
+        $sql = "SELECT * FROM user
+                LEFT JOIN user_type ON user.ust_id = user_type.ust_id
+                WHERE user_type.ust_value = ?";
+        $query = $this->db->query($sql, array($type));
+        return $query->result_array();
+    }
 }

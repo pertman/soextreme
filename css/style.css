@@ -6406,7 +6406,7 @@ label.panel-block {
   box-shadow: none;
   border-color: #D0D1CD; }
 
-select.select {
+select.select, .select > select {
   border: 2px solid #D0D1CD; }
 
 .main-container.full-size {
@@ -6460,6 +6460,10 @@ label {
 .datetimepicker {
   max-width: 100%;
   margin: auto; }
+
+.timepicker-input {
+  padding-top: 12px;
+  padding-bottom: 5px; }
 
 @media screen and (max-width: 1023px) {
   .navbar-menu.is-active {
@@ -6603,10 +6607,6 @@ label {
   .activity-plan-container .daySelectPlan input {
     display: none; }
 
-.activity-plan-container .timepicker-input {
-  padding-top: 12px;
-  padding-bottom: 5px; }
-
 .activity-plan-container .datetimepicker-container {
   display: flex;
   flex-direction: column-reverse; }
@@ -6683,3 +6683,13 @@ a[data-goto], .fc-day-header {
   font-size: 1.4rem;
   color: #ff9437;
   float: right; }
+
+.promotionForm .field.hidden {
+  display: none; }
+
+.promotionForm .other-field {
+  display: none; }
+
+.promotionForm .explaination-message {
+  color: #ff9437;
+  font-size: 1.2rem; }

@@ -49,7 +49,7 @@ $light-grey : #f0f0f0;
   border-color: #D0D1CD;
 }
 
-select.select{
+select.select, .select > select{
   border: 2px solid #D0D1CD;
 }
 
@@ -116,6 +116,11 @@ label{
 .datetimepicker{
   max-width: 100%;
   margin: auto;
+}
+
+.timepicker-input{
+  padding-top : 12px;
+  padding-bottom: 5px;
 }
 
 @media screen and (max-width: 1023px) {
@@ -313,11 +318,6 @@ label{
     }
   }
 
-  .timepicker-input{
-    padding-top : 12px;
-    padding-bottom: 5px;
-  }
-
   .datetimepicker-container{
     display: flex;
     flex-direction: column-reverse;
@@ -422,4 +422,18 @@ a[data-goto], .fc-day-header{
   font-size: 1.4rem;
   color: $orange;
   float: right;
+}
+
+//Promotion
+.promotionForm{
+  .field.hidden{
+    display: none;
+  }
+  .other-field{
+    display: none;
+  }
+  .explaination-message{
+    color: $orange;
+    font-size: 1.2rem;
+  }
 }

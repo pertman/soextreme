@@ -102,11 +102,18 @@
         this.classList.toggle('selected');
     });
 
-    const timePickerElement = document.querySelector('#timePicker');
+    var startHoursElement   = $('.timepicker-start .timepicker-hours .timepicker-input-number');
+    var startMinutesElement = $('.timepicker-start .timepicker-minutes .timepicker-input-number');
+    let startHours          = startHoursElement[0].innerHTML;
+    let startMinutes        = startMinutesElement[0].innerHTML;
 
-    timePickerElement.bulmaCalendar.on('select', timePicker => {
+    var endHoursElement     = $('.timepicker-end .timepicker-hours .timepicker-input-number');
+    var endtMinutesElement  = $('.timepicker-end .timepicker-minutes .timepicker-input-number');
+    let endHours            = endHoursElement[0].innerHTML;
+    let endMinutes          = endtMinutesElement[0].innerHTML;
 
-    });
+    $('#timeStart')[0].value = startHours + ":" + startMinutes;
+    $('#timeEnd')[0].value = endHours + ":" + endMinutes;
 
     //Start Hours
     $('.timepicker-start .timepicker-hours .timepicker-next').on('click', function () {
@@ -183,7 +190,7 @@
             newEndTime = startHours + ":" + formatHours(parseInt(startMinutes) - 1);
         }
 
-        $('timeStart')[0].value = newEndTime;
+        $('#timeStart')[0].value = newEndTime;
     });
 
     //End Hours

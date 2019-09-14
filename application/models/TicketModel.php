@@ -12,4 +12,9 @@ class TicketModel extends CI_Model{
         $sql = 'INSERT INTO `ticket_reservation_link` (`res_id`, `tic_id`) VALUES (?,?)';
         return $this->db->query($sql, array($resId, $ticId));
     }
+
+    public function createTicketPromotionLink($ticId, $proId){
+        $sql = 'INSERT INTO `ticket_promotion_link` (`tic_id`, `pro_id`) VALUES (?,?)';
+        return $this->db->query($sql, array($ticId, $proId));
+    }
 }

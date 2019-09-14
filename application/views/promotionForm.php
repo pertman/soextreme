@@ -7,10 +7,16 @@
 <?php $proType          = ($isPromotion) ? $promotion['pro_type']: ""; ?>
 <?php $proAgeMin        = ($isPromotion) ? $promotion['pro_age_min']: ""; ?>
 <?php $proAgeMax        = ($isPromotion) ? $promotion['pro_age_max']: ""; ?>
-<?php $proCartAmount    = ($isPromotion) ? $promotion['pro_cart_amount']: ""; ?>
-<?php $proCode          = ($isPromotion) ? $promotion['pro_code']: ""; ?>
-<?php $proMaxUse        = ($isPromotion) ? $promotion['pro_max_use']: ""; ?>
 <?php $dateRange        = ($isPromotion) ? $promotion['date_range']: ""; ?>
+<?php $actIds           = (isset($pro_activities)) ? $pro_activities : array(); ?>
+<?php $catIds           = (isset($pro_categories)) ? $pro_categories : array(); ?>
+
+<?php if ($isAllPromotionsConditionActivated): ?>
+    <?php $proCartAmount    = ($isPromotion) ? $promotion['pro_cart_amount']: ""; ?>
+    <?php $proCode          = ($isPromotion) ? $promotion['pro_code']: ""; ?>
+    <?php $proMaxUse        = ($isPromotion) ? $promotion['pro_max_use']: ""; ?>
+    <?php $usrIds           = (isset($pro_users)) ? $pro_users : array(); ?>
+<?php endif; ?>
 
 <?php $startDate = ''; ?>
 <?php $endDate   = ''; ?>
@@ -28,9 +34,6 @@
 
 <?php $isPromotionModification = ($isPromotion && isset($post['pro_id'])) ? true : false; ?>
 
-<?php $actIds           = (isset($pro_activities)) ? $pro_activities : array(); ?>
-<?php $catIds           = (isset($pro_categories)) ? $pro_categories : array(); ?>
-<?php $usrIds           = (isset($pro_users)) ? $pro_users : array(); ?>
 
 <div class="page-title">
     <?php if ($isPromotionModification): ?>Modification de promotion<?php else: ?>Création de promotion<?php endif; ?>
@@ -118,26 +121,28 @@
         <input type="hidden" id="timeEnd" name="timeEnd" value="">
     </div>
 
-    <div class="field other-field">
-        <label for="pro_cart_amount">Montant minimum du panier</label>
-        <div class="control">
-            <input class="input" type="number" min="1" name="pro_cart_amount" value="<?php echo $proCartAmount; ?>" >
+    <?php if ($isAllPromotionsConditionActivated): ?>
+        <div class="field other-field">
+            <label for="pro_cart_amount">Montant minimum du panier</label>
+            <div class="control">
+                <input class="input" type="number" min="1" name="pro_cart_amount" value="<?php echo $proCartAmount; ?>" >
+            </div>
         </div>
-    </div>
 
-    <div class="field other-field">
-        <label for="pro_code">Code coupon</label>
-        <div class="control">
-            <input class="input" type="text" name="pro_code" value="<?php echo $proCode; ?>">
+        <div class="field other-field">
+            <label for="pro_code">Code coupon</label>
+            <div class="control">
+                <input class="input" type="text" name="pro_code" value="<?php echo $proCode; ?>">
+            </div>
         </div>
-    </div>
 
-    <div class="field other-field">
-        <label for="pro_max_use">Nombre maximum d'utilisation</label>
-        <div class="control">
-            <input class="input" type="number" name="pro_max_use" value="<?php echo $proMaxUse; ?>" >
+        <div class="field other-field">
+            <label for="pro_max_use">Nombre maximum d'utilisation</label>
+            <div class="control">
+                <input class="input" type="number" name="pro_max_use" value="<?php echo $proMaxUse; ?>" >
+            </div>
         </div>
-    </div>
+    <?php endif; ?>
 
     <div class="field other-field">
         <label for="act_ids[]">Activités</label>
@@ -173,22 +178,24 @@
         </div>
     </div>
 
-    <div class="field other-field">
-        <label for="usr_ids[]">Utilisateurs</label>
-        <div class="control">
-            <div class="select is-multiple">
-                <select multiple size="4" name="usr_ids[]">
-                    <option value="" disabled>Selectionnez un ou plusieurs utilisateurs</option>
-                    <?php if (isset($users)) : ?>
-                        <?php foreach($users as $user) : ?>
-                            <?php $isCurrentProUser = in_array($user['usr_id'], $usrIds) ?>
-                            <option value="<?php echo $user['usr_id']; ?>" <?php if ($isCurrentProUser): ?>selected<?php endif; ?>><?php echo strtoupper($user['usr_lastname']) . " " . $user['usr_firstname']; ?></option>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </select>
+    <?php if ($isAllPromotionsConditionActivated): ?>
+        <div class="field other-field">
+            <label for="usr_ids[]">Utilisateurs</label>
+            <div class="control">
+                <div class="select is-multiple">
+                    <select multiple size="4" name="usr_ids[]">
+                        <option value="" disabled>Selectionnez un ou plusieurs utilisateurs</option>
+                        <?php if (isset($users)) : ?>
+                            <?php foreach($users as $user) : ?>
+                                <?php $isCurrentProUser = in_array($user['usr_id'], $usrIds) ?>
+                                <option value="<?php echo $user['usr_id']; ?>" <?php if ($isCurrentProUser): ?>selected<?php endif; ?>><?php echo strtoupper($user['usr_lastname']) . " " . $user['usr_firstname']; ?></option>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </select>
+                </div>
             </div>
         </div>
-    </div>
+    <?php endif; ?>
 
     <div class="field other-field">
         <label class="checkbox">

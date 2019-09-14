@@ -22,14 +22,15 @@ class AdminPromotionController extends MY_Controller
 
     public function createPromotion()
     {
-
+//        @TODO create prio
         $this->_params['headData']['title'] = 'Création de promotion';
         $this->_params['view'] = 'promotionForm';
 
         $this->_params['data']['activities'] = $this->ActivityModel->getAllActivities();
         $this->_params['data']['categories'] = $this->CategoryModel->getActiveCategories();
-        $this->_params['data']['users'] = $this->UserModel->getAllUsersFromType('customer');
 
+        $this->_params['data']['isAllPromotionsConditionActivated'] = false;
+//        $this->_params['data']['users'] = $this->UserModel->getAllUsersFromType('customer');
 
         if ($post = $this->input->post()) {
             $this->_params['data']['promotion'] = $post;
@@ -55,7 +56,7 @@ class AdminPromotionController extends MY_Controller
                 $this->_params['data']['pro_categories'] = (isset($post['cat_ids'])) ? $post['cat_ids'] : array();
                 $this->_params['data']['pro_users'] = (isset($post['usr_ids'])) ? $post['usr_ids'] : array();
 
-                if (!$post['date_range'] && !$post['timeStart'] && !$post['timeEnd'] && !$post['pro_cart_amount'] && !$post['pro_code'] && !isset($post['act_ids']) && !isset($post['cat_ids']) && !isset($post['usr_ids'])) {
+                if (!$post['date_range'] && !$post['timeStart'] && !$post['timeEnd']  && !isset($post['act_ids']) && !isset($post['cat_ids'])) {
                     $_SESSION['messages'][] = "Veuillez renseigner au moins une condition";
                     return $this->load->view('template', $this->_params);
                 }
@@ -72,17 +73,28 @@ class AdminPromotionController extends MY_Controller
 
                 $actIds = (isset($post['act_ids'])) ? implode(',', $post['act_ids']) : "";
                 $catIds = (isset($post['cat_ids'])) ? implode(',', $post['cat_ids']) : "";
-                $usrIds = (isset($post['usr_ids'])) ? implode(',', $post['usr_ids']) : "";
+//                $usrIds = (isset($post['usr_ids'])) ? implode(',', $post['usr_ids']) : "";
 
-                $startDate = '';
-                $endDate = '';
+                $startDate  = null;
+                $endDate    = null;
 
                 if ($post['date_range']) {
                     $dateRangeArray = explode(' - ', $post['date_range']);
                     $startDate = $dateRangeArray[0];
                     $endDate = $dateRangeArray[1];
                 }
-                $this->PromotionModel->createOtherPromotion($post, $startDate, $endDate, $actIds, $catIds, $usrIds);
+
+                $timeStart = ($post['timeStart']) ? $post['timeStart'] : null;
+                $timeEnd   = ($post['timeEnd']) ? $post['timeEnd'] : null;
+
+                if (!$actIds){
+                    $actIds = null;
+                }
+                if (!$catIds){
+                    $catIds = null;
+                }
+
+                $this->PromotionModel->createOtherPromotion($post, $startDate, $endDate, $timeStart, $timeEnd, $actIds, $catIds);
 
                 $_SESSION['messages'][] = "La promotion a bien été créé";
                 $this->redirectHome();

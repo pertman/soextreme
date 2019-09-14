@@ -360,7 +360,7 @@ a[data-goto], .fc-day-header{
         color: $primary;
         &.disabled{
           cursor: default;
-          background: darkgrey;
+          background: #a9a9a9a9;
         }
         .row{
           display: flex;
@@ -368,8 +368,13 @@ a[data-goto], .fc-day-header{
           margin: 5px 0;
         }
         &.selected{
-          color: $link;
+          background: #ff943712;
           border: 1px solid $link;
+        }
+        &:hover{
+          &:not(.disabled){
+            background: #ff943712;
+          }
         }
         &:nth-child(2n){
           margin-right: 0;
@@ -392,6 +397,13 @@ a[data-goto], .fc-day-header{
 .session-description{
   font-size: 1.2rem;
   margin-bottom: 20px;
+  .row{
+    display: flex;
+    width: 100%;
+    .session-label{
+      width: 40%;
+    }
+  }
 }
 .reservationForm1{
   .participant{
@@ -415,6 +427,16 @@ a[data-goto], .fc-day-header{
     display: flex;
     justify-content: space-between;
     font-size: 1.2rem;
+    .ticket-column.left{
+      width: 100%;
+    }
+    .row{
+      display: flex;
+      width: 100%;
+      .ticket-label{
+        width: 35%;
+      }
+    }
   }
 }
 
@@ -436,4 +458,20 @@ a[data-goto], .fc-day-header{
     color: $orange;
     font-size: 1.2rem;
   }
+}
+
+//Prices
+.prices{
+  display: flex;
+  align-items: baseline;
+}
+
+.price.special-price{
+  color: $link;
+}
+
+.base-price{
+  text-decoration: line-through;
+  margin-right: 10px;
+  font-size: 0.9rem;
 }

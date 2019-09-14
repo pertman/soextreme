@@ -174,6 +174,9 @@ class PlanningController extends MY_Controller
 
         foreach ($dateSlots as $timeKey => $dateSlot){
             $dateSlots[$timeKey]['base_price'] = formatPrice($dateSlots[$timeKey]['price']);
+            
+            $priorities = array();
+            
             foreach ($datePromotions as $datePromotion){
 
                 if ($datePromotion['pro_act_ids']){
@@ -195,15 +198,64 @@ class PlanningController extends MY_Controller
                     continue;
                 }
 
+                $priorityPrice = null;
+
                 if ($discountAmount = $datePromotion['pro_discount_fix']){
-                    $dateSlots[$timeKey]['price'] = $dateSlots[$timeKey]['price'] - $discountAmount;
+                    $priorityPrice = $dateSlots[$timeKey]['price'] - $discountAmount;
                 }
                 if ($discountPercent = $datePromotion['pro_discount_percent']){
-                    $dateSlots[$timeKey]['price'] = $dateSlots[$timeKey]['price'] * (1 - $discountPercent * 0.01);
+                    $priorityPrice = $dateSlots[$timeKey]['price'] * (1 - $discountPercent * 0.01);
+                }
+                
+                if (!isset($priorities[$timeKey][$datePromotion['pro_priority']])){
+                    $priorities[$timeKey][$datePromotion['pro_priority']]['pro_id'] = $datePromotion['pro_id'];
+                    $priorities[$timeKey][$datePromotion['pro_priority']]['price']                                              = $priorityPrice;
+                    $priorities[$timeKey][$datePromotion['pro_priority']][$datePromotion['pro_id']]['name']                     = $datePromotion['pro_name'];
+
+                    if ($discountAmount = $datePromotion['pro_discount_fix']){
+                        $priorities[$timeKey][$datePromotion['pro_priority']][$datePromotion['pro_id']]['discount_amount']      = $discountAmount;
+                        $priorities[$timeKey][$datePromotion['pro_priority']][$datePromotion['pro_id']]['discount_percent']     = null;
+                    }
+                    if ($discountPercent = $datePromotion['pro_discount_percent']){
+                        $priorities[$timeKey][$datePromotion['pro_priority']][$datePromotion['pro_id']]['discount_amount']      = null;
+                        $priorities[$timeKey][$datePromotion['pro_priority']][$datePromotion['pro_id']]['discount_percent']     = $discountPercent;
+                    }
+
+                }else{
+                    if ($priorityPrice < $priorities[$timeKey][$datePromotion['pro_priority']]['price']){
+                        $priorities[$timeKey][$datePromotion['pro_priority']]['pro_id'] = $datePromotion['pro_id'];
+                        $priorities[$timeKey][$datePromotion['pro_priority']]['price']                                          = $priorityPrice;
+                        $priorities[$timeKey][$datePromotion['pro_priority']][$datePromotion['pro_id']]['name']                 = $datePromotion['pro_name'];
+
+                        $priorities[$timeKey][$datePromotion['pro_priority']][$datePromotion['pro_id']]['discount_amount']      = null;
+                        $priorities[$timeKey][$datePromotion['pro_priority']][$datePromotion['pro_id']]['discount_percent']     = null;
+
+                        if ($discountAmount = $datePromotion['pro_discount_fix']){
+                            $priorities[$timeKey][$datePromotion['pro_priority']][$datePromotion['pro_id']]['discount_amount']    = $discountAmount;
+                            $priorities[$timeKey][$datePromotion['pro_priority']][$datePromotion['pro_id']]['discount_percent']   = null;
+                        }
+                        if ($discountPercent = $datePromotion['pro_discount_percent']){
+                            $priorities[$timeKey][$datePromotion['pro_priority']][$datePromotion['pro_id']]['discount_amount']    = null;
+                            $priorities[$timeKey][$datePromotion['pro_priority']][$datePromotion['pro_id']]['discount_percent']   = $discountPercent;
+                        }
+                    }
+                }
+            }
+
+            foreach ($priorities as $priorityTimeKey => $priority){
+                foreach ($priority as $priorityKey => $priorityPromotions){
+                    if ($discountAmount = $priorityPromotions[$priorityPromotions['pro_id']]['discount_amount']){
+                        $dateSlots[$timeKey]['price']  = $dateSlots[$timeKey]['price'] - $discountAmount;
+                    }
+                    if ($discountPercent = $priorityPromotions[$priorityPromotions['pro_id']]['discount_percent']){
+                        $dateSlots[$timeKey]['price']  = $dateSlots[$timeKey]['price'] * (1 - $discountPercent * 0.01);
+                    }
+                    $dateSlots[$timeKey]['promotions'][$priorityKey]['pro_id']      = $priorityPromotions['pro_id'];
+                    $dateSlots[$timeKey]['promotions'][$priorityKey]['pro_name']    = $priorityPromotions[$priorityPromotions['pro_id']]['name'];
                 }
 
-                $dateSlots[$timeKey]['promotions'][$datePromotion['pro_id']] = $datePromotion['pro_name'];
             }
+
             $dateSlots[$timeKey]['price'] = formatPrice($dateSlots[$timeKey]['price']);
         }
 

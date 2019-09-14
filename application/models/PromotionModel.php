@@ -13,8 +13,8 @@ class PromotionModel extends CI_Model{
         $proDiscountType    = $post['pro_discount_type'];
         $proDiscountValue   = $post['pro_discount_value'];
 
-        $sql = 'INSERT INTO `promotion` (`pro_name`, `pro_description`, `pro_type`, `' . $proDiscountType . '`, `pro_date_start`, `pro_date_end`, `pro_hour_start`, `pro_hour_end`, `pro_is_active`, `pro_act_ids`, `pro_cat_ids`) VALUES (?,?,?,?,?,?,?,?,?,?,?)';
-        return $this->db->query($sql, array($post['pro_name'], $post['pro_description'], $post['pro_type'], $proDiscountValue, $startDate, $endDate, $timeStart, $timeEnd, '1', $actIds, $catIds));
+        $sql = 'INSERT INTO `promotion` (`pro_name`, `pro_description`, `pro_type`, `' . $proDiscountType . '`, `pro_priority`, `pro_date_start`, `pro_date_end`, `pro_hour_start`, `pro_hour_end`, `pro_is_active`, `pro_act_ids`, `pro_cat_ids`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)';
+        return $this->db->query($sql, array($post['pro_name'], $post['pro_description'], $post['pro_type'], $proDiscountValue, $post['pro_priority'], $startDate, $endDate, $timeStart, $timeEnd, '1', $actIds, $catIds));
     }
 
     public function getAllPromotions(){
@@ -27,8 +27,10 @@ class PromotionModel extends CI_Model{
         $sql = "SELECT * FROM promotion WHERE pro_is_active = 1 AND pro_date_start IS NOT NULL AND pro_date_end IS NOT NULL AND pro_date_start <= ? AND pro_date_end >= ? 
                                         OR pro_is_active = 1 AND pro_hour_start IS NOT NULL AND pro_hour_end IS NULL AND pro_hour_start >= ?
                                         OR pro_is_active = 1 AND pro_hour_start IS NULL AND pro_hour_end IS NOT NULL AND pro_hour_end <= ?
-                                        OR pro_is_active = 1 AND pro_hour_start IS NOT NULL AND pro_hour_end IS NOT NULL AND pro_hour_start >= ? AND pro_hour_end <= ?";
-        $query = $this->db->query($sql,array($date,$date,$startHour,$endHour,$startHour,$endHour));
+                                        OR pro_is_active = 1 AND pro_hour_start IS NOT NULL AND pro_hour_end IS NOT NULL AND pro_hour_start >= ? AND pro_hour_end <= ?
+                                        OR pro_is_active = 1 AND pro_date_start IS NULL AND pro_date_end IS NULL AND pro_hour_start IS  NULL AND pro_hour_end IS NULL AND pro_type = ?
+                                        ORDER BY pro_priority";
+        $query = $this->db->query($sql,array($date,$date,$startHour,$endHour,$startHour,$endHour,'other'));
         return $query->result_array();
     }
 

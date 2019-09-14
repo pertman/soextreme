@@ -137,7 +137,7 @@ foreach ($dates as $index => $date){
                         let price            = slots[i]['price'];
                         let promotions       = slots[i]['promotions'];
 
-                        let isPromotions = basePrice !== price;
+                        let isPromotions     = basePrice !== price;
 
                         let className = '';
                         if (availableTickets === 0){
@@ -153,10 +153,17 @@ foreach ($dates as $index => $date){
                                 '</div>';
                             promotionDiv = '<div class="promotions">';
 
-                            let promotionTitleArray     = Object.values(promotions);
-                            let promotionsIdsArray      =  Object.keys(promotions);
+                            promotions = Object.values(promotions);
 
-                            promotionIds            = promotionsIdsArray.join(',');
+                            let promotionTitleArray = [];
+                            let promotionsIdsArray  = [];
+
+                            promotions.forEach(function (element) {
+                                promotionTitleArray.push(element['pro_name']);
+                                promotionsIdsArray.push(element['pro_id']);
+                            });
+
+                            promotionIds = promotionsIdsArray.join(',');
 
                             promotionTitleArray.forEach(function(element) {
                                 promotionDiv += '<div class="promotion">' + element + '</div>'
@@ -170,7 +177,7 @@ foreach ($dates as $index => $date){
                             promotionDiv = '<div class="promotions"></div>';
                         }
 
-                        <?php //@TODO create good infobox?>
+                        <?php //@TODO create good infobox ?>
 
                         slotsDiv.append('<label class="checkbox ' + className + '">' +
                             '<div class="row">' +

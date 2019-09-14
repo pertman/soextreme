@@ -7,6 +7,7 @@
 <?php $proType          = ($isPromotion) ? $promotion['pro_type']: ""; ?>
 <?php $proAgeMin        = ($isPromotion) ? $promotion['pro_age_min']: ""; ?>
 <?php $proAgeMax        = ($isPromotion) ? $promotion['pro_age_max']: ""; ?>
+<?php $proPriority      = ($isPromotion) ? $promotion['pro_priority']: ""; ?>
 <?php $dateRange        = ($isPromotion) ? $promotion['date_range']: ""; ?>
 <?php $actIds           = (isset($pro_activities)) ? $pro_activities : array(); ?>
 <?php $catIds           = (isset($pro_categories)) ? $pro_categories : array(); ?>
@@ -102,11 +103,19 @@
         </div>
     </div>
 
+    <div class="field other-field">
+        <label for="pro_priority">Priorité</label>
+        <input class="input pro_priority" type="number" min="1" name="pro_priority" value="<?php echo $proPriority; ?>" required>
+        <h1 class="is-link">Attention deux promotion de même priorité ne peuvent pas se cumuler</h1>
+        <h1 class="is-link">Dans ce cas la promotion la plus avantageuse pour le client sera retenue</h1>
+    </div>
+
     <div class="field other-field explaination-message">
         <h1 class="is-link">Veuillez remplir au moins une des conditions ci dessous</h1>
         <h1 class="is-link">Toutes les conditions se cumulent</h1>
     </div>
 
+    <?php //@TODO reset date button ?>
     <div class="field other-field">
         <label for="pro_date_start_pro_date_end">Periode</label>
         <input type="date" id="datePicker" name="date_range">

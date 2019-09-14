@@ -30,7 +30,7 @@ class AdminPromotionController extends MY_Controller
         $this->_params['data']['categories'] = $this->CategoryModel->getActiveCategories();
 
         $this->_params['data']['isAllPromotionsConditionActivated'] = false;
-//        $this->_params['data']['users'] = $this->UserModel->getAllUsersFromType('customer');
+        //$this->_params['data']['users'] = $this->UserModel->getAllUsersFromType('customer');
 
         if ($post = $this->input->post()) {
             $this->_params['data']['promotion'] = $post;

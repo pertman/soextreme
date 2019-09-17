@@ -22,7 +22,6 @@ class AdminPromotionController extends MY_Controller
 
     public function createPromotion()
     {
-//        @TODO create prio
         $this->_params['headData']['title'] = 'Création de promotion';
         $this->_params['view'] = 'promotionForm';
 
@@ -56,7 +55,7 @@ class AdminPromotionController extends MY_Controller
                 $this->_params['data']['pro_categories'] = (isset($post['cat_ids'])) ? $post['cat_ids'] : array();
                 $this->_params['data']['pro_users'] = (isset($post['usr_ids'])) ? $post['usr_ids'] : array();
 
-                if (!$post['date_range'] && !$post['timeStart'] && !$post['timeEnd']  && !isset($post['act_ids']) && !isset($post['cat_ids'])) {
+                if (!$post['date_range'] && !$post['pro_hour_start'] && !$post['pro_hour_end']  && !isset($post['act_ids']) && !isset($post['cat_ids'])) {
                     $_SESSION['messages'][] = "Veuillez renseigner au moins une condition";
                     return $this->load->view('template', $this->_params);
                 }
@@ -66,7 +65,7 @@ class AdminPromotionController extends MY_Controller
                     return $this->load->view('template', $this->_params);
                 }
 
-                if ($post['timeStart'] && $post['timeEnd'] && $post['timeStart'] > $post['timeEnd']) {
+                if ($post['pro_hour_start'] && $post['pro_hour_end'] && $post['pro_hour_start'] >= $post['pro_hour_end']) {
                     $_SESSION['messages'][] = "Veuillez selectionner une heure de début inférieure à l'heure de fin";
                     return $this->load->view('template', $this->_params);
                 }
@@ -84,8 +83,8 @@ class AdminPromotionController extends MY_Controller
                     $endDate = $dateRangeArray[1];
                 }
 
-                $timeStart = ($post['timeStart']) ? $post['timeStart'] : null;
-                $timeEnd   = ($post['timeEnd']) ? $post['timeEnd'] : null;
+                $timeStart = ($post['pro_hour_start']) ? $post['pro_hour_start'] : null;
+                $timeEnd   = ($post['pro_hour_end']) ? $post['pro_hour_end'] : null;
 
                 if (!$actIds){
                     $actIds = null;
@@ -110,14 +109,101 @@ class AdminPromotionController extends MY_Controller
         $this->_params['view'] = 'promotionList';
         $this->_params['data']['promotions'] = $this->PromotionModel->getAllPromotions();
 
-        var_dump($this->_params['data']['promotions']);
-        die('listPromotion');
-
         $this->load->view('template', $this->_params);
     }
 
     public function updatePromotion()
     {
-        die('update promotion');
+        $this->_params['headData']['title'] = 'Modification de promotion';
+        $this->_params['view'] = 'promotionForm';
+
+        $this->_params['data']['activities'] = $this->ActivityModel->getAllActivities();
+        $this->_params['data']['categories'] = $this->CategoryModel->getActiveCategories();
+        $this->_params['data']['categories'] = $this->CategoryModel->getActiveCategories();
+
+        $this->_params['data']['isAllPromotionsConditionActivated'] = false;
+
+        if ($post = $this->input->post()){
+
+            if ($post['pro_type'] == 'age') {
+                if (!$post['pro_age_min'] && !$post['pro_age_max']) {
+                    $_SESSION['messages'][] = "Veuillez saisir au moins un age minimum ou un age maximum";
+                    $this->_params['data']['promotion'] = $post;
+                    return $this->load->view('template', $this->_params);
+                }
+
+                if ($post['pro_age_min'] && $post['pro_age_max'] && $post['pro_age_min'] >= $post['pro_age_max']) {
+                    $_SESSION['messages'][] = "Veuillez saisir un age maximum supérieur à l'age minimum";
+                    $this->_params['data']['promotion'] = $post;
+                    return $this->load->view('template', $this->_params);
+                }
+
+                $this->PromotionModel->updatePromotion($post);
+                $_SESSION['messages'][] = "La promotion a bien été modifiée";
+                $this->redirectHome();
+            }
+            if ($post['pro_type'] == 'other') {
+                $this->_params['data']['pro_activities'] = (isset($post['act_ids'])) ? $post['act_ids'] : array();
+                $this->_params['data']['pro_categories'] = (isset($post['cat_ids'])) ? $post['cat_ids'] : array();
+                $this->_params['data']['pro_users']      = (isset($post['usr_ids'])) ? $post['usr_ids'] : array();
+
+                if (!$post['date_range'] && !$post['pro_hour_start'] && !$post['pro_hour_end']  && !isset($post['act_ids']) && !isset($post['cat_ids'])) {
+                    $_SESSION['messages'][] = "Veuillez renseigner au moins une condition";
+                    return $this->load->view('template', $this->_params);
+                }
+
+                if ($post['date_range'] && strpos($post['date_range'], ' - ') === false) {
+                    $_SESSION['messages'][] = "Veuillez selectionner une periode valable";
+                    return $this->load->view('template', $this->_params);
+                }
+
+                if ($post['pro_hour_start'] && $post['pro_hour_end'] && $post['pro_hour_start'] >= $post['pro_hour_end']) {
+                    $_SESSION['messages'][] = "Veuillez selectionner une heure de début inférieure à l'heure de fin";
+                    return $this->load->view('template', $this->_params);
+                }
+
+                $this->PromotionModel->updatePromotion($post);
+
+                $_SESSION['messages'][] = "La promotion a bien été modifiée";
+                $this->redirectHome();
+            }
+
+
+        }else{
+            $proId = $this->input->get('id');
+
+            $promotion = $this->promoCheck($proId);
+            $this->_params['data']['promotion'] = $promotion;
+            return $this->load->view('template', $this->_params);
+        }
+    }
+
+    public function deletePromotion(){
+        $proId = $this->input->get('id');
+        $this->promoCheck($proId);
+
+        $this->PromotionModel->deletePromotion($proId);
+
+        $_SESSION['messages'][] = "La promotion a bien été supprimée";
+
+        redirect('/AdminPromotionController/listPromotion', 'refresh');
+    }
+
+    public function promoCheck($proId){
+        if (!$proId){
+            $_SESSION['messages'][] = "Aucun identifiant de promotion renseigné";
+
+            redirect('/AdminPromotionController/listPromotion', 'refresh');
+        }
+
+        $promotion = $this->PromotionModel->getPromotionById($proId);
+
+        if (!$promotion){
+            $_SESSION['messages'][] = "Cette promotion n'existe pas";
+
+            redirect('/AdminPromotionController/listPromotion', 'refresh');
+        }
+
+        return $promotion;
     }
 }

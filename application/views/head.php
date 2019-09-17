@@ -18,4 +18,7 @@
     <script src='<?php echo base_url(); ?>/node_modules/@fullcalendar/daygrid/main.js'></script>
     <script src='<?php echo base_url(); ?>/node_modules/@fullcalendar/timegrid/main.js'></script>
     <script src='<?php echo base_url(); ?>/node_modules/@fullcalendar/list/main.js'></script>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 </head>

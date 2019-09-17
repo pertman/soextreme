@@ -1,3 +1,44 @@
+<?php $dateRange    = ''; ?>
+<?php $startTime    = ''; ?>
+<?php $endTime      = ''; ?>
+<?php $isMonday     = false; ?>
+<?php $isTuesday    = false; ?>
+<?php $isWednesday  = false; ?>
+<?php $isThursday   = false; ?>
+<?php $isFriday     = false; ?>
+<?php $isSaturday   = false; ?>
+<?php $isSunday     = false; ?>
+
+<?php if (isset($planning)): ?>
+    <?php if (isset($planning['pla_id'])): ?>
+
+    <?php else: ?>
+        <?php $dateRange    = $planning['date_range']; ?>
+        <?php $startTime    = $planning['tsl_hour_start']; ?>
+        <?php $endTime      = $planning['tsl_hour_end']; ?>
+        <?php $isMonday     = isset($planning['monday']); ?>
+        <?php $isTuesday    = isset($planning['tuesday']); ?>
+        <?php $isWednesday  = isset($planning['wednesday']); ?>
+        <?php $isThursday   = isset($planning['thursday']); ?>
+        <?php $isFriday     = isset($planning['friday']); ?>
+        <?php $isSaturday   = isset($planning['saturday']); ?>
+        <?php $isSunday     = isset($planning['sunday']); ?>
+    <?php endif; ?>
+<?php endif; ?>
+
+<?php $startDate = ''; ?>
+<?php $endDate   = ''; ?>
+
+<?php if ($dateRange): ?>
+    <?php if (strpos($dateRange, ' - ') !== false): ?>
+        <?php $dateRangeArray = explode(' - ', $dateRange); ?>
+        <?php $startDate = $dateRangeArray[0]; ?>
+        <?php $endDate   = $dateRangeArray[1]; ?>
+    <?php else: ?>
+        <?php $startDate = $dateRange; ?>
+    <?php endif; ?>
+<?php endif; ?>
+
 <div class="page-title">
     Plannification d'activité
 </div>
@@ -5,66 +46,73 @@
 <div class="activity-plan-container">
     <div class="calendarPlan">
         <form method="post" action="planActivity">
-        <div class="field">
-            <label for="date_range">Période</label>
-            <input type="date" id="datePicker" name="date_range" required>
-            <input type="time" id="timePicker" required>
-            <input type="hidden" id="timeStart" name="timeStart" value="">
-            <input type="hidden" id="timeEnd" name="timeEnd" value="">
-        </div>
+            <div class="field">
+                <label for="date_range">Période</label>
+                <input type="date" id="datePicker" name="date_range" required value="<?php echo $dateRange; ?>">
+            </div>
+            <div class="field">
+                <label for="tsl_hour_start">Heure de début</label>
+                <input type="text" class="input tsl_hour_start" id="timeStart" name="tsl_hour_start" value="<?php echo $startTime;?>">
+            </div>
+
+            <div class="field">
+                <label for="tsl_hour_end">Heure de Fin</label>
+                <input type="text" class="input tsl_hour_end" id="timeEnd" name="tsl_hour_end" value="<?php echo $endTime?>">
+            </div>
+
             <label>Jours :</label>
-            <div class="field daySelectPlan" >
-            <label class="checkbox">
+            <div class="field daySelectPlan">
+            <label class="checkbox <?php if ($isMonday): ?>selected<?php endif; ?>">
                 <span class="value">
                      Lundi
                 </span>
-                <input type="checkbox" name="monday">
+                <input type="checkbox" name="monday" <?php if ($isMonday): ?>checked<?php endif; ?>>
             </label>
-            <label class="checkbox">
+            <label class="checkbox <?php if ($isTuesday): ?>selected<?php endif; ?>">
                 <span class="value">
                     Mardi
                 </span>
-                <input type="checkbox" name="tuesday">
+                <input type="checkbox" name="tuesday" <?php if ($isTuesday): ?>checked<?php endif; ?>>
             </label>
-            <label class="checkbox">
+            <label class="checkbox <?php if ($isWednesday): ?>selected<?php endif; ?>">
                 <span class="value">
                     Mercredi
                 </span>
-                <input type="checkbox" name="wednesday">
+                <input type="checkbox" name="wednesday" <?php if ($isWednesday): ?>checked<?php endif; ?>>
             </label>
-            <label class="checkbox">
+            <label class="checkbox <?php if ($isThursday): ?>selected<?php endif; ?>">
                 <span class="value">
                     Jeudi
                 </span>
-                <input type="checkbox" name="thursday">
+                <input type="checkbox" name="thursday" <?php if ($isThursday): ?>checked<?php endif; ?>>
             </label>
-            <label class="checkbox">
+            <label class="checkbox <?php if ($isFriday): ?>selected<?php endif; ?>">
                 <span class="value">
                     Vendredi
                 </span>
-                <input type="checkbox" name="friday">
+                <input type="checkbox" name="friday" <?php if ($isFriday): ?>checked<?php endif; ?>>
             </label>
-            <label class="checkbox">
+            <label class="checkbox <?php if ($isSaturday): ?>selected<?php endif; ?>">
                 <span class="value">
                     Samedi
                 </span>
-                <input type="checkbox" name="saturday">
+                <input type="checkbox" name="saturday" <?php if ($isSaturday): ?>checked<?php endif; ?>>
             </label>
-            <label class="checkbox">
+            <label class="checkbox <?php if ($isSunday): ?>selected<?php endif; ?>">
                 <span class="value">
                     Dimanche
                 </span>
-                <input type="checkbox" name="sunday">
+                <input type="checkbox" name="sunday" <?php if ($isSunday): ?>checked<?php endif; ?>>
             </label>
         </div>
-            <div class="field">
-                <input type="hidden" name="act_id" value="<?php echo $activity["act_id"]; ?>">
-                <div class="buttons">
-                    <div class="control">
-                        <button id="validate-button" class="button is-link" disabled>Valider</button>
-                    </div>
+        <div class="field">
+            <input type="hidden" name="act_id" value="<?php echo $actId; ?>">
+            <div class="buttons">
+                <div class="control">
+                    <button id="validate-button" class="button is-link" disabled>Valider</button>
                 </div>
             </div>
+        </div>
     </div>
 </div>
 <script>
@@ -74,18 +122,39 @@
         isRange: true,
         weekStart: 1,
         minuteSteps: '1',
+        startDate: '<?php echo $startDate; ?>',
+        endDate: '<?php echo $endDate; ?>',
         showFooter: 'false',
         color: '#4462a5',
     });
 
-    const timePicker = bulmaCalendar.attach('#timePicker' ,{
-        dateFormat: 'YYYY-MM-DD',
-        displayMode: 'inline',
-        isRange: true,
-        weekStart: 1,
-        minuteSteps: '1',
-        showFooter: 'false',
-        color: '#4462a5',
+    <?php if ($dateRange): ?>
+        $('#datePicker')[0].value = '<?php echo $dateRange; ?>';
+        document.getElementById("validate-button").disabled = false;
+    <?php endif; ?>
+
+    $('#timeStart').timepicker({
+        timeFormat: 'HH:mm',
+        interval: 10,
+        minTime: '6:00',
+        maxTime: '22:00',
+        defaultTime: '<?php echo $startTime; ?>',
+        startTime: '6:00',
+        dynamic: false,
+        dropdown: true,
+        scrollbar: true
+    });
+
+    $('#timeEnd').timepicker({
+        timeFormat: 'HH:mm',
+        interval: 10,
+        minTime: '6:00',
+        maxTime: '22:00',
+        defaultTime: '<?php echo $endTime; ?>',
+        startTime: '6:00',
+        dynamic: false,
+        dropdown: true,
+        scrollbar: true
     });
 
     const datePickerElement = document.querySelector('#datePicker');
@@ -102,177 +171,9 @@
         this.classList.toggle('selected');
     });
 
-    var startHoursElement   = $('.timepicker-start .timepicker-hours .timepicker-input-number');
-    var startMinutesElement = $('.timepicker-start .timepicker-minutes .timepicker-input-number');
-    let startHours          = startHoursElement[0].innerHTML;
-    let startMinutes        = startMinutesElement[0].innerHTML;
-
-    var endHoursElement     = $('.timepicker-end .timepicker-hours .timepicker-input-number');
-    var endtMinutesElement  = $('.timepicker-end .timepicker-minutes .timepicker-input-number');
-    let endHours            = endHoursElement[0].innerHTML;
-    let endMinutes          = endtMinutesElement[0].innerHTML;
-
-    $('#timeStart')[0].value = startHours + ":" + startMinutes;
-    $('#timeEnd')[0].value = endHours + ":" + endMinutes;
-
-    //Start Hours
-    $('.timepicker-start .timepicker-hours .timepicker-next').on('click', function () {
-        var startHoursElement   = $('.timepicker-start .timepicker-hours .timepicker-input-number');
-        var startMinutesElement = $('.timepicker-start .timepicker-minutes .timepicker-input-number');
-
-        let startHours      = startHoursElement[0].innerHTML;
-        let startMinutes    = startMinutesElement[0].innerHTML;
-
-        let newStartTime;
-        if (startHours === '23'){
-            newStartTime = "00:" + startMinutes
-        }else{
-            newStartTime = formatHours(parseInt(startHours) + 1) + ":" + startMinutes;
-        }
-
-        $('#timeStart')[0].value = newStartTime;
+    $('.reset-period').click(function () {
+        $('#datePicker')[0].value = '';
+        $('#datePicker')[0].bulmaCalendar.datePicker.clear();
     });
-
-    $('.timepicker-start .timepicker-hours .timepicker-previous').on('click', function () {
-        var startHoursElement   = $('.timepicker-start .timepicker-hours .timepicker-input-number');
-        var startMinutesElement = $('.timepicker-start .timepicker-minutes .timepicker-input-number');
-
-        let startHours      = startHoursElement[0].innerHTML;
-        let startMinutes    = startMinutesElement[0].innerHTML;
-
-        let newStartTime;
-        if (startHours === '00'){
-            newStartTime = "23:" + startMinutes
-        }else{
-            newStartTime = formatHours(parseInt(startHours) - 1) + ":" + startMinutes;
-        }
-
-        $('#timeStart')[0].value = newStartTime;
-    });
-
-    //Start Minutes
-    $('.timepicker-start .timepicker-minutes .timepicker-next').on('click', function () {
-        var startHoursElement   = $('.timepicker-start .timepicker-hours .timepicker-input-number');
-        var startMinutesElement = $('.timepicker-start .timepicker-minutes .timepicker-input-number');
-
-        let startHours      = startHoursElement[0].innerHTML;
-        let startMinutes    = startMinutesElement[0].innerHTML;
-
-        let newEndTime;
-        if (startMinutes === '59'){
-            if (startHours === '23'){
-                newEndTime = "00:00";
-            }else{
-                newEndTime =  formatHours(parseInt(startHours) + 1) + ":00";
-            }
-        }else{
-            newEndTime = startHours + ":" + formatHours(parseInt(startMinutes) + 1);
-        }
-
-        $('#timeStart')[0].value = newEndTime;
-    });
-
-    $('.timepicker-start .timepicker-minutes .timepicker-previous').on('click', function () {
-        var startHoursElement   = $('.timepicker-start .timepicker-hours .timepicker-input-number');
-        var startMinutesElement = $('.timepicker-start .timepicker-minutes .timepicker-input-number');
-
-        let startHours      = startHoursElement[0].innerHTML;
-        let startMinutes    = startMinutesElement[0].innerHTML;
-
-        let newEndTime;
-        if (startMinutes === '00'){
-            if (startHours === '00') {
-                newEndTime = "23:59";
-            }else{
-                newEndTime = formatHours(parseInt(startHours) - 1) + ":59";
-            }
-        }else{
-            newEndTime = startHours + ":" + formatHours(parseInt(startMinutes) - 1);
-        }
-
-        $('#timeStart')[0].value = newEndTime;
-    });
-
-    //End Hours
-    $('.timepicker-end .timepicker-hours .timepicker-next').on('click', function () {
-        var startHoursElement   = $('.timepicker-end .timepicker-hours .timepicker-input-number');
-        var startMinutesElement = $('.timepicker-end .timepicker-minutes .timepicker-input-number');
-
-        let startHours      = startHoursElement[0].innerHTML;
-        let startMinutes    = startMinutesElement[0].innerHTML;
-
-        let newEndTime;
-        if (startHours === '23'){
-            newEndTime = "00:" + startMinutes
-        }else{
-            newEndTime = formatHours(parseInt(startHours) + 1) + ":" + startMinutes;
-        }
-
-        $('#timeEnd')[0].value = newEndTime;
-    });
-
-    $('.timepicker-end .timepicker-hours .timepicker-previous').on('click', function () {
-        var startHoursElement   = $('.timepicker-end .timepicker-hours .timepicker-input-number');
-        var startMinutesElement = $('.timepicker-end .timepicker-minutes .timepicker-input-number');
-
-        let startHours      = startHoursElement[0].innerHTML;
-        let startMinutes    = startMinutesElement[0].innerHTML;
-
-        let newEndTime;
-        if (startHours === '00'){
-            newEndTime = "23:" + startMinutes
-        }else{
-            newEndTime = formatHours(parseInt(startHours) - 1) + ":" + startMinutes;
-        }
-
-        $('#timeEnd')[0].value = newEndTime;
-    });
-
-    //End Minutes
-    $('.timepicker-end .timepicker-minutes .timepicker-next').on('click', function () {
-        var startHoursElement   = $('.timepicker-end .timepicker-hours .timepicker-input-number');
-        var startMinutesElement = $('.timepicker-end .timepicker-minutes .timepicker-input-number');
-
-        let startHours      = startHoursElement[0].innerHTML;
-        let startMinutes    = startMinutesElement[0].innerHTML;
-
-        let newStartTime;
-        if (startMinutes === '59'){
-            if (startHours === '23'){
-                newStartTime = "00:00";
-            }else{
-                newStartTime =  formatHours(parseInt(startHours) + 1) + ":00";
-            }
-        }else{
-            newStartTime = startHours + ":" + formatHours(parseInt(startMinutes) + 1);
-        }
-
-        $('#timeEnd')[0].value = newStartTime;
-    });
-
-    $('.timepicker-end .timepicker-minutes .timepicker-previous').on('click', function () {
-        var startHoursElement   = $('.timepicker-end .timepicker-hours .timepicker-input-number');
-        var startMinutesElement = $('.timepicker-end .timepicker-minutes .timepicker-input-number');
-
-        let startHours      = startHoursElement[0].innerHTML;
-        let startMinutes    = startMinutesElement[0].innerHTML;
-
-        let newStartTime;
-        if (startMinutes === '00'){
-            if (startHours === '00') {
-                newStartTime = "23:59";
-            }else{
-                newStartTime = formatHours(parseInt(startHours) - 1) + ":59";
-            }
-        }else{
-            newStartTime = startHours + ":" + formatHours(parseInt(startMinutes) - 1);
-        }
-
-        $('#timeEnd')[0].value = newStartTime;
-    });
-
-    function formatHours(n){
-        return n > 9 ? "" + n: "0" + n;
-    }
 
 </script>

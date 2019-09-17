@@ -40,4 +40,13 @@ class PlanningModel extends CI_Model{
         $query = $this->db->query($sql, array($plaId));
         return $query->row_array();
     }
+
+    public function getPlanningItemsByPlanningId($plaId){
+        $sql = "SELECT * FROM planning
+                LEFT JOIN time_slot_planning_link ON planning.pla_id = time_slot_planning_link.pla_id
+                LEFT JOIN time_slot ON time_slot_planning_link.tsl_id = time_slot.tsl_id
+                WHERE planning.pla_id = ?";
+        $query = $this->db->query($sql, array($plaId));
+        return $query->result_array();
+    }
 }

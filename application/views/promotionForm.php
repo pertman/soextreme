@@ -1,16 +1,51 @@
-<?php $isPromotion      = (isset($promotion)) ? true : false; ?>
-<?php $proName          = ($isPromotion) ? $promotion['pro_name']: ""; ?>
-<?php $proDescription   = ($isPromotion) ? $promotion['pro_description']: ""; ?>
-<?php //@TODO WARNING ON REAL MODIF => DIFFERENTS NAMES?>
-<?php $proDiscountType  = ($isPromotion) ? $promotion['pro_discount_type']: ""; ?>
-<?php $proDiscountValue = ($isPromotion) ? $promotion['pro_discount_value']: ""; ?>
-<?php $proType          = ($isPromotion) ? $promotion['pro_type']: ""; ?>
-<?php $proAgeMin        = ($isPromotion) ? $promotion['pro_age_min']: ""; ?>
-<?php $proAgeMax        = ($isPromotion) ? $promotion['pro_age_max']: ""; ?>
-<?php $proPriority      = ($isPromotion) ? $promotion['pro_priority']: ""; ?>
-<?php $dateRange        = ($isPromotion) ? $promotion['date_range']: ""; ?>
-<?php $actIds           = (isset($pro_activities)) ? $pro_activities : array(); ?>
-<?php $catIds           = (isset($pro_categories)) ? $pro_categories : array(); ?>
+<?php //TODO LOGIC IN CONTROLLER ?>
+<?php $isPromotion              = (isset($promotion)) ? true : false; ?>
+<?php $isPromotionModification  = ($isPromotion && isset($promotion['pro_id'])) ? true : false; ?>
+
+<?php $proName              = ($isPromotion) ? $promotion['pro_name']: ""; ?>
+<?php $proDescription       = ($isPromotion) ? $promotion['pro_description']: ""; ?>
+
+<?php $proDiscountType  = ''; ?>
+<?php $proDiscountValue = ''; ?>
+<?php $dateRange        = ''; ?>
+<?php if ($isPromotion): ?>
+    <?php if (isset($promotion['pro_discount_type'])): ?>
+        <?php $proDiscountType  = $promotion['pro_discount_type']; ?>
+        <?php $proDiscountValue = $promotion['pro_discount_value']; ?>
+    <?php else: ?>
+        <?php $proDiscountType  = ($promotion['pro_discount_fix']) ? 'pro_discount_fix' : 'pro_discount_percent'; ?>
+        <?php $proDiscountValue = ($promotion['pro_discount_fix']) ? $promotion['pro_discount_fix'] : $promotion['pro_discount_percent']; ?>
+    <?php endif; ?>
+    <?php if (isset($promotion['date_range'])): ?>
+        <?php $dateRange = $promotion['date_range']; ?>
+    <?php else: ?>
+        <?php $dateRange        = ($isPromotion && $promotion['pro_date_start'] && $promotion['pro_date_end']) ? $promotion['pro_date_start']. " - " .$promotion['pro_date_end'] : ""; ?>
+    <?php endif; ?>
+<?php endif; ?>
+
+<?php $startTime            = ($isPromotion) ? $promotion['pro_hour_start'] : ''; ?>
+<?php $endTime              = ($isPromotion) ? $promotion['pro_hour_end'] : ''; ?>
+<?php $proType              = ($isPromotion) ? $promotion['pro_type']: ""; ?>
+<?php $proPriority          = ($isPromotion) ? $promotion['pro_priority']: ""; ?>
+
+<?php $actIds               = array(); ?>
+<?php $catIds               = array(); ?>
+
+<?php if(isset($pro_activities)) : ?>
+    <?php $actIds = $pro_activities; ?>
+<?php endif; ?>
+
+<?php if(isset($promotion['pro_act_ids'])) : ?>
+    <?php $actIds = explode(',', $promotion['pro_act_ids']); ?>
+<?php endif; ?>
+
+<?php if(isset($pro_categories)) : ?>
+    <?php $catIds = $pro_categories; ?>
+<?php endif; ?>
+
+<?php if(isset($promotion['pro_cat_ids'])) : ?>
+    <?php $catIds = explode(',', $promotion['pro_cat_ids']); ?>
+<?php endif; ?>
 
 <?php if ($isAllPromotionsConditionActivated): ?>
     <?php $proCartAmount    = ($isPromotion) ? $promotion['pro_cart_amount']: ""; ?>
@@ -21,6 +56,7 @@
 
 <?php $startDate = ''; ?>
 <?php $endDate   = ''; ?>
+
 <?php if ($dateRange): ?>
     <?php if (strpos($dateRange, ' - ') !== false): ?>
         <?php $dateRangeArray = explode(' - ', $dateRange); ?>
@@ -32,9 +68,6 @@
 <?php endif; ?>
 
 <?php $proIsMainPage    = ($isPromotion && isset($promotion['pro_is_main_page'])) ? $promotion['pro_is_main_page']: "";?>
-
-<?php $isPromotionModification = ($isPromotion && isset($post['pro_id'])) ? true : false; ?>
-
 
 <div class="page-title">
     <?php if ($isPromotionModification): ?>Modification de promotion<?php else: ?>Création de promotion<?php endif; ?>
@@ -78,6 +111,15 @@
     </div>
 
     <div class="field">
+        <label for="pro_priority">Priorité</label>
+        <input class="input pro_priority" type="number" min="0" name="pro_priority" value="<?php echo $proPriority; ?>" required>
+        <h1 class="is-link">Attention deux promotion de même priorité ne peuvent pas se cumuler</h1>
+        <h1 class="is-link">Dans ce cas la promotion la plus avantageuse pour le client sera retenue</h1>
+    </div>
+
+    <?php //TODO ADD IS ACTIVE ?>
+
+    <div class="field">
         <label for="pro_type">Type</label>
         <div class="control">
             <div class="select">
@@ -92,22 +134,15 @@
     <div class="field age-field">
         <label for="pro_age_min">Age minimum</label>
         <div class="control">
-            <input class="input pro_age_min" type="number" min="1" name="pro_age_min" value="<?php echo $proAgeMin?>">
+            <input class="input pro_age_min" type="number" min="1" name="pro_age_min" value="<?php if ($isPromotion): ?><?php echo $promotion['pro_age_min']; ?><?php endif; ?>">
         </div>
     </div>
 
     <div class="field age-field">
         <label for="pro_age_max">Age maximum</label>
         <div class="control">
-            <input class="input pro_age_max" type="number" min="1" name="pro_age_max" value="<?php echo $proAgeMax; ?>">
+            <input class="input pro_age_max" type="number" min="1" name="pro_age_max" value="<?php if ($isPromotion): ?><?php echo $promotion['pro_age_max']; ?><?php endif; ?>">
         </div>
-    </div>
-
-    <div class="field other-field">
-        <label for="pro_priority">Priorité</label>
-        <input class="input pro_priority" type="number" min="1" name="pro_priority" value="<?php echo $proPriority; ?>" required>
-        <h1 class="is-link">Attention deux promotion de même priorité ne peuvent pas se cumuler</h1>
-        <h1 class="is-link">Dans ce cas la promotion la plus avantageuse pour le client sera retenue</h1>
     </div>
 
     <div class="field other-field explaination-message">
@@ -115,19 +150,22 @@
         <h1 class="is-link">Toutes les conditions se cumulent</h1>
     </div>
 
-    <?php //@TODO reset date button ?>
     <div class="field other-field">
         <label for="pro_date_start_pro_date_end">Periode</label>
-        <input type="date" id="datePicker" name="date_range">
+        <div class="buttons">
+            <div class="button is-link reset-period">Réinitialiser periode</div>
+        </div>
+        <input type="date" id="datePicker" name="date_range" value="<?php echo $dateRange; ?>">
     </div>
 
-    <?php //@TODO checkbox for use time (on click copy values in 2 inputs) ?>
-    <?php //@TODO change timepicker ?>
     <div class="field other-field">
-        <label for="pro_hour_start_pro_hour_end">Horaires</label>
-        <input type="time" id="timePicker">
-        <input type="hidden" id="timeStart" name="timeStart" value="">
-        <input type="hidden" id="timeEnd" name="timeEnd" value="">
+        <label for="pro_hour_start">Heure de début</label>
+        <input type="text" class="input pro_hour_start" id="timeStart" name="pro_hour_start" value="">
+    </div>
+
+    <div class="field other-field">
+        <label for="pro_hour_end">Heure de Fin</label>
+        <input type="text" class="input pro_hour_end" id="timeEnd" name="pro_hour_end" value="">
     </div>
 
     <?php if ($isAllPromotionsConditionActivated): ?>
@@ -161,7 +199,7 @@
                     <option value="" disabled>Selectionnez une ou plusieurs activitées</option>
                     <?php if (isset($activities)) : ?>
                         <?php foreach($activities as $activity) : ?>
-                            <?php $isCurrentProActivity = in_array($activity['act_id'], $catIds) ?>
+                            <?php $isCurrentProActivity = in_array($activity['act_id'], $actIds) ?>
                             <option value="<?php echo $activity['act_id']; ?>" <?php if ($isCurrentProActivity): ?>selected<?php endif; ?>><?php echo $activity['act_name']; ?></option>
                         <?php endforeach; ?>
                     <?php endif; ?>
@@ -233,21 +271,39 @@
         color: '#4462a5',
     });
 
-    const timePicker = bulmaCalendar.attach('#timePicker' ,{
-        dateFormat: 'YYYY-MM-DD',
-        displayMode: 'inline',
-        isRange: true,
-        weekStart: 1,
-        timeFormat: 'H:i',
-        minuteSteps: '1',
-        showFooter: 'false',
-        color: '#4462a5',
+    <?php if ($dateRange): ?>
+        $('#datePicker')[0].value = '<?php echo $dateRange; ?>';
+    <?php endif; ?>
+
+    $('#timeStart').timepicker({
+        timeFormat: 'HH:mm',
+        interval: 10,
+        minTime: '6:00',
+        maxTime: '22:00',
+        defaultTime: '<?php echo $startTime; ?>',
+        startTime: '6:00',
+        dynamic: false,
+        dropdown: true,
+        scrollbar: true
+    });
+
+    $('#timeEnd').timepicker({
+        timeFormat: 'HH:mm',
+        interval: 10,
+        minTime: '6:00',
+        maxTime: '22:00',
+        defaultTime: '<?php echo $endTime; ?>',
+        startTime: '6:00',
+        dynamic: false,
+        dropdown: true,
+        scrollbar: true
     });
 
     if ("<?php echo $proType; ?>" == "other"){
         $('.age-field').hide();
         $('.other-field').show();
     }
+
     $('.select.pro_type').change(function () {
        let value = $( ".pro_type option:selected" ).val();
        if (value === 'other'){
@@ -260,164 +316,8 @@
        }
     });
 
-    //Start Hours
-    $('.timepicker-start .timepicker-hours .timepicker-next').on('click', function () {
-        var startHoursElement   = $('.timepicker-start .timepicker-hours .timepicker-input-number');
-        var startMinutesElement = $('.timepicker-start .timepicker-minutes .timepicker-input-number');
-
-        let startHours      = startHoursElement[0].innerHTML;
-        let startMinutes    = startMinutesElement[0].innerHTML;
-
-        let newStartTime;
-        if (startHours === '23'){
-            newStartTime = "00:" + startMinutes
-        }else{
-            newStartTime = formatHours(parseInt(startHours) + 1) + ":" + startMinutes;
-        }
-
-        $('#timeStart')[0].value = newStartTime;
+    $('.reset-period').click(function () {
+        $('#datePicker')[0].value = '';
+        $('#datePicker')[0].bulmaCalendar.datePicker.clear();
     });
-
-    $('.timepicker-start .timepicker-hours .timepicker-previous').on('click', function () {
-        var startHoursElement   = $('.timepicker-start .timepicker-hours .timepicker-input-number');
-        var startMinutesElement = $('.timepicker-start .timepicker-minutes .timepicker-input-number');
-
-        let startHours      = startHoursElement[0].innerHTML;
-        let startMinutes    = startMinutesElement[0].innerHTML;
-
-        let newStartTime;
-        if (startHours === '00'){
-            newStartTime = "23:" + startMinutes
-        }else{
-            newStartTime = formatHours(parseInt(startHours) - 1) + ":" + startMinutes;
-        }
-
-        $('#timeStart')[0].value = newStartTime;
-    });
-
-    //Start Minutes
-    $('.timepicker-start .timepicker-minutes .timepicker-next').on('click', function () {
-        var startHoursElement   = $('.timepicker-start .timepicker-hours .timepicker-input-number');
-        var startMinutesElement = $('.timepicker-start .timepicker-minutes .timepicker-input-number');
-
-        let startHours      = startHoursElement[0].innerHTML;
-        let startMinutes    = startMinutesElement[0].innerHTML;
-
-        let newEndTime;
-        if (startMinutes === '59'){
-            if (startHours === '23'){
-                newEndTime = "00:00";
-            }else{
-                newEndTime =  formatHours(parseInt(startHours) + 1) + ":00";
-            }
-        }else{
-            newEndTime = startHours + ":" + formatHours(parseInt(startMinutes) + 1);
-        }
-
-        $('#timeStart')[0].value = newEndTime;
-    });
-
-    $('.timepicker-start .timepicker-minutes .timepicker-previous').on('click', function () {
-        var startHoursElement   = $('.timepicker-start .timepicker-hours .timepicker-input-number');
-        var startMinutesElement = $('.timepicker-start .timepicker-minutes .timepicker-input-number');
-
-        let startHours      = startHoursElement[0].innerHTML;
-        let startMinutes    = startMinutesElement[0].innerHTML;
-
-        let newEndTime;
-        if (startMinutes === '00'){
-            if (startHours === '00') {
-                newEndTime = "23:59";
-            }else{
-                newEndTime = formatHours(parseInt(startHours) - 1) + ":59";
-            }
-        }else{
-            newEndTime = startHours + ":" + formatHours(parseInt(startMinutes) - 1);
-        }
-
-        $('#timeStart')[0].value = newEndTime;
-    });
-
-    //End Hours
-    $('.timepicker-end .timepicker-hours .timepicker-next').on('click', function () {
-        var startHoursElement   = $('.timepicker-end .timepicker-hours .timepicker-input-number');
-        var startMinutesElement = $('.timepicker-end .timepicker-minutes .timepicker-input-number');
-
-        let startHours      = startHoursElement[0].innerHTML;
-        let startMinutes    = startMinutesElement[0].innerHTML;
-
-        let newEndTime;
-        if (startHours === '23'){
-            newEndTime = "00:" + startMinutes
-        }else{
-            newEndTime = formatHours(parseInt(startHours) + 1) + ":" + startMinutes;
-        }
-
-        $('#timeEnd')[0].value = newEndTime;
-    });
-
-    $('.timepicker-end .timepicker-hours .timepicker-previous').on('click', function () {
-        var startHoursElement   = $('.timepicker-end .timepicker-hours .timepicker-input-number');
-        var startMinutesElement = $('.timepicker-end .timepicker-minutes .timepicker-input-number');
-
-        let startHours      = startHoursElement[0].innerHTML;
-        let startMinutes    = startMinutesElement[0].innerHTML;
-
-        let newEndTime;
-        if (startHours === '00'){
-            newEndTime = "23:" + startMinutes
-        }else{
-            newEndTime = formatHours(parseInt(startHours) - 1) + ":" + startMinutes;
-        }
-
-        $('#timeEnd')[0].value = newEndTime;
-    });
-
-    //End Minutes
-    $('.timepicker-end .timepicker-minutes .timepicker-next').on('click', function () {
-        var startHoursElement   = $('.timepicker-end .timepicker-hours .timepicker-input-number');
-        var startMinutesElement = $('.timepicker-end .timepicker-minutes .timepicker-input-number');
-
-        let startHours      = startHoursElement[0].innerHTML;
-        let startMinutes    = startMinutesElement[0].innerHTML;
-
-        let newStartTime;
-        if (startMinutes === '59'){
-            if (startHours === '23'){
-                newStartTime = "00:00";
-            }else{
-                newStartTime =  formatHours(parseInt(startHours) + 1) + ":00";
-            }
-        }else{
-            newStartTime = startHours + ":" + formatHours(parseInt(startMinutes) + 1);
-        }
-
-        $('#timeEnd')[0].value = newStartTime;
-    });
-
-    $('.timepicker-end .timepicker-minutes .timepicker-previous').on('click', function () {
-        var startHoursElement   = $('.timepicker-end .timepicker-hours .timepicker-input-number');
-        var startMinutesElement = $('.timepicker-end .timepicker-minutes .timepicker-input-number');
-
-        let startHours      = startHoursElement[0].innerHTML;
-        let startMinutes    = startMinutesElement[0].innerHTML;
-
-        let newStartTime;
-        if (startMinutes === '00'){
-            if (startHours === '00') {
-                newStartTime = "23:59";
-            }else{
-                newStartTime = formatHours(parseInt(startHours) - 1) + ":59";
-            }
-        }else{
-            newStartTime = startHours + ":" + formatHours(parseInt(startMinutes) - 1);
-        }
-
-        $('#timeEnd')[0].value = newStartTime;
-    });
-
-    function formatHours(n){
-        return n > 9 ? "" + n: "0" + n;
-    }
-
 </script>

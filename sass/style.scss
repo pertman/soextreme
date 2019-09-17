@@ -190,7 +190,7 @@ label{
 }
 
 //MenuList.php //
-.menu-card, .category-card{
+.menu-card, .category-card, .promo-card{
   width: 100%;
   &:not(:last-child){
     margin-bottom: 20px;
@@ -198,7 +198,7 @@ label{
   &.is-top-menu{
     border: 1px solid $orange;
   }
-  .menu-title, .cat-title{
+  .menu-title, .cat-title, .promo-title{
     width: 100%;
   }
   .card-content{

@@ -13,8 +13,8 @@ class TicketModel extends CI_Model{
         return $this->db->query($sql, array($resId, $ticId));
     }
 
-    public function createTicketPromotionLink($ticId, $proId){
-        $sql = 'INSERT INTO `ticket_promotion_link` (`tic_id`, `pro_id`) VALUES (?,?)';
-        return $this->db->query($sql, array($ticId, $proId));
+    public function createTicketPromotionHistory($ticId, $promotion){
+        $sql = 'INSERT INTO `ticket_promotion_history` (`tic_id`, `pro_id`, `pro_type`, `pro_name`, `pro_description`, `pro_hour_start`, `pro_hour_end`, `pro_date_start`, `pro_date_end`, `pro_discount_fix`, `pro_discount_percent`, `pro_age_min`, `pro_age_max`, `pro_priority`, `pro_act_ids`, `pro_cat_ids`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+        return $this->db->query($sql, array($ticId, $promotion['pro_id'], $promotion['pro_type'], $promotion['pro_name'], $promotion['pro_description'], $promotion['pro_hour_start'], $promotion['pro_hour_end'], $promotion['pro_date_start'], $promotion['pro_date_end'], $promotion['pro_discount_fix'], $promotion['pro_discount_percent'], $promotion['pro_age_min'], $promotion['pro_age_max'], $promotion['pro_priority'], $promotion['pro_act_ids'], $promotion['pro_cat_ids']));
     }
 }

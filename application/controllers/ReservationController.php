@@ -169,7 +169,7 @@ class ReservationController extends MY_Controller
             $ticId = $this->db->insert_id();
 
             foreach ($participant['promotions'] as $promotion){
-                $this->TicketModel->createTicketPromotionLink($ticId, $promotion['pro_id']);
+                $this->TicketModel->createTicketPromotionHistory($ticId, $promotion);
             }
 
             $this->TicketModel->createTicketReservationLink($resId, $ticId);

@@ -3,12 +3,38 @@
 </div>
 
 <div class="session-description">
-    <div class="session-name"><?php echo $activity['act_name']; ?></div>
-    <div class="session-date"><?php echo $selectedDate; ?></div>
-    <div class="session-hours"><?php echo $selectedTime; ?></div>
-    <div class="session-price">Prix hors réduction age : <?php echo $price." €"; ?></div>
+    <div class="row name">
+        <div class="session-label">Activité:</div>
+        <div class="session-value"><?php echo $activity['act_name']; ?></div>
+    </div>
+    <div class="row date">
+        <div class="session-label">Date:</div>
+        <div class="session-value"><?php echo $selectedDate; ?></div>
+    </div>
+    <div class="row hours">
+        <div class="session-label">Heures:</div>
+        <div class="session-value"><?php echo $selectedTime; ?></div>
+    </div>
+    <div class="row price">
+        <div class="session-label">Prix hors réduction age :</div>
+        <div class="prices session-value">
+            <?php if ($promotions): ?>
+                <div class="base-price"><?php echo formatPrice($activity['act_base_price'])." €";?></div>
+            <?php endif; ?>
+            <div class="price <?php if ($promotions): ?>special-price<?php endif; ?>"><?php echo $price." €"; ?></div>
+        </div>
+    </div>
+    <?php if ($promotions): ?>
+        <div class="row promotions">
+            <div class="session-label">Promotions appliquées :</div>
+            <div class="session-value">
+                <?php foreach ($promotions as $promotion): ?>
+                    <div class="session-promotion">- <?php echo $promotion; ?></div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    <?php endif; ?>
 </div>
-
 
 <div class="field">
     <label for="participant_nb">Nombre de participant</label>
@@ -37,6 +63,7 @@
     <input type="hidden" name="date" value="<?php echo $selectedDate; ?>">
     <input type="hidden" name="time" value="<?php echo $selectedTime; ?>">
     <input type="hidden" name="price" value="<?php echo $price; ?>">
+    <input type="hidden" name="promotionIds" value="<?php echo implode(',',array_keys($promotions)); ?>">
     <div class="buttons">
         <div class="field">
             <div class="control">

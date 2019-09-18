@@ -22,6 +22,16 @@ class ReservationController extends MY_Controller
         $inputDate          = $this->input->post('event_modal_date');
         $timeSlot           = $this->input->post('event_modal_time');
         $price              = $this->input->post('event_modal_price');
+        $promotionIds       = $this->input->post('event_modal_promotion_ids');
+
+        $promotionsNames   = array();
+
+        if ($promotionIds){
+            $promotions =  $this->PromotionModel->getPromotionsByPromotionIds($promotionIds);
+            foreach ($promotions as $promotion){
+                $promotionsNames[$promotion['pro_id']] = $promotion['pro_name'];
+            }
+        }
         
         $regex = "/^[0-2][0-9]:[0-5][0-9]-[0-2][0-9]:[0-5][0-9]/";
         if (!preg_match($regex, $timeSlot)){
@@ -86,6 +96,7 @@ class ReservationController extends MY_Controller
         $this->_params['data']['selectedDate']      = str_replace('-', '/', $inputDate);
         $this->_params['data']['selectedTime']      = $timeSlot;
         $this->_params['data']['availableTickets']  = $availableTickets;
+        $this->_params['data']['promotions']        = $promotionsNames;
         $this->_params['data']['price']             = $price;
         $this->_params['data']['activity']          = $activity;
         $this->load->view('template', $this->_params);
@@ -96,9 +107,37 @@ class ReservationController extends MY_Controller
 
         $quote = $this->input->post();
 
+        $promotions       = array();
+        if ($promotionIds = $quote['promotionIds']){
+            $promotions = $this->PromotionModel->getPromotionsByPromotionIds($promotionIds);
+        }
+
+        $agePromotions = $this->PromotionModel->getAgePromotions();
+
         foreach ($quote['participants'] as $key => $participant){
-            //@TODO check prices with promotion ages
-            $quote['participants'][$key]['price'] = $quote['price'];
+            $price = $quote['price'];
+
+            $quote['participants'][$key]['base_price']      = $price;
+            $quote['participants'][$key]['promotions']      = $promotions;
+
+            foreach ($agePromotions as $agePromotion){
+                if ($agePromotion['pro_age_min'] && !$agePromotion['pro_age_max'] && $agePromotion['pro_age_min'] <= $participant['usr_age']
+                    || !$agePromotion['pro_age_min'] && $agePromotion['pro_age_max'] && $agePromotion['pro_age_max'] >= $participant['usr_age']
+                    || $agePromotion['pro_age_min'] && $agePromotion['pro_age_max'] && $agePromotion['pro_age_max'] >= $participant['usr_age'] &&  $agePromotion['pro_age_min'] <= $participant['usr_age']){
+
+                    $quote['participants'][$key]['promotions'][] = $agePromotion;
+
+                    if ($agePromotion['pro_discount_fix']){
+                        $price -= $agePromotion['pro_discount_fix'];
+                        break;
+                    }
+                    if ($agePromotion['pro_discount_percent']){
+                        $price = $price * (1 - $agePromotion['pro_discount_percent'] * 0.01);
+                        break;
+                    }
+                }
+            }
+            $quote['participants'][$key]['price']         = formatPrice($price);
 
         }
 
@@ -124,9 +163,14 @@ class ReservationController extends MY_Controller
         $resId = $this->db->insert_id();
 
         foreach ($quote['participants'] as $key => $participant){
+            
             $this->TicketModel->createTicket($participant['usr_firstname'], $participant['usr_lastname'], $participant['usr_age'], $participant['usr_gift_email'], $participant['price']);
 
             $ticId = $this->db->insert_id();
+
+            foreach ($participant['promotions'] as $promotion){
+                $this->TicketModel->createTicketPromotionHistory($ticId, $promotion);
+            }
 
             $this->TicketModel->createTicketReservationLink($resId, $ticId);
             if($participant['usr_gift_email']){
@@ -135,6 +179,8 @@ class ReservationController extends MY_Controller
         }
 
         //@TODO CREATE PAYMENT WITH PAYPAL DATA
+
+        unset($_SESSION['current_quote']);
 
         $_SESSION['messages'][] = "Votre réservation a bien été effectuée";
         $this->redirectHome();

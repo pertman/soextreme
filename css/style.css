@@ -6406,7 +6406,7 @@ label.panel-block {
   box-shadow: none;
   border-color: #D0D1CD; }
 
-select.select {
+select.select, .select > select {
   border: 2px solid #D0D1CD; }
 
 .main-container.full-size {
@@ -6461,6 +6461,10 @@ label {
   max-width: 100%;
   margin: auto; }
 
+.timepicker-input {
+  padding-top: 12px;
+  padding-bottom: 5px; }
+
 @media screen and (max-width: 1023px) {
   .navbar-menu.is-active {
     position: absolute;
@@ -6508,15 +6512,15 @@ label {
   font-size: 2rem;
   margin-bottom: 30px; }
 
-.menu-card, .category-card {
+.menu-card, .category-card, .promo-card {
   width: 100%; }
-  .menu-card:not(:last-child), .category-card:not(:last-child) {
+  .menu-card:not(:last-child), .category-card:not(:last-child), .promo-card:not(:last-child) {
     margin-bottom: 20px; }
-  .menu-card.is-top-menu, .category-card.is-top-menu {
+  .menu-card.is-top-menu, .category-card.is-top-menu, .promo-card.is-top-menu {
     border: 1px solid #ff9437; }
-  .menu-card .menu-title, .menu-card .cat-title, .category-card .menu-title, .category-card .cat-title {
+  .menu-card .menu-title, .menu-card .cat-title, .menu-card .promo-title, .category-card .menu-title, .category-card .cat-title, .category-card .promo-title, .promo-card .menu-title, .promo-card .cat-title, .promo-card .promo-title {
     width: 100%; }
-  .menu-card .card-content, .category-card .card-content {
+  .menu-card .card-content, .category-card .card-content, .promo-card .card-content {
     display: flex;
     align-items: center;
     justify-content: space-between; }
@@ -6603,10 +6607,6 @@ label {
   .activity-plan-container .daySelectPlan input {
     display: none; }
 
-.activity-plan-container .timepicker-input {
-  padding-top: 12px;
-  padding-bottom: 5px; }
-
 .activity-plan-container .datetimepicker-container {
   display: flex;
   flex-direction: column-reverse; }
@@ -6640,14 +6640,16 @@ a[data-goto], .fc-day-header {
       color: #1f3158; }
       .modal-card .modal-card-body .time-slots label.disabled {
         cursor: default;
-        background: darkgrey; }
+        background: #a9a9a9a9; }
       .modal-card .modal-card-body .time-slots label .row {
         display: flex;
         justify-content: space-between;
         margin: 5px 0; }
       .modal-card .modal-card-body .time-slots label.selected {
-        color: #ff9437;
+        background: #ff943712;
         border: 1px solid #ff9437; }
+      .modal-card .modal-card-body .time-slots label:hover:not(.disabled) {
+        background: #ff943712; }
       .modal-card .modal-card-body .time-slots label:nth-child(2n) {
         margin-right: 0; }
     .modal-card .modal-card-body .time-slots input {
@@ -6660,6 +6662,11 @@ a[data-goto], .fc-day-header {
 .session-description {
   font-size: 1.2rem;
   margin-bottom: 20px; }
+  .session-description .row {
+    display: flex;
+    width: 100%; }
+    .session-description .row .session-label {
+      width: 40%; }
 
 .reservationForm1 .participant {
   margin: 25px 0; }
@@ -6678,8 +6685,37 @@ a[data-goto], .fc-day-header {
   display: flex;
   justify-content: space-between;
   font-size: 1.2rem; }
+  .reservation-tickets .ticket .ticket-column.left {
+    width: 100%; }
+  .reservation-tickets .ticket .row {
+    display: flex;
+    width: 100%; }
+    .reservation-tickets .ticket .row .ticket-label {
+      width: 35%; }
 
 .reservation-total {
   font-size: 1.4rem;
   color: #ff9437;
   float: right; }
+
+.promotionForm .field.hidden {
+  display: none; }
+
+.promotionForm .other-field {
+  display: none; }
+
+.promotionForm .explaination-message {
+  color: #ff9437;
+  font-size: 1.2rem; }
+
+.prices {
+  display: flex;
+  align-items: baseline; }
+
+.price.special-price {
+  color: #ff9437; }
+
+.base-price {
+  text-decoration: line-through;
+  margin-right: 10px;
+  font-size: 0.9rem; }

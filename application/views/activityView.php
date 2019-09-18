@@ -10,7 +10,6 @@
         <div class="act-base-price title">
             <?php echo $activity['act_base_price'] . "€"; ?>
         </div>
-    <?php //@TODO Prix a partir de : check low price promo?>
     </div>
     <div class="card-content">
         <?php if ($category): ?>

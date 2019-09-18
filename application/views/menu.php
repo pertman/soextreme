@@ -43,6 +43,16 @@
                         <a href="<?php echo base_url("AdminMenuController/listMenu"); ?>" class="navbar-item">Liste</a>
                     </div>
                 </div>
+
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <p class="navbar-link">
+                        Promotion
+                    </p>
+                    <div class="navbar-dropdown is-boxed">
+                        <a href="<?php echo base_url("AdminPromotionController/createPromotion"); ?>" class="navbar-item">Créer</a>
+                        <a href="<?php echo base_url("AdminPromotionController/listPromotion"); ?>" class="navbar-item">Liste</a>
+                    </div>
+                </div>
             <?php endif; ?>
 
             <?php if (isCurrentUserCustomer()): ?>

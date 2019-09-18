@@ -67,23 +67,9 @@ class PlanningController extends MY_Controller
 
             foreach ($planningItemResult as $date){
 
-                $dateSlots = $slots;
-                $reservedSlots = array();
+                $reservedSlots =  $this->getDateReservedSlots($date);
 
-                $dateReservations = $this->ReservationModel->getReservationsByDate($date);
-
-                if ($dateReservations){
-                    foreach ($dateReservations as $dateReservation){
-                        $timeArray =  explode('-',$dateReservation['res_time_slot']);
-                        $startTime = $timeArray[0];
-
-                        if (isset($reservedSlots[$startTime])){
-                            $reservedSlots[$startTime] += $dateReservation['res_participant_nb'];
-                        }else{
-                            $reservedSlots[$startTime] = $dateReservation['res_participant_nb'];
-                        }
-                    }
-                }
+                $dateSlots = $this->applyPromotionsToDateSlots($slots, $date, $startHour, $endHour, $activity);
 
                 foreach ($reservedSlots as $time => $participantNb){
                     $dateSlots[$time]['participantNb'] -= $participantNb;
@@ -151,6 +137,7 @@ class PlanningController extends MY_Controller
 
             $slots[$index]['participantNb']     = $actParticipantNb;
 
+            $slots[$index]['base_price']        = $actBasePrice;
             $slots[$index]['price']             = $actBasePrice;
 
             if ($time > $endHour){
@@ -160,5 +147,118 @@ class PlanningController extends MY_Controller
         }
 
         return $slots;
+    }
+
+    public function getDateReservedSlots($date){
+        $reservedSlots      = array();
+        $dateReservations   = $this->ReservationModel->getReservationsByDate($date);
+
+        if ($dateReservations){
+            foreach ($dateReservations as $dateReservation){
+                $timeArray =  explode('-',$dateReservation['res_time_slot']);
+                $startTime = $timeArray[0];
+
+                if (isset($reservedSlots[$startTime])){
+                    $reservedSlots[$startTime] += $dateReservation['res_participant_nb'];
+                }else{
+                    $reservedSlots[$startTime] = $dateReservation['res_participant_nb'];
+                }
+            }
+        }
+
+        return $reservedSlots;
+    }
+
+    public function applyPromotionsToDateSlots($dateSlots, $date, $startHour, $endHour, $activity){
+        $datePromotions = $this->PromotionModel->getDateAndHoursPromotion($date, $startHour, $endHour);
+
+        foreach ($dateSlots as $timeKey => $dateSlot){
+            $dateSlots[$timeKey]['base_price'] = formatPrice($dateSlots[$timeKey]['price']);
+            
+            $priorities = array();
+            
+            foreach ($datePromotions as $datePromotion){
+
+                if ($datePromotion['pro_act_ids']){
+                    $actIds = explode(',', $datePromotion['pro_act_ids']);
+                    if (!in_array($activity['act_id'], $actIds)){
+                        continue;
+                    }
+                }
+
+                if ($datePromotion['pro_cat_ids']){
+                    $catIds = explode(',', $datePromotion['pro_cat_ids']);
+                    if (!in_array($activity['cat_id'], $catIds)){
+                        continue;
+                    }
+                }
+
+                if ($datePromotion['pro_hour_start'] && $dateSlot['start'] < $datePromotion['pro_hour_start']
+                    || $datePromotion['pro_hour_end'] && $dateSlot['end'] > $datePromotion['pro_hour_end']) {
+                    continue;
+                }
+
+                $priorityPrice = null;
+
+                if ($discountAmount = $datePromotion['pro_discount_fix']){
+                    $priorityPrice = $dateSlots[$timeKey]['price'] - $discountAmount;
+                }
+                if ($discountPercent = $datePromotion['pro_discount_percent']){
+                    $priorityPrice = $dateSlots[$timeKey]['price'] * (1 - $discountPercent * 0.01);
+                }
+                
+                if (!isset($priorities[$timeKey][$datePromotion['pro_priority']])){
+                    $priorities[$timeKey][$datePromotion['pro_priority']]['pro_id'] = $datePromotion['pro_id'];
+                    $priorities[$timeKey][$datePromotion['pro_priority']]['price']                                              = $priorityPrice;
+                    $priorities[$timeKey][$datePromotion['pro_priority']][$datePromotion['pro_id']]['name']                     = $datePromotion['pro_name'];
+
+                    if ($discountAmount = $datePromotion['pro_discount_fix']){
+                        $priorities[$timeKey][$datePromotion['pro_priority']][$datePromotion['pro_id']]['discount_amount']      = $discountAmount;
+                        $priorities[$timeKey][$datePromotion['pro_priority']][$datePromotion['pro_id']]['discount_percent']     = null;
+                    }
+                    if ($discountPercent = $datePromotion['pro_discount_percent']){
+                        $priorities[$timeKey][$datePromotion['pro_priority']][$datePromotion['pro_id']]['discount_amount']      = null;
+                        $priorities[$timeKey][$datePromotion['pro_priority']][$datePromotion['pro_id']]['discount_percent']     = $discountPercent;
+                    }
+
+                }else{
+                    if ($priorityPrice < $priorities[$timeKey][$datePromotion['pro_priority']]['price']){
+                        $priorities[$timeKey][$datePromotion['pro_priority']]['pro_id'] = $datePromotion['pro_id'];
+                        $priorities[$timeKey][$datePromotion['pro_priority']]['price']                                          = $priorityPrice;
+                        $priorities[$timeKey][$datePromotion['pro_priority']][$datePromotion['pro_id']]['name']                 = $datePromotion['pro_name'];
+
+                        $priorities[$timeKey][$datePromotion['pro_priority']][$datePromotion['pro_id']]['discount_amount']      = null;
+                        $priorities[$timeKey][$datePromotion['pro_priority']][$datePromotion['pro_id']]['discount_percent']     = null;
+
+                        if ($discountAmount = $datePromotion['pro_discount_fix']){
+                            $priorities[$timeKey][$datePromotion['pro_priority']][$datePromotion['pro_id']]['discount_amount']    = $discountAmount;
+                            $priorities[$timeKey][$datePromotion['pro_priority']][$datePromotion['pro_id']]['discount_percent']   = null;
+                        }
+                        if ($discountPercent = $datePromotion['pro_discount_percent']){
+                            $priorities[$timeKey][$datePromotion['pro_priority']][$datePromotion['pro_id']]['discount_amount']    = null;
+                            $priorities[$timeKey][$datePromotion['pro_priority']][$datePromotion['pro_id']]['discount_percent']   = $discountPercent;
+                        }
+                    }
+                }
+            }
+
+            foreach ($priorities as $priorityTimeKey => $priority){
+                foreach ($priority as $priorityKey => $priorityPromotions){
+                    if ($discountAmount = $priorityPromotions[$priorityPromotions['pro_id']]['discount_amount']){
+                        $dateSlots[$timeKey]['price']  = $dateSlots[$timeKey]['price'] - $discountAmount;
+                    }
+                    if ($discountPercent = $priorityPromotions[$priorityPromotions['pro_id']]['discount_percent']){
+                        $dateSlots[$timeKey]['price']  = $dateSlots[$timeKey]['price'] * (1 - $discountPercent * 0.01);
+                    }
+                    $dateSlots[$timeKey]['promotions'][$priorityKey]['pro_id']      = $priorityPromotions['pro_id'];
+                    $dateSlots[$timeKey]['promotions'][$priorityKey]['pro_name']    = $priorityPromotions[$priorityPromotions['pro_id']]['name'];
+                }
+
+            }
+
+            $dateSlots[$timeKey]['price'] = formatPrice($dateSlots[$timeKey]['price']);
+        }
+
+        return $dateSlots;
     }
 }

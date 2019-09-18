@@ -164,15 +164,107 @@ class AdminActivityController extends MY_Controller{
     }
 
     public function modifyPlanning(){
-//      @TODO Modify planning
-        $plaId      = $this->input->post('event_modal_pla_id');
+        $this->_params['headData']['title'] = 'Modification de planification';
+        $this->_params['view']              = 'activityPlan';
 
-        $planning =  $this->planningCheck($plaId);
-        
-        var_dump($planning);
+        if ($plaId = $this->input->post('event_modal_pla_id')){
+            $planning =  $this->planningCheck($plaId);
 
-        var_dump("Modify planning n°" . $plaId);
-        die();
+
+            $planningTimeSlots = $this->PlanningModel->getTimeSlotsByPlanningId($plaId);
+
+            foreach ($planningTimeSlots as $planningTimeSlot){
+                if (!isset($planning['tsl_hour_start'])){
+                    $planning['tsl_hour_start'] = $planningTimeSlot['tsl_hour_start'];
+                    $planning['tsl_hour_end']   = $planningTimeSlot['tsl_hour_end'];
+                }
+
+                $planning[$this->getDayNameByDayIndex($planningTimeSlot['tsl_day_index'])] = 'on';
+            }
+
+            $this->_params['data']['actId']     = $planning['act_id'];
+            $this->_params['data']['planning']  = $planning;
+
+            $this->load->view('template', $this->_params);
+        }else{
+            $post = $this->input->post();
+
+            $this->_params['data']['actId']     = $post['act_id'];
+            $this->_params['data']['planning']  = $post;
+
+            $dateArray = explode(' - ', $post['date_range']);
+            $dateStart = (isset($dateArray[0])) ? $dateArray[0] : null;
+            $dateEnd   = (isset($dateArray[1])) ? $dateArray[1] : null;
+
+            $hourStart = $post['tsl_hour_start'];
+            $hourEnd   = $post['tsl_hour_end'];
+
+            if (!$dateStart || !$dateEnd || !$hourStart || !$hourEnd){
+                $_SESSION['messages'][] = "Veuillez sélectionner deux dates et deux heures";
+                return $this->load->view('template', $this->_params);
+            }
+
+            if ($hourStart >= $hourEnd) {
+                $_SESSION['messages'][] = "Veuillez selectionner une heure de début inférieure à l'heure de fin";
+                return $this->load->view('template', $this->_params);
+            }
+            $monday     = (isset($post['monday'])) ? 1 : 0;
+            $tuesday    = (isset($post['tuesday'])) ? 1 : 0;
+            $wednesday  = (isset($post['wednesday'])) ? 1 : 0;
+            $thursday   = (isset($post['thursday'])) ? 1 : 0;
+            $friday     = (isset($post['friday'])) ? 1 : 0;
+            $saturday   = (isset($post['saturday'])) ? 1 : 0;
+            $sunday     = (isset($post['sunday'])) ? 1 : 0;
+
+            if (!$monday && !$tuesday && !$wednesday && !$thursday && !$friday && !$saturday && !$sunday){
+                $_SESSION['messages'][] = "Veuillez sélectionner au moins un jour";
+                return $this->load->view('template', $this->_params);
+            }
+
+            $this->PlanningModel->updatePlanning($dateStart,$dateEnd, $post['pla_id']);
+            $plaId = $post['pla_id'];
+            $tabIndex = array();
+
+            if ($monday){
+                $tabIndex[] = 1;
+            }
+            if ($tuesday){
+                $tabIndex[] = 2;
+            }
+            if ($wednesday){
+                $tabIndex[] = 3;
+            }
+            if ($thursday){
+                $tabIndex[] = 4;
+            }
+            if ($friday){
+                $tabIndex[] = 5;
+            }
+            if ($saturday){
+                $tabIndex[] = 6;
+            }
+            if ($sunday){
+                $tabIndex[] = 7;
+            }
+
+            $timeSlots = $this->PlanningModel->getTimeSlotsByPlanningId($plaId);
+
+            foreach ($timeSlots as $timeSlot){
+                $this->PlanningModel->deleteTimeSlotLinkById($timeSlot['tsp_id']);
+                $this->PlanningModel->deleteTimeSlotById($timeSlot['tsl_id']);
+            }
+
+            foreach ($tabIndex as $dayIndex){
+                $this->PlanningModel->createTimeSlot($hourStart,$hourEnd,$dayIndex);
+                $tslId = $this->db->insert_id();
+                $this->PlanningModel->createTimeSlotPlanningLink($plaId, $tslId);
+            }
+
+            $_SESSION['messages'][] = "La plannification à bien été modifiée";
+
+            redirect('/ActivityController/listActivities', 'refresh');
+            return $this->load->view('template', $this->_params);
+        }
     }
 
     public function planningCheck($plaId){
@@ -182,7 +274,7 @@ class AdminActivityController extends MY_Controller{
             $this->redirectHome();
         }
 
-        $planning = $this->PlanningModel->getPlanningItemsByPlanningId($plaId);
+        $planning = $this->PlanningModel->getPlanningByPlanningId($plaId);
 
         if (!$planning){
             $_SESSION['messages'][] = "Cette plannification n'existe pas";
@@ -191,5 +283,19 @@ class AdminActivityController extends MY_Controller{
         }
 
         return $planning;
+    }
+
+    public function getDayNameByDayIndex($dayIndex){
+        $mapping = array(
+            1 => 'monday',
+            2 => 'tuesday',
+            3 => 'wednesday',
+            4 => 'thursday',
+            5 => 'friday',
+            6 => 'saturday',
+            7 => 'sunday',
+        );
+
+        return $mapping[$dayIndex];
     }
 }

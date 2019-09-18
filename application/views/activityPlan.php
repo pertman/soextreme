@@ -1,29 +1,34 @@
-<?php $dateRange    = ''; ?>
-<?php $startTime    = ''; ?>
-<?php $endTime      = ''; ?>
-<?php $isMonday     = false; ?>
-<?php $isTuesday    = false; ?>
-<?php $isWednesday  = false; ?>
-<?php $isThursday   = false; ?>
-<?php $isFriday     = false; ?>
-<?php $isSaturday   = false; ?>
-<?php $isSunday     = false; ?>
-
+<?php $isPlanningModification   = false; ?>
+<?php $dateRange                = ''; ?>
+<?php $startTime                = ''; ?>
+<?php $endTime                  = ''; ?>
+<?php $isMonday                 = false; ?>
+<?php $isTuesday                = false; ?>
+<?php $isWednesday              = false; ?>
+<?php $isThursday               = false; ?>
+<?php $isFriday                 = false; ?>
+<?php $isSaturday               = false; ?>
+<?php $isSunday                 = false; ?>
 <?php if (isset($planning)): ?>
     <?php if (isset($planning['pla_id'])): ?>
-
-    <?php else: ?>
-        <?php $dateRange    = $planning['date_range']; ?>
-        <?php $startTime    = $planning['tsl_hour_start']; ?>
-        <?php $endTime      = $planning['tsl_hour_end']; ?>
-        <?php $isMonday     = isset($planning['monday']); ?>
-        <?php $isTuesday    = isset($planning['tuesday']); ?>
-        <?php $isWednesday  = isset($planning['wednesday']); ?>
-        <?php $isThursday   = isset($planning['thursday']); ?>
-        <?php $isFriday     = isset($planning['friday']); ?>
-        <?php $isSaturday   = isset($planning['saturday']); ?>
-        <?php $isSunday     = isset($planning['sunday']); ?>
+        <?php $isPlanningModification = true; ?>
     <?php endif; ?>
+
+    <?php if (isset($planning['date_range'])): ?>
+        <?php $dateRange    = $planning['date_range']; ?>
+    <?php else: ?>
+        <?php $dateRange = $planning['pla_date_start'] . " - " . $planning['pla_date_end']; ?>
+    <?php endif; ?>
+
+    <?php $startTime    = $planning['tsl_hour_start']; ?>
+    <?php $endTime      = $planning['tsl_hour_end']; ?>
+    <?php $isMonday     = isset($planning['monday']); ?>
+    <?php $isTuesday    = isset($planning['tuesday']); ?>
+    <?php $isWednesday  = isset($planning['wednesday']); ?>
+    <?php $isThursday   = isset($planning['thursday']); ?>
+    <?php $isFriday     = isset($planning['friday']); ?>
+    <?php $isSaturday   = isset($planning['saturday']); ?>
+    <?php $isSunday     = isset($planning['sunday']); ?>
 <?php endif; ?>
 
 <?php $startDate = ''; ?>
@@ -40,12 +45,16 @@
 <?php endif; ?>
 
 <div class="page-title">
-    Plannification d'activité
+    <?php if ($isPlanningModification): ?>
+        Modification de plannification d'activité
+    <?php else: ?>
+        Plannification d'activité
+    <?php endif; ?>
 </div>
 
 <div class="activity-plan-container">
     <div class="calendarPlan">
-        <form method="post" action="planActivity">
+        <form method="post" action="<?php if ($isPlanningModification): ?>modifyPlanning<?php else: ?>planActivity<?php endif;?>">
             <div class="field">
                 <label for="date_range">Période</label>
                 <input type="date" id="datePicker" name="date_range" required value="<?php echo $dateRange; ?>">
@@ -107,6 +116,9 @@
         </div>
         <div class="field">
             <input type="hidden" name="act_id" value="<?php echo $actId; ?>">
+            <?php if ($isPlanningModification): ?>
+                <input type="hidden" name="pla_id" value="<?php echo $planning['pla_id']; ?>">
+            <?php endif; ?>
             <div class="buttons">
                 <div class="control">
                     <button id="validate-button" class="button is-link" disabled>Valider</button>

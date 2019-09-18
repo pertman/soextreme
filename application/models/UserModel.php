@@ -14,6 +14,12 @@ class UserModel extends CI_Model {
         return $query->row_array();
     }
 
+    public function getUserById($usrId){
+        $sql = "SELECT * FROM user WHERE usr_id = ?";
+        $query = $this->db->query($sql, array($usrId));
+        return $query->row_array();
+    }
+
     public function getUserTypes(){
         $sql = "SELECT * FROM user_type";
         $query = $this->db->query($sql);
@@ -32,5 +38,17 @@ class UserModel extends CI_Model {
                 WHERE user_type.ust_value = ?";
         $query = $this->db->query($sql, array($type));
         return $query->result_array();
+    }
+
+    public function updateInformation($post){
+        $now = date('Y-m-d H:i:s');
+        $sql = 'UPDATE `user` SET `usr_firstname` = ?, `usr_lastname` = ?, `usr_email` = ?, `usr_phone` = ?, `usr_updated_at` = ? WHERE `usr_id` = ?';
+        return $this->db->query($sql, array($post['usr_firstname'], $post['usr_lastname'], $post['usr_email'], $post['usr_phone'], $now, $post['usr_id']));
+    }
+
+    public function updatePassword($usrId, $hashPassword){
+        $now = date('Y-m-d H:i:s');
+        $sql = 'UPDATE `user` SET `usr_password` = ?, `usr_updated_at` = ? WHERE `usr_id` = ?';
+        return $this->db->query($sql, array($hashPassword, $now, $usrId));
     }
 }

@@ -6719,3 +6719,59 @@ a[data-goto], .fc-day-header {
   text-decoration: line-through;
   margin-right: 10px;
   font-size: 0.9rem; }
+
+.modifyProfileButton, .modifyPasswordButton {
+  margin-bottom: 30px; }
+
+.modifyProfileForm.hidden, .modifyPasswordForm.hidden {
+  display: none; }
+
+.profile-info {
+  margin-bottom: 20px; }
+  .profile-info .field {
+    margin-bottom: 10px; }
+    .profile-info .field .profile-label {
+      font-size: 1.2rem; }
+    .profile-info .field .value {
+      font-size: 1.1rem; }
+
+.reservations.hidden {
+  display: none; }
+
+.reservations .reservation-card {
+  width: 100%; }
+  .reservations .reservation-card:not(:last-child) {
+    margin-bottom: 25px; }
+  .reservations .reservation-card .reservation-title {
+    font-size: 1.1rem;
+    color: white; }
+  .reservations .reservation-card .buttons {
+    margin-top: 1rem; }
+    .reservations .reservation-card .buttons:not(:last-child) {
+      margin-bottom: 0; }
+  .reservations .reservation-card .row {
+    display: flex;
+    justify-content: space-between; }
+  .reservations .reservation-card .tickets.hidden {
+    display: none; }
+  .reservations .reservation-card .tickets .ticket {
+    border: 1px solid #ff9437;
+    padding: 10px;
+    display: flex; }
+    .reservations .reservation-card .tickets .ticket:not(:last-child) {
+      margin-bottom: 20px; }
+    .reservations .reservation-card .tickets .ticket .ticket-qr-code {
+      width: 30%; }
+    .reservations .reservation-card .tickets .ticket .ticket-info {
+      width: 70%; }
+      .reservations .reservation-card .tickets .ticket .ticket-info .row {
+        display: flex;
+        justify-content: flex-start; }
+        .reservations .reservation-card .tickets .ticket .ticket-info .row .ticket-label {
+          width: 50%;
+          font-size: 1.2rem; }
+        .reservations .reservation-card .tickets .ticket .ticket-info .row .ticket-value {
+          width: 50%;
+          font-size: 1.1rem; }
+    .reservations .reservation-card .tickets .ticket:not(:last-child) {
+      margin-bottom: 10px; }

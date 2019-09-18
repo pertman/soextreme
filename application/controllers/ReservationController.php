@@ -77,7 +77,7 @@ class ReservationController extends MY_Controller
         }
 
         $formattedDate = formatDateFromFrToUs(str_replace('-','/', $inputDate));
-        $timeSlotReservationsNb = $this->ReservationModel->getReservationsNumberForTimeSlot($formattedDate, $timeSlot);
+        $timeSlotReservationsNb = $this->ReservationModel->getReservationsNumberForTimeSlot($formattedDate, $timeSlot, $activity['act_id']);
 
         $availableTickets = $activity['act_participant_nb'];
         if ($timeSlotReservationsNb){
@@ -158,7 +158,7 @@ class ReservationController extends MY_Controller
 
         $date = formatDateFromFrToUs($quote['date']);
 
-        $this->ReservationModel->createReservation($date, $quote['time'], count($quote['participants']), $quote['tsl_id'], $_SESSION['user']['id']);
+        $this->ReservationModel->createReservation($date, $quote['time'], count($quote['participants']), $quote['tsl_id'], $_SESSION['user']['id'], $quote['activity']['act_id']);
 
         $resId = $this->db->insert_id();
 
@@ -179,6 +179,8 @@ class ReservationController extends MY_Controller
         }
 
         //@TODO CREATE PAYMENT WITH PAYPAL DATA
+        $bankResponse = '';
+        $this->PaymentModel->createPayment($resId, $quote['total'], $bankResponse);
 
         unset($_SESSION['current_quote']);
 

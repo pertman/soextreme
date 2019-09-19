@@ -20,7 +20,11 @@
                 </div>
                 <a class="card-image" href="<?php echo base_url("ActivityController/seeActivity"); ?>?id=<?php echo $activity['act_id']; ?>">
                     <figure class="image is-4by3">
-                        <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+                        <?php if ($activity['act_image_1']): ?>
+                            <img src="<?php echo base_url().$activity['act_image_1']; ?>" alt="<?php echo $activity['act_name']; ?>">
+                        <?php else: ?>
+                            <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+                        <?php endif; ?>
                     </figure>
                 </a>
                 <div class="card-content">

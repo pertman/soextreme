@@ -11,6 +11,9 @@
             <?php echo $activity['act_base_price'] . "€"; ?>
         </div>
     </div>
+    <figure class="image is-4by3">
+        <img src="<?php echo base_url(). $activity['act_image_1']; ?>" alt="<?php echo $activity['act_name']; ?>">
+    </figure>
     <div class="card-content">
         <?php if ($category): ?>
             <div class="cat_name row">
@@ -55,6 +58,29 @@
         <div class="act-street row">
             <div class="label">Pays:</div>
             <?php echo $activity['act_country']; ?>
+        </div>
+        <div class="activity-pictures">
+            <?php if ($activity['act_image_2']): ?>
+                <div class="picture">
+                    <figure class="image is-4by3">
+                        <img src="<?php echo base_url(). $activity['act_image_2']; ?>" alt="<?php echo $activity['act_name']. ' 2'; ?>">
+                    </figure>
+                </div>
+            <?php endif; ?>
+            <?php if ($activity['act_image_3']): ?>
+                <div class="picture">
+                    <figure class="image is-4by3">
+                        <img src="<?php echo base_url(). $activity['act_image_3']; ?>" alt="<?php echo $activity['act_name']. ' 3'; ?>">
+                    </figure>
+                </div>
+            <?php endif; ?>
+            <?php if ($activity['act_image_4']): ?>
+                <div class="picture">
+                    <figure class="image is-4by3">
+                        <img src="<?php echo base_url(). $activity['act_image_4']; ?>" alt="<?php echo $activity['act_name']. ' 4'; ?>">
+                    </figure>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
         <div class="card-footer">

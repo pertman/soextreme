@@ -6508,6 +6508,7 @@ label {
     width: 100%; }
 
 .page-title {
+  color: #1f3158;
   width: 100%;
   font-size: 2rem;
   margin-bottom: 30px; }
@@ -6812,3 +6813,21 @@ a[data-goto], .fc-day-header {
       @media (max-width: 768px) {
         .activityForm .images .row .field {
           width: 100%; } }
+
+.main-page .section-title {
+  font-size: 1.4rem;
+  color: #1f3158;
+  width: 100%;
+  padding: 20px 0 20px 0; }
+
+.main-page .promotions {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap; }
+  .main-page .promotions .promotion {
+    color: #1f3158;
+    padding: 20px;
+    border: 1px solid #ff9437;
+    width: 49%;
+    margin-bottom: 20px;
+    font-size: 1.2rem; }

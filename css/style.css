@@ -6782,9 +6782,9 @@ a[data-goto], .fc-day-header {
     .reservations .reservation-card .tickets .ticket:not(:last-child) {
       margin-bottom: 20px; }
     .reservations .reservation-card .tickets .ticket .ticket-qr-code {
-      width: 30%; }
+      width: 123px; }
     .reservations .reservation-card .tickets .ticket .ticket-info {
-      width: 70%; }
+      width: 85%; }
       .reservations .reservation-card .tickets .ticket .ticket-info .row {
         display: flex;
         justify-content: flex-start; }

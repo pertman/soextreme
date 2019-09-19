@@ -25,4 +25,16 @@ class TicketModel extends CI_Model{
         $query = $this->db->query($sql, array($resId));
         return $query->result_array();
     }
+
+    public function getTicketById($ticId){
+        $sql = "SELECT * FROM ticket WHERE tic_id = ?";
+        $query = $this->db->query($sql, array($ticId));
+        return $query->row_array();
+    }
+
+    public function validateTicket($ticId){
+        $now = date('Y-m-d H:i:s');
+        $sql = 'UPDATE ticket SET tic_is_used = ?, `tic_updated_at` = ? WHERE `tic_id` = ?';
+        return $this->db->query($sql, array(1, $now, $ticId));
+    }
 }

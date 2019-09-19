@@ -162,11 +162,21 @@ class ReservationController extends MY_Controller
 
         $resId = $this->db->insert_id();
 
+        include('phpqrcode/qrlib.php');
+
         foreach ($quote['participants'] as $key => $participant){
-            
+
             $this->TicketModel->createTicket($participant['usr_firstname'], $participant['usr_lastname'], $participant['usr_age'], $participant['usr_gift_email'], $participant['price']);
 
             $ticId = $this->db->insert_id();
+
+            $lien = base_url().'ReservationController/ValidateTicket?id='.$ticId;
+
+            if(!is_dir('uploads/') || !is_dir('uploads/tickets/')){
+                mkdir( 'uploads/tickets/', 0777, true );
+            }
+
+            QRcode::png($lien, 'uploads/tickets/' . $ticId . '.png');
 
             foreach ($participant['promotions'] as $promotion){
                 $this->TicketModel->createTicketPromotionHistory($ticId, $promotion);
@@ -185,6 +195,31 @@ class ReservationController extends MY_Controller
         unset($_SESSION['current_quote']);
 
         $_SESSION['messages'][] = "Votre réservation a bien été effectuée";
+        $this->redirectHome();
+    }
+
+    public function validateTicket(){
+        $ticId = $this->input->get('id');
+        
+        if (!$ticId){
+            $_SESSION['messages'][] = "Aucun identifiant de ticket reseigné";
+            $this->redirectHome();
+        }
+
+        $ticket = $this->TicketModel->getTicketById($ticId);
+
+        if (!$ticket){
+            $_SESSION['messages'][] = "Ce ticket n'existe pas";
+            $this->redirectHome();
+        }
+
+        if ($ticket['tic_is_used']){
+            $_SESSION['messages'][] = "Ce ticket a déjà été utilisé";
+            $this->redirectHome();
+        }
+
+        $this->TicketModel->validateTicket($ticId);
+        $_SESSION['messages'][] = "Ticket validé";
         $this->redirectHome();
     }
 }

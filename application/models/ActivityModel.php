@@ -79,4 +79,11 @@ class ActivityModel extends CI_Model{
         $sql = 'UPDATE activity SET ' . $key . ' = ? WHERE act_id = ?';
         return $this->db->query($sql, array($path, $actId));
     }
+
+    public function getMainPageActivities(){
+        $act_status = 'private';
+        $sql = "SELECT * FROM activity WHERE act_status <> ? AND act_is_special_offer = ?";
+        $query = $this->db->query($sql, array($act_status, 1));
+        return $query->result_array();
+    }
 }

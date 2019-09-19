@@ -67,12 +67,15 @@ class PlanningController extends MY_Controller
 
             foreach ($planningItemResult as $date){
 
-                $reservedSlots =  $this->getDateReservedSlots($date);
+                $reservedSlots =  $this->getDateReservedSlots($date, $activity['act_id']);
 
                 $dateSlots = $this->applyPromotionsToDateSlots($slots, $date, $startHour, $endHour, $activity);
 
                 foreach ($reservedSlots as $time => $participantNb){
-                    $dateSlots[$time]['participantNb'] -= $participantNb;
+                    //Remove reserved time slots but on hours not available because of planning modifications
+                    if (isset($dateSlots[$time])){
+                        $dateSlots[$time]['participantNb'] -= $participantNb;
+                    }
                 }
 
                 //Events needs autoincrement index
@@ -149,9 +152,9 @@ class PlanningController extends MY_Controller
         return $slots;
     }
 
-    public function getDateReservedSlots($date){
+    public function getDateReservedSlots($date, $actId){
         $reservedSlots      = array();
-        $dateReservations   = $this->ReservationModel->getReservationsByDate($date);
+        $dateReservations   = $this->ReservationModel->getReservationsByDate($date, $actId);
 
         if ($dateReservations){
             foreach ($dateReservations as $dateReservation){

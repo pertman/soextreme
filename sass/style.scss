@@ -556,3 +556,24 @@ a[data-goto], .fc-day-header{
     }
   }
 }
+
+//ActivityForm
+.activityForm .images{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  .row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    @media (max-width: 768px){
+      flex-direction: column;
+    }
+    .field{
+      width: 45%;
+      @media (max-width: 768px){
+        width: 100%;
+      }
+    }
+  }
+}

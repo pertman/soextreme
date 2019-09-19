@@ -1,30 +1,32 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
-class ApiController extends MY_Controller {
+require 'application/libraries/REST_Controller.php';
+class ApiController extends REST_Controller {
 
     protected $_params;
     
     public function __construct()
     {
-        parent::__construct();
-        parent::init();
-
-        //@TODO check security
-    }
-
-    public function getActivities(){
         header('Access-Control-Allow-Origin: *');
         header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method, Authorization");
         header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+        parent::__construct();
+        $this->load->database();
+        $this->load->model('UserModel');
+        $this->load->model('ActivityModel');
+        $this->load->model('CategoryModel');
+        $this->load->model('AdminModel');
+        $this->load->model('MenuModel');
+        $this->load->model('PlanningModel');
+        //@TODO check security
+    }
+
+    function Activities_get(){
         $activities = $this->ActivityModel->getAllActivities();
         die(json_encode($activities));
     }
 
-    public function getActivityById(){
-        header('Access-Control-Allow-Origin: *');
-        header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method, Authorization");
-        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+    function ActivityById_get(){
         $actId = $this->input->get('id');
         if (!$actId){
             die('Error id parameter missing');

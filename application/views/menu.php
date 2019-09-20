@@ -16,7 +16,7 @@
             <?php if (isCurrentUserAdmin()): ?>
                 <div class="navbar-item has-dropdown is-hoverable">
                     <p class="navbar-link">
-                        Activités
+                        <a href="<?php echo base_url("ActivityController/listActivities"); ?>" class="navbar-item">Activités</a>
                     </p>
                     <div class="navbar-dropdown is-boxed">
                         <a href="<?php echo base_url("AdminActivityController/createActivity"); ?>" class="navbar-item">Créer</a>
@@ -26,7 +26,7 @@
 
                 <div class="navbar-item has-dropdown is-hoverable">
                     <p class="navbar-link">
-                        Catégories
+                        <a href="<?php echo base_url("AdminCategoryController/listCategory"); ?>" class="navbar-item">Catégories</a>
                     </p>
                     <div class="navbar-dropdown is-boxed">
                         <a href="<?php echo base_url("AdminCategoryController/createCategory"); ?>" class="navbar-item">Créer</a>
@@ -36,11 +36,21 @@
 
                 <div class="navbar-item has-dropdown is-hoverable">
                     <p class="navbar-link">
-                        Menu
+                        <a href="<?php echo base_url("AdminMenuController/listMenu"); ?>" class="navbar-item">Menu</a>
                     </p>
                     <div class="navbar-dropdown is-boxed">
                         <a href="<?php echo base_url("AdminMenuController/createMenu"); ?>" class="navbar-item">Créer</a>
                         <a href="<?php echo base_url("AdminMenuController/listMenu"); ?>" class="navbar-item">Liste</a>
+                    </div>
+                </div>
+
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <p class="navbar-link">
+                        <a href="<?php echo base_url("AdminPromotionController/listPromotion"); ?>" class="navbar-item">Promotion</a>
+                    </p>
+                    <div class="navbar-dropdown is-boxed">
+                        <a href="<?php echo base_url("AdminPromotionController/createPromotion"); ?>" class="navbar-item">Créer</a>
+                        <a href="<?php echo base_url("AdminPromotionController/listPromotion"); ?>" class="navbar-item">Liste</a>
                     </div>
                 </div>
             <?php endif; ?>
@@ -71,6 +81,7 @@
                 <a href="<?php echo base_url("AdminController/disconnect"); ?>" class="navbar-item">Déconnexion</a>
             <?php endif; ?>
             <?php if (isCurrentUserCustomer()): ?>
+                <a href="<?php echo base_url("AccountController/profile"); ?>" class="navbar-item">Mon profil</a>
                 <a href="<?php echo base_url("LoginController/disconnect"); ?>" class="navbar-item">Déconnexion</a>
             <?php endif; ?>
             <?php if(isCurrentUserNotLoggedIn()): ?>

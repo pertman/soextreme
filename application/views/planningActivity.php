@@ -28,6 +28,7 @@
                     <input type="hidden" name="event_modal_time" class="event_modal_time">
                     <input type="hidden" name="event_modal_date" class="event_modal_date">
                     <input type="hidden" name="event_modal_price" class="event_modal_price">
+                    <input type="hidden" name="event_modal_promotion_ids" class="event_modal_promotion_ids">
                 <?php endif; ?>
                 <input type="hidden" name="event_modal_pla_id" class="event_modal_pla_id">
                 <input type="hidden" name="event_modal_tsl_id" class="event_modal_tsl_id">
@@ -125,17 +126,71 @@ foreach ($dates as $index => $date){
 
                     $('.event_modal_date').attr('value', date);
 
+                    let priceDiv;
+                    let promotionDiv;
+
                     for (let i = 0; i < slots.length; i++ ){
                         let value            = slots[i]['start'].slice(0, -3) + ' ' + slots[i]['end'].slice(0, -3);
                         let availableTickets = slots[i]['participantNb'];
+
+                        let basePrice        = slots[i]['base_price'];
                         let price            = slots[i]['price'];
+                        let promotions       = slots[i]['promotions'];
+
+                        let isPromotions     = basePrice !== price;
 
                         let className = '';
                         if (availableTickets === 0){
                             className = 'disabled';
                         }
 
-                        slotsDiv.append('<label class="checkbox ' + className + '"><div class="row"><span class="time">' + value + '</span><input type="checkbox" name="' + value + '"><div class="price">' + price + ' €</div></div><div class="row"><div class="availableTickets">' + availableTickets + ' places disponibles</div></div></label>');
+                        let promotionIds = '';
+
+                        if (isPromotions){
+                            priceDiv = '<div class="prices">' +
+                                '<div class="base-price">' + basePrice + ' €</div>' +
+                                '<div class="price special-price">' + price + ' €</div>' +
+                                '</div>';
+                            promotionDiv = '<div class="promotions">';
+
+                            promotions = Object.values(promotions);
+
+                            let promotionTitleArray = [];
+                            let promotionsIdsArray  = [];
+
+                            promotions.forEach(function (element) {
+                                promotionTitleArray.push(element['pro_name']);
+                                promotionsIdsArray.push(element['pro_id']);
+                            });
+
+                            promotionIds = promotionsIdsArray.join(',');
+
+                            promotionTitleArray.forEach(function(element) {
+                                promotionDiv += '<div class="promotion">' + element + '</div>'
+                            });
+
+                            promotionDiv += '</div>';
+                        }else{
+                            priceDiv = '<div class="prices">' +
+                                '<div class="price">' + price + ' €</div>' +
+                                '</div>';
+                            promotionDiv = '<div class="promotions"></div>';
+                        }
+
+                        <?php //@TODO create good infobox ?>
+
+                        slotsDiv.append('<label class="checkbox ' + className + '">' +
+                            '<div class="row">' +
+                            '<span class="time">' + value + '</span>' +
+                            '<input type="checkbox" name="' + value + '">' +
+                            priceDiv +
+                            '</div>' +
+                            '<div class="row">' +
+                            '<div class="availableTickets">' + availableTickets + ' places disponibles</div>' +
+                            '</div>' +
+                            promotionDiv +
+                            '<input type="hidden" class="promotionIds" value="' + promotionIds + '">' +
+                            '</label>');
                     }
 
                     $('.action-event-modal').attr("disabled", true);
@@ -149,14 +204,13 @@ foreach ($dates as $index => $date){
 
                         $('.action-event-modal').attr("disabled", false);
 
-                        let selectedCheckboxSpan    = $('.checkbox.selected .time');
-                        let selectedTimeSlotValue   = selectedCheckboxSpan[0].innerHTML.replace(' ','-');
-                        
-                        let priceDiv                =  $('.checkbox.selected .price');
-                        let price                   = priceDiv[0].innerHTML.replace(' €','');
+                        let selectedCheckboxSpan        = $('.checkbox.selected .time');
+                        let priceDiv                    = $('.checkbox.selected .price');
+                        let selectedPromotionIdsInput   = $('.checkbox.selected .promotionIds');
 
-                        $('.event_modal_time').attr('value', selectedTimeSlotValue);
-                        $('.event_modal_price').attr('value', price);
+                        $('.event_modal_time').attr('value', selectedCheckboxSpan[0].innerHTML.replace(' ','-'));
+                        $('.event_modal_price').attr('value', priceDiv[0].innerHTML.replace(' €',''));
+                        $('.event_modal_promotion_ids').attr('value', selectedPromotionIdsInput.attr('value'));
                     });
                 <?php else: ?>
                     $('.action-event-modal').text("Modifier");

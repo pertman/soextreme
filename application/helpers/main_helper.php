@@ -62,3 +62,7 @@ function getFullSizePages(){
         'planningActivity'
     );
 }
+
+function formatPrice($number){
+    return number_format((float)$number, 2, '.', '');
+}

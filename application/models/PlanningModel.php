@@ -40,4 +40,27 @@ class PlanningModel extends CI_Model{
         $query = $this->db->query($sql, array($plaId));
         return $query->row_array();
     }
+
+    public function getTimeSlotsByPlanningId($plaId){
+        $sql = "SELECT * FROM time_slot
+                LEFT JOIN time_slot_planning_link ON time_slot.tsl_id = time_slot_planning_link.tsl_id
+                WHERE time_slot_planning_link.pla_id = ?";
+        $query = $this->db->query($sql, array($plaId));
+        return $query->result_array();
+    }
+
+    public function updatePlanning($dateStart, $dateEnd, $plaId){
+        $sql = 'UPDATE `planning` SET `pla_date_start` = ?, `pla_date_end` = ? WHERE `pla_id` = ?';
+        return $this->db->query($sql, array($dateStart, $dateEnd, $plaId));
+    }
+
+    public function deleteTimeSlotLinkById($tspId){
+        $sql = "DELETE FROM  time_slot_planning_link WHERE tsp_id = ?";
+        return $this->db->query($sql, array($tspId));
+    }
+
+    public function deleteTimeSlotById($tslId){
+        $sql = "DELETE FROM  time_slot WHERE tsl_id = ?";
+        return $this->db->query($sql, array($tslId));
+    }
 }

@@ -22,6 +22,16 @@ class ReservationController extends MY_Controller
         $inputDate          = $this->input->post('event_modal_date');
         $timeSlot           = $this->input->post('event_modal_time');
         $price              = $this->input->post('event_modal_price');
+        $promotionIds       = $this->input->post('event_modal_promotion_ids');
+
+        $promotionsNames   = array();
+
+        if ($promotionIds){
+            $promotions =  $this->PromotionModel->getPromotionsByPromotionIds($promotionIds);
+            foreach ($promotions as $promotion){
+                $promotionsNames[$promotion['pro_id']] = $promotion['pro_name'];
+            }
+        }
         
         $regex = "/^[0-2][0-9]:[0-5][0-9]-[0-2][0-9]:[0-5][0-9]/";
         if (!preg_match($regex, $timeSlot)){
@@ -67,7 +77,7 @@ class ReservationController extends MY_Controller
         }
 
         $formattedDate = formatDateFromFrToUs(str_replace('-','/', $inputDate));
-        $timeSlotReservationsNb = $this->ReservationModel->getReservationsNumberForTimeSlot($formattedDate, $timeSlot);
+        $timeSlotReservationsNb = $this->ReservationModel->getReservationsNumberForTimeSlot($formattedDate, $timeSlot, $activity['act_id']);
 
         $availableTickets = $activity['act_participant_nb'];
         if ($timeSlotReservationsNb){
@@ -86,6 +96,7 @@ class ReservationController extends MY_Controller
         $this->_params['data']['selectedDate']      = str_replace('-', '/', $inputDate);
         $this->_params['data']['selectedTime']      = $timeSlot;
         $this->_params['data']['availableTickets']  = $availableTickets;
+        $this->_params['data']['promotions']        = $promotionsNames;
         $this->_params['data']['price']             = $price;
         $this->_params['data']['activity']          = $activity;
         $this->load->view('template', $this->_params);
@@ -96,9 +107,37 @@ class ReservationController extends MY_Controller
 
         $quote = $this->input->post();
 
+        $promotions       = array();
+        if ($promotionIds = $quote['promotionIds']){
+            $promotions = $this->PromotionModel->getPromotionsByPromotionIds($promotionIds);
+        }
+
+        $agePromotions = $this->PromotionModel->getAgePromotions();
+
         foreach ($quote['participants'] as $key => $participant){
-            //@TODO check prices with promotion ages
-            $quote['participants'][$key]['price'] = $quote['price'];
+            $price = $quote['price'];
+
+            $quote['participants'][$key]['base_price']      = $price;
+            $quote['participants'][$key]['promotions']      = $promotions;
+
+            foreach ($agePromotions as $agePromotion){
+                if ($agePromotion['pro_age_min'] && !$agePromotion['pro_age_max'] && $agePromotion['pro_age_min'] <= $participant['usr_age']
+                    || !$agePromotion['pro_age_min'] && $agePromotion['pro_age_max'] && $agePromotion['pro_age_max'] >= $participant['usr_age']
+                    || $agePromotion['pro_age_min'] && $agePromotion['pro_age_max'] && $agePromotion['pro_age_max'] >= $participant['usr_age'] &&  $agePromotion['pro_age_min'] <= $participant['usr_age']){
+
+                    $quote['participants'][$key]['promotions'][] = $agePromotion;
+
+                    if ($agePromotion['pro_discount_fix']){
+                        $price -= $agePromotion['pro_discount_fix'];
+                        break;
+                    }
+                    if ($agePromotion['pro_discount_percent']){
+                        $price = $price * (1 - $agePromotion['pro_discount_percent'] * 0.01);
+                        break;
+                    }
+                }
+            }
+            $quote['participants'][$key]['price']         = formatPrice($price);
 
         }
 
@@ -119,14 +158,29 @@ class ReservationController extends MY_Controller
 
         $date = formatDateFromFrToUs($quote['date']);
 
-        $this->ReservationModel->createReservation($date, $quote['time'], count($quote['participants']), $quote['tsl_id'], $_SESSION['user']['id']);
+        $this->ReservationModel->createReservation($date, $quote['time'], count($quote['participants']), $quote['tsl_id'], $_SESSION['user']['id'], $quote['activity']['act_id']);
 
         $resId = $this->db->insert_id();
 
+        include('phpqrcode/qrlib.php');
+
         foreach ($quote['participants'] as $key => $participant){
+
             $this->TicketModel->createTicket($participant['usr_firstname'], $participant['usr_lastname'], $participant['usr_age'], $participant['usr_gift_email'], $participant['price']);
 
             $ticId = $this->db->insert_id();
+
+            $lien = base_url().'ReservationController/ValidateTicket?id='.$ticId;
+
+            if(!is_dir('uploads/') || !is_dir('uploads/tickets/')){
+                mkdir( 'uploads/tickets/', 0777, true );
+            }
+
+            QRcode::png($lien, 'uploads/tickets/' . $ticId . '.png');
+
+            foreach ($participant['promotions'] as $promotion){
+                $this->TicketModel->createTicketPromotionHistory($ticId, $promotion);
+            }
 
             $this->TicketModel->createTicketReservationLink($resId, $ticId);
             if($participant['usr_gift_email']){
@@ -135,8 +189,37 @@ class ReservationController extends MY_Controller
         }
 
         //@TODO CREATE PAYMENT WITH PAYPAL DATA
+        $bankResponse = '';
+        $this->PaymentModel->createPayment($resId, $quote['total'], $bankResponse);
+
+        unset($_SESSION['current_quote']);
 
         $_SESSION['messages'][] = "Votre réservation a bien été effectuée";
+        $this->redirectHome();
+    }
+
+    public function validateTicket(){
+        $ticId = $this->input->get('id');
+        
+        if (!$ticId){
+            $_SESSION['messages'][] = "Aucun identifiant de ticket reseigné";
+            $this->redirectHome();
+        }
+
+        $ticket = $this->TicketModel->getTicketById($ticId);
+
+        if (!$ticket){
+            $_SESSION['messages'][] = "Ce ticket n'existe pas";
+            $this->redirectHome();
+        }
+
+        if ($ticket['tic_is_used']){
+            $_SESSION['messages'][] = "Ce ticket a déjà été utilisé";
+            $this->redirectHome();
+        }
+
+        $this->TicketModel->validateTicket($ticId);
+        $_SESSION['messages'][] = "Ticket validé";
         $this->redirectHome();
     }
 }

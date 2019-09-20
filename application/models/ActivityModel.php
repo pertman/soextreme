@@ -14,7 +14,7 @@ class ActivityModel extends CI_Model{
         $term2 .= "%";
         $sql = "SELECT *  FROM `activity` WHERE `act_name` LIKE ? OR `act_description` LIKE ? OR `act_resume` LIKE ? OR `act_city` LIKE ? OR `act_country` LIKE ? OR `act_street` LIKE ?";
         $query = $this->db->query($sql, array($term2,$term2,$term2,$term2,$term2,$term2));
-        return $query->row_array();
+        return $query->result_array();
     }
 
     public function getAllActivities(){

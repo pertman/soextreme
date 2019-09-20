@@ -23,7 +23,12 @@ class ApiController extends REST_Controller {
 
     function Activities_get(){
         $actTerm = $this->input->get('term');
-        $activities = $this->ActivityModel->getActivityByTerm($actTerm);
+        if ($actTerm){
+            $activities = $this->ActivityModel->getActivityByTerm($actTerm);
+        }else{
+            $activities = $this->ActivityModel->getAllActivities();
+        }
+
         die(json_encode($activities));
     }
 

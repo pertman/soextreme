@@ -81,7 +81,7 @@
                 <a href="<?php echo base_url("AdminController/disconnect"); ?>" class="navbar-item">Déconnexion</a>
             <?php endif; ?>
             <?php if (isCurrentUserCustomer()): ?>
-                <a href="<?php echo base_url("AccountController/profile"); ?>" class="navbar-item">Mon profil</a>
+                <a href="<?php echo base_url("UserController/profile"); ?>" class="navbar-item">Mon profil</a>
                 <a href="<?php echo base_url("LoginController/disconnect"); ?>" class="navbar-item">Déconnexion</a>
             <?php endif; ?>
             <?php if(isCurrentUserNotLoggedIn()): ?>

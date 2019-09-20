@@ -6513,6 +6513,15 @@ label {
   font-size: 2rem;
   margin-bottom: 30px; }
 
+.notification {
+  border-radius: 0;
+  padding-top: 10px;
+  padding-bottom: 10px; }
+  .notification:not(:last-child) {
+    margin-bottom: 2px; }
+  .notification.hidden {
+    display: none; }
+
 .menu-card, .category-card, .promo-card {
   width: 100%; }
   .menu-card:not(:last-child), .category-card:not(:last-child), .promo-card:not(:last-child) {
@@ -6746,6 +6755,9 @@ a[data-goto], .fc-day-header {
 
 .modifyProfileForm.hidden, .modifyPasswordForm.hidden {
   display: none; }
+
+.modifyProfileForm .profile-image {
+  max-width: 30%; }
 
 .profile-info {
   margin-bottom: 20px; }

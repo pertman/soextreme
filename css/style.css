@@ -6508,6 +6508,7 @@ label {
     width: 100%; }
 
 .page-title {
+  color: #1f3158;
   width: 100%;
   font-size: 2rem;
   margin-bottom: 30px; }
@@ -6545,6 +6546,26 @@ label {
     justify-content: space-between; }
     .activity-card .card-header .title {
       margin-bottom: 0; }
+  .activity-card .activity-pictures {
+    display: flex;
+    flex-direction: row; }
+    @media (max-width: 768px) {
+      .activity-card .activity-pictures {
+        flex-direction: column; } }
+    .activity-card .activity-pictures .picture {
+      width: calc(100%/3); }
+      .activity-card .activity-pictures .picture:not(:last-child) {
+        padding-right: 5px; }
+      .activity-card .activity-pictures .picture:not(:first-child) {
+        padding-left: 5px; }
+      @media (max-width: 768px) {
+        .activity-card .activity-pictures .picture {
+          width: 100%; }
+          .activity-card .activity-pictures .picture:not(:last-child) {
+            padding-right: 0;
+            padding-bottom: 10px; }
+          .activity-card .activity-pictures .picture:not(:first-child) {
+            padding-left: 0; } }
 
 .activity-list {
   display: flex;
@@ -6761,9 +6782,9 @@ a[data-goto], .fc-day-header {
     .reservations .reservation-card .tickets .ticket:not(:last-child) {
       margin-bottom: 20px; }
     .reservations .reservation-card .tickets .ticket .ticket-qr-code {
-      width: 30%; }
+      width: 123px; }
     .reservations .reservation-card .tickets .ticket .ticket-info {
-      width: 70%; }
+      width: 85%; }
       .reservations .reservation-card .tickets .ticket .ticket-info .row {
         display: flex;
         justify-content: flex-start; }
@@ -6775,3 +6796,38 @@ a[data-goto], .fc-day-header {
           font-size: 1.1rem; }
     .reservations .reservation-card .tickets .ticket:not(:last-child) {
       margin-bottom: 10px; }
+
+.activityForm .images {
+  width: 100%;
+  display: flex;
+  flex-direction: column; }
+  .activityForm .images .row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; }
+    @media (max-width: 768px) {
+      .activityForm .images .row {
+        flex-direction: column; } }
+    .activityForm .images .row .field {
+      width: 45%; }
+      @media (max-width: 768px) {
+        .activityForm .images .row .field {
+          width: 100%; } }
+
+.main-page .section-title {
+  font-size: 1.4rem;
+  color: #1f3158;
+  width: 100%;
+  padding: 20px 0 20px 0; }
+
+.main-page .promotions {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap; }
+  .main-page .promotions .promotion {
+    color: #1f3158;
+    padding: 20px;
+    border: 1px solid #ff9437;
+    width: 49%;
+    margin-bottom: 20px;
+    font-size: 1.2rem; }

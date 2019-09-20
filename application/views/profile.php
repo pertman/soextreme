@@ -180,7 +180,7 @@
                                 </div>
                                 <div class="ticket-qr-code">
                                     <?php //@TODO QRCODE ?>
-                                    QR CODE
+                                    <img src="<?php echo base_url().'uploads/tickets/'.$ticket['tic_id']; ?>" alt="qrcode">
                                 </div>
                         </div>
                     <?php endforeach; ?>

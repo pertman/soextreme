@@ -117,4 +117,10 @@ class PromotionModel extends CI_Model{
         $sql = 'DELETE FROM promotion WHERE pro_id = ?';
         return $this->db->query($sql, array($proId));
     }
+
+    public function getMainPagePromotions(){
+        $sql = "SELECT * FROM promotion WHERE pro_is_active = ? AND pro_is_main_page = ?";
+        $query = $this->db->query($sql, array(1, 1));
+        return $query->result_array();
+    }
 }

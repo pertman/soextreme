@@ -31,6 +31,12 @@ class AdminActivityController extends MY_Controller{
             }else{
                 $this->ActivityModel->createActivity($post);
 
+                $actId = $this->db->insert_id();
+
+                foreach ($_FILES as $key => $file){
+                    $this->uploadPhoto($key, $file, $actId);
+                }
+
                 $_SESSION['messages'][] = "L'activité ". $post['act_name'] . " a bien été crée";
 
                 redirect('/ActivityController/listActivities', 'refresh');
@@ -51,6 +57,10 @@ class AdminActivityController extends MY_Controller{
             $this->activityCheck($actId);
 
             $this->ActivityModel->updateActivity($post);
+
+            foreach ($_FILES as $key => $file){
+                $this->uploadPhoto($key, $file, $actId);
+            }
 
             $activity = $this->ActivityModel->getActivityById($actId);
 
@@ -297,5 +307,29 @@ class AdminActivityController extends MY_Controller{
         );
 
         return $mapping[$dayIndex];
+    }
+
+    public function uploadPhoto($key, $file, $actId){
+        $filename   = $file['name'];
+        if ($filename){
+            $path       = 'uploads/activities/' . $actId;
+            $config['allowed_types'] = '*';
+            $config['upload_path'] = $path;
+            $this->load->library('upload', $config);
+
+            if(!is_dir('uploads/') || !is_dir('uploads/activities/') || !is_dir($path) ){
+                mkdir( $path, 0777, true );
+            }
+
+            $realPath = $path.'/'.$key.'.jpg';
+            if (file_exists($realPath)){
+                unlink($realPath);
+            }
+
+            if ($this->upload->do_upload($key)) {
+                rename($path.'/'.$filename, $realPath);
+                $this->ActivityModel->setActivityImagePath($key, $realPath, $actId);
+            }
+        }
     }
 }

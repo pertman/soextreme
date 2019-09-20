@@ -56,3 +56,13 @@ function getDurationValueFromMinute($minutes){
         return $minutes .  'min';
     }
 }
+
+function getFullSizePages(){
+    return array(
+        'planningActivity'
+    );
+}
+
+function formatPrice($number){
+    return number_format((float)$number, 2, '.', '');
+}

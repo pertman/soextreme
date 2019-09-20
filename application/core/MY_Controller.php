@@ -17,6 +17,7 @@ class MY_Controller extends CI_Controller {
     public function init(){
         $this->load->helper('url');
         $this->load->helper('main_helper');
+        $this->load->helper('planning_helper');
         $this->load->database();
         $this->load->model('UserModel');
         $this->load->model('ActivityModel');
@@ -24,6 +25,10 @@ class MY_Controller extends CI_Controller {
         $this->load->model('AdminModel');
         $this->load->model('MenuModel');
         $this->load->model('PlanningModel');
+        $this->load->model('ReservationModel');
+        $this->load->model('TicketModel');
+        $this->load->model('PromotionModel');
+        $this->load->model('PaymentModel');
 
         if (!isset($_SESSION['messages'])){
             $_SESSION['messages'] = array();

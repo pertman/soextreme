@@ -31,7 +31,18 @@
 <div class="button is-link modifyPasswordButton">Modification de votre mot de passe</div>
 <div class="button is-link showReservation">Mes reservations</div>
 
-<form method="post" action="updateprofile" class="modifyProfileForm hidden">
+<form method="post" action="updateprofile" class="modifyProfileForm hidden" enctype="multipart/form-data">
+    <div class="field">
+        <label for="usr_profile_picture">Photo de profil</label>
+            <?php if ($user['usr_profile_picture']): ?>
+                <div class="profile-image">
+                    <img src="<?php echo base_url().$user['usr_profile_picture']; ?>" alt="profile-picture">
+                </div>
+            <?php endif; ?>
+        <div class="control">
+            <input type="file" name="usr_profile_picture" id="usr_profile_picture">
+        </div>
+    </div>
     <div class="columns">
         <div class="column">
             <div class="field">
@@ -179,7 +190,6 @@
                                     </div>
                                 </div>
                                 <div class="ticket-qr-code">
-                                    <?php //@TODO QRCODE ?>
                                     <img src="<?php echo base_url().'uploads/tickets/'.$ticket['tic_id']; ?>" alt="qrcode">
                                 </div>
                         </div>

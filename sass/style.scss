@@ -190,6 +190,18 @@ label{
   margin-bottom: 30px;
 }
 
+.notification{
+  border-radius: 0;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  &:not(:last-child){
+    margin-bottom: 2px;
+  }
+  &.hidden{
+    display: none;
+  }
+}
+
 //MenuList.php //
 .menu-card, .category-card, .promo-card{
   width: 100%;
@@ -510,6 +522,12 @@ a[data-goto], .fc-day-header{
 
 .modifyProfileForm.hidden, .modifyPasswordForm.hidden{
   display: none;
+}
+
+.modifyProfileForm{
+  .profile-image{
+    max-width: 30%;
+  }
 }
 .profile-info{
   margin-bottom: 20px;

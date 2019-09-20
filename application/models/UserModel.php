@@ -46,9 +46,14 @@ class UserModel extends CI_Model {
         return $this->db->query($sql, array($post['usr_firstname'], $post['usr_lastname'], $post['usr_email'], $post['usr_phone'], $now, $post['usr_id']));
     }
 
-    public function updatePassword($usrId, $hashPassword){
+    public function updatePassword($hashPassword, $usrId){
         $now = date('Y-m-d H:i:s');
         $sql = 'UPDATE `user` SET `usr_password` = ?, `usr_updated_at` = ? WHERE `usr_id` = ?';
         return $this->db->query($sql, array($hashPassword, $now, $usrId));
+    }
+
+    public function setProfilePicturePath($key, $path, $usrId){
+        $sql = 'UPDATE `user` SET ' . $key . ' = ? WHERE usr_id = ?';
+        return $this->db->query($sql, array($path, $usrId));
     }
 }

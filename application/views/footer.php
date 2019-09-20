@@ -5,3 +5,8 @@
         </p>
     </div>
 </footer>
+<script>
+    $('.notification .delete').click(function () {
+        this.parentElement.classList.add('hidden');
+    });
+</script>

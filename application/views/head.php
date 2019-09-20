@@ -18,4 +18,5 @@
     <script src='<?php echo base_url(); ?>/node_modules/@fullcalendar/daygrid/main.js'></script>
     <script src='<?php echo base_url(); ?>/node_modules/@fullcalendar/timegrid/main.js'></script>
     <script src='<?php echo base_url(); ?>/node_modules/@fullcalendar/list/main.js'></script>
+    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 </head>

@@ -27,6 +27,7 @@ class MY_Controller extends CI_Controller {
         $this->load->model('PlanningModel');
         $this->load->model('ReservationModel');
         $this->load->model('TicketModel');
+        $this->load->model('PaypalModel');
 
         if (!isset($_SESSION['messages'])){
             $_SESSION['messages'] = array();

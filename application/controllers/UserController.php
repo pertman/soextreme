@@ -145,4 +145,24 @@ class UserController extends MY_Controller {
             }
         }
     }
+
+    public function evaluateActivityTicket()
+    {
+        $post = $this->input->post();
+        if (isset($post['tic_id']) && isset($post['tic_note'])){
+            $this->TicketModel->evaluateActivityByTicket($post['tic_id'], $post['tic_note']);
+            $activity = $this->TicketModel->getActivityByTicketId($post['tic_id']);
+
+            $newSum     = $activity['act_note_sum'] + $post['tic_note'];
+            $newCount   = $activity['act_note_count'] + 1;
+
+            $this->ActivityModel->updateActivityNoteSumAndCount($newSum, $newCount, $activity['act_id']);
+
+            $_SESSION['messages'][] = "Votre evaluation a bien été prise en compte";
+            return $this->profile();
+        }else{
+            $_SESSION['messages'][] = "Tous les parametres requis ne sont pas présent";
+            $this->redirectHome();
+        }
+    }
 }

@@ -6612,6 +6612,9 @@ label {
             background-color: red; }
           .activity-list .card .card-header .act-status .led.red {
             background-color: orange; }
+      .activity-list .card .card-header .note {
+        font-size: 1.1rem;
+        color: #ff9437; }
 
 .activity-plan-container .daySelectPlan {
   display: flex;
@@ -6768,9 +6771,6 @@ a[data-goto], .fc-day-header {
     .profile-info .field .value {
       font-size: 1.1rem; }
 
-.reservations.hidden {
-  display: none; }
-
 .reservations .reservation-card {
   width: 100%; }
   .reservations .reservation-card:not(:last-child) {
@@ -6795,6 +6795,13 @@ a[data-goto], .fc-day-header {
       margin-bottom: 20px; }
     .reservations .reservation-card .tickets .ticket .ticket-qr-code {
       width: 123px; }
+      .reservations .reservation-card .tickets .ticket .ticket-qr-code .ticket-note {
+        text-align: center;
+        font-size: 1.3rem;
+        margin: 10px auto;
+        color: #ff9437; }
+      .reservations .reservation-card .tickets .ticket .ticket-qr-code .evaluate-button {
+        width: 100%; }
     .reservations .reservation-card .tickets .ticket .ticket-info {
       width: 85%; }
       .reservations .reservation-card .tickets .ticket .ticket-info .row {

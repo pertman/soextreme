@@ -323,6 +323,10 @@ label{
           }
         }
       }
+      .note{
+        font-size: 1.1rem;
+        color: $orange;
+      }
     }
   }
 }
@@ -542,9 +546,6 @@ a[data-goto], .fc-day-header{
   }
 }
 .reservations{
-  &.hidden{
-    display: none;
-  }
   .reservation-card{
     width: 100%;
     &:not(:last-child){
@@ -578,6 +579,15 @@ a[data-goto], .fc-day-header{
         }
         .ticket-qr-code{
           width: 123px;
+          .ticket-note{
+            text-align: center;
+            font-size: 1.3rem;
+            margin: 10px auto;
+            color: $orange;
+          }
+          .evaluate-button{
+            width: 100%;
+          }
         }
         .ticket-info{
           width: 85%;

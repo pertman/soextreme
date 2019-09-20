@@ -29,7 +29,6 @@
 
 <div class="button is-link modifyProfileButton">Modification de vos informations</div>
 <div class="button is-link modifyPasswordButton">Modification de votre mot de passe</div>
-<div class="button is-link showReservation">Mes reservations</div>
 
 <form method="post" action="updateprofile" class="modifyProfileForm hidden" enctype="multipart/form-data">
     <div class="field">
@@ -111,7 +110,7 @@
     </div>
 </form>
 
-<div class="reservations hidden">
+<div class="reservations">
     <?php foreach ($reservations as $reservation): ?>
         <div class="reservation-card card">
             <div class="card-header">
@@ -155,43 +154,78 @@
                     </div>
                     <?php foreach ($reservation['tickets'] as $ticket): ?>
                         <div class="ticket">
-                                <div class="ticket-info">
-                                    <div class="tic_firstname row">
-                                        <div class="ticket-label">
-                                            Prenom :
-                                        </div>
-                                        <div class="ticket-value">
-                                            <?php echo $ticket['tic_firstname']; ?>
-                                        </div>
+                            <div class="ticket-info">
+                                <div class="tic_status row">
+                                    <div class="ticket-label">
+                                        Statut :
                                     </div>
-                                    <div class="tic_lastname row">
-                                        <div class="ticket-label">
-                                            Nom :
-                                        </div>
-                                        <div class="ticket-value">
-                                            <?php echo $ticket['tic_lastname']; ?>
-                                        </div>
-                                    </div>
-                                    <div class="tic_age row">
-                                        <div class="ticket-label">
-                                            Age :
-                                        </div>
-                                        <div class="ticket-value">
-                                            <?php echo $ticket['tic_age']. ' ans'; ?>
-                                        </div>
-                                    </div>
-                                    <div class="tic_price row">
-                                        <div class="ticket-label">
-                                            Prix :
-                                        </div>
-                                        <div class="ticket-value">
-                                            <?php echo formatPrice($ticket['tic_price']).'€'; ?>
-                                        </div>
+                                    <div class="ticket-value">
+                                        <?php $status = ($ticket['tic_is_used']) ? 'Utilisé' : 'Non utilisé' ?>
+                                        <?php echo $status; ?>
                                     </div>
                                 </div>
-                                <div class="ticket-qr-code">
-                                    <img src="<?php echo base_url().'uploads/tickets/'.$ticket['tic_id']; ?>" alt="qrcode">
+                                <div class="tic_firstname row">
+                                    <div class="ticket-label">
+                                        Prenom :
+                                    </div>
+                                    <div class="ticket-value">
+                                        <?php echo $ticket['tic_firstname']; ?>
+                                    </div>
                                 </div>
+                                <div class="tic_lastname row">
+                                    <div class="ticket-label">
+                                        Nom :
+                                    </div>
+                                    <div class="ticket-value">
+                                        <?php echo $ticket['tic_lastname']; ?>
+                                    </div>
+                                </div>
+                                <div class="tic_age row">
+                                    <div class="ticket-label">
+                                        Age :
+                                    </div>
+                                    <div class="ticket-value">
+                                        <?php echo $ticket['tic_age']. ' ans'; ?>
+                                    </div>
+                                </div>
+                                <div class="tic_price row">
+                                    <div class="ticket-label">
+                                        Prix :
+                                    </div>
+                                    <div class="ticket-value">
+                                        <?php echo formatPrice($ticket['tic_price']).'€'; ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ticket-qr-code">
+                                <img src="<?php echo base_url().'uploads/tickets/'.$ticket['tic_id']; ?>" alt="qrcode">
+                                <?php if ($ticket['tic_note']): ?>
+                                    <div class="ticket-note">
+                                        <?php echo $ticket['tic_note'].'/10'; ?>
+                                    </div>
+                                <?php else: ?>
+                                    <?php if ($ticket['tic_is_used'] && !$ticket['tic_is_gift'] || $ticket['tic_is_gift'] && $ticket['tic_email'] = $user['usr_email']): ?>
+                                        <form action="evaluateActivityTicket" method="post">
+                                            <input type="hidden" name="tic_id" value="<?php echo $ticket['tic_id']; ?>">
+
+                                            <div class="field">
+                                                <label for="tic_note">Note sur 10</label>
+                                                <div class="control">
+                                                    <input class="input" name="tic_note" type="number" min="0" max="10" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="field">
+                                                <div class="control">
+                                                    <div class="buttons">
+                                                        <button class="button is-link evaluate-button">Evaluer</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                            </div>
                         </div>
                     <?php endforeach; ?>
                 </div>
@@ -207,10 +241,6 @@
 
     $('.modifyPasswordButton').click(function () {
         $('.modifyPasswordForm').toggleClass('hidden');
-    });
-
-    $('.showReservation').click(function () {
-        $('.reservations').toggleClass('hidden');
     });
     
     $('.see-tickets').click(function () {

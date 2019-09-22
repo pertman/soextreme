@@ -52,4 +52,13 @@ class TicketModel extends CI_Model{
         $query = $this->db->query($sql, array($ticId));
         return $query->row_array();
     }
+
+    public function getActivityUsedTicketsByUser($usrId, $actId){
+        $sql = "SELECT * FROM ticket
+                LEFT JOIN ticket_reservation_link ON ticket.tic_id = ticket_reservation_link.tic_id
+                LEFT JOIN reservation ON ticket_reservation_link.res_id = reservation.res_id
+                WHERE ticket.tic_is_used = ? AND ticket.tic_is_gift = ? AND reservation.usr_id = ? AND reservation.act_id = ?";
+        $query = $this->db->query($sql, array(1, 0, $usrId, $actId));
+        return $query->result_array();
+    }
 }

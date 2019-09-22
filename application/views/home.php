@@ -25,7 +25,11 @@
                         <div class="card-header activity-list-card-header">
                             <a class="title is-4" href="<?php echo base_url("ActivityController/seeActivity"); ?>?id=<?php echo $activity['act_id']; ?>"><?php echo $activity['act_name']; ?></a>
                             <div class="note">
-                                <?php echo round($activity['act_note_sum'] / $activity['act_note_count'], 2) . "/10"; ?>
+                                <?php if ($activity['act_note_count']): ?>
+                                    <?php echo round($activity['act_note_sum'] / $activity['act_note_count'], 2) . "/10"; ?>
+                                <?php else: ?>
+                                    Non evalué
+                                <?php endif; ?>
                             </div>
                         </div>
 

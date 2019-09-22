@@ -20,7 +20,11 @@
                         </div>
                     <?php endif; ?>
                     <div class="note">
-                        <?php echo round($activity['act_note_sum'] / $activity['act_note_count'], 2) . "/10"; ?>
+                        <?php if ($activity['act_note_count']): ?>
+                            <?php echo round($activity['act_note_sum'] / $activity['act_note_count'], 2) . "/10"; ?>
+                        <?php else: ?>
+                            Non evalué
+                        <?php endif; ?>
                     </div>
                 </div>
                 <a class="card-image" href="<?php echo base_url("ActivityController/seeActivity"); ?>?id=<?php echo $activity['act_id']; ?>">

@@ -6576,6 +6576,19 @@ label {
           .activity-card .activity-pictures .picture:not(:first-child) {
             padding-left: 0; } }
 
+.comments .comment-card {
+  width: 100%;
+  padding: 20px;
+  border: 1px solid #ff9437; }
+  .comments .comment-card .show-comment-form {
+    user-select: none; }
+  .comments .comment-card .comment-picture {
+    max-width: 80%;
+    height: auto;
+    margin-bottom: 20px; }
+  .comments .comment-card .comment-form.hidden {
+    display: none; }
+
 .activity-list {
   display: flex;
   flex-wrap: wrap; }

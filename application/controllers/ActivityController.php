@@ -16,11 +16,18 @@ class ActivityController extends MY_Controller{
     }
 
     public function listActivities(){
-    //@TODO put pramas headData and view in each functions
-        if (isCurrentUserAdmin()){
-            $this->_params['data']['activities']  = $this->ActivityModel->getAllActivities();
+        //@TODO put pramas headData and view in each functions
+        $this->_params['data']['categories']  = $this->CategoryModel->getActiveCategories();
+        $this->_params['data']['filters']     = array();
+        if ($post = $this->input->post()){
+            $this->_params['data']['activities']  = $this->ActivityModel->getFilteredActivities($post);
+            $this->_params['data']['filters']     = $post;
         }else{
-            $this->_params['data']['activities']  = $this->ActivityModel->getActiveActivities();
+            if (isCurrentUserAdmin()){
+                $this->_params['data']['activities']  = $this->ActivityModel->getAllActivities();
+            }else{
+                $this->_params['data']['activities']  = $this->ActivityModel->getNonPrivateActivities();
+            }
         }
         $this->load->view('template', $this->_params);
     }

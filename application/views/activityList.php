@@ -1,12 +1,87 @@
 <?php $activitiesStatusMapping      = getActivitiesStatusMapping(); ?>
 <?php $activitiesStatusColorMapping = getActivitiesStatusColorMapping(); ?>
-
+<?php $actTitle                     = ($filters) ? $filters['act_name'] : ''; ?>
+<?php $actLevel                     = ($filters) ? $filters['act_level'] : ''; ?>
+<?php $catId                        = ($filters) ? $filters['cat_id'] : ''; ?>
+<?php $actParticipantNb             = ($filters) ? $filters['act_participant_nb'] : ''; ?>
+<?php $actRequiredAge               = ($filters) ? $filters['act_required_age'] : ''; ?>
+<?php $actHandicappedAccessibility  = ($filters) ? $filters['act_handicapped_accessibility'] : ''; ?>
 <div class="page-title">
     Liste des activitées
 </div>
 
+<div class="buttons">
+    <button class="button is-link show-filters"><?php if ($activities): ?>Filtrer<?php else: ?>Masquer<?php endif; ?></button>
+</div>
+
+<form action="listActivities" method="post" class="filter-activities-form <?php if ($activities): ?>hidden<?php endif;?>">
+    <div class="field">
+        <label for="act_name">Nom de l'activité</label>
+        <div class="control">
+            <input class="input" type="text" name="act_name" value="<?php echo $actTitle; ?>">
+        </div>
+    </div>
+    <div class="field">
+        <label for="act_level">Niveau</label>
+        <div class="control">
+            <div class="select">
+                <select class="select" name="act_level">
+                    <option value="">Selectionnez une niveau d'activité</option>
+                    <option value="beginner" <?php if ($actLevel == 'beginner'): ?>selected<?php endif ?>>Débutant</option>
+                    <option value="confirmed" <?php if ($actLevel == 'confirmed'): ?>selected<?php endif ?>>Confirmé</option>
+                    <option value="expert" <?php if ($actLevel == 'expert'): ?>selected<?php endif ?>>Expert</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="field">
+        <label for="cat_id">Catégorie</label>
+        <div class="control">
+            <div class="select">
+                <select class="select" name="cat_id">
+                    <option value="">Selectionnez une catégorie</option>
+                    <?php if (isset($categories)) : ?>
+                        <?php foreach($categories as $category) : ?>
+                            <option value="<?php echo $category['cat_id']; ?>" <?php if ($catId == $category['cat_id']): ?>selected<?php endif; ?>><?php echo $category['cat_name']; ?> </option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="field">
+        <label for="act_participant_nb">Nombre de participants</label>
+        <div class="control">
+            <input class="input" type="number" min="0" name="act_participant_nb" value="<?php echo $actParticipantNb; ?>">
+        </div>
+    </div>
+    <div class="field">
+        <label for="act_required_age">Age minimum requis</label>
+        <div class="control">
+            <input class="input" type="number" min="0" name="act_required_age" value="<?php echo $actRequiredAge?>">
+        </div>
+    </div>
+    <div class="field">
+        <label for="act_handicapped_accessibility">Accessibilité personnes handicapées</label>
+        <div class="control">
+            <div class="select">
+                <select class="select" name="act_handicapped_accessibility">
+                    <option value="">Non</option>
+                    <option value="yes" <?php if ($actHandicappedAccessibility == 'yes'): ?>selected<?php endif; ?>>Oui</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="field buttons">
+        <div class="control">
+            <button class="button is-link">Valider</button>
+        </div>
+    </div>
+</form>
+
 <div class="card-container activity-list">
-    <?php if (isset($activities)) : ?>
+    <?php if ($activities) : ?>
         <?php foreach ($activities as $activity) : ?>
             <div class="card activity-list-card">
                 <div class="card-header activity-list-card-header">
@@ -59,5 +134,18 @@
                 </div>
             </div>
         <?php endforeach; ?>
+    <?php else: ?>
+        Aucune activité trouvée selon les critères selectionnés
     <?php endif; ?>
 </div>
+
+<script>
+    $('.show-filters').click(function () {
+       $('.filter-activities-form').toggleClass('hidden');
+       if (this.innerHTML === 'Filtrer'){
+           this.innerHTML = 'Masquer';
+       }else{
+           this.innerHTML = 'Filtrer';
+       }
+    });
+</script>

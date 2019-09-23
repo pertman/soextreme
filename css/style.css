@@ -6589,6 +6589,9 @@ label {
   .comments .comment-card .comment-form.hidden {
     display: none; }
 
+.filter-activities-form.hidden {
+  display: none; }
+
 .activity-list {
   display: flex;
   flex-wrap: wrap; }

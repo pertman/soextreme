@@ -15,10 +15,49 @@ class ActivityModel extends CI_Model{
         return $query->result_array();
     }
 
-    public function getActiveActivities(){
-        $act_status = 'active';
-        $sql = "SELECT * FROM activity WHERE act_status= ?";
+    public function getNonPrivateActivities(){
+        $act_status = 'private';
+        $sql = "SELECT * FROM activity WHERE act_status <> ?";
         $query = $this->db->query($sql, array($act_status));
+        return $query->result_array();
+    }
+
+    public function getFilteredActivities($post){
+
+        $sql = "SELECT * FROM activity";
+
+        $condWord = ' WHERE';
+
+        if (isCurrentUserCustomer()){
+            $sql .= $condWord." act_status <> 'private'";
+            $condWord = ' AND';
+        }
+
+        if ($post['act_name']){
+            $sql .= $condWord." act_name like '%" . $post['act_name'] . "%'";
+            $condWord = ' AND';
+        }
+        if ($post['act_level']){
+            $sql .= $condWord." act_level = '" . $post['act_level'] . "'";
+            $condWord = ' AND';
+        }
+        if ($post['cat_id']){
+            $sql .= $condWord." cat_id = '" . $post['cat_id'] . "'";
+            $condWord = ' AND';
+        }
+        if ($post['act_participant_nb']){
+            $sql .= $condWord." act_participant_nb >= '" . $post['act_participant_nb'] . "'";
+            $condWord = ' AND';
+        }
+        if ($post['act_required_age']){
+            $sql .= $condWord." act_required_age <= '" . $post['act_required_age'] . "'";
+            $condWord = ' AND';
+        }
+        if ($post['act_handicapped_accessibility'] == 'yes'){
+            $sql .= $condWord." act_handicapped_accessibility = 1";
+        }
+
+        $query = $this->db->query($sql);
         return $query->result_array();
     }
 

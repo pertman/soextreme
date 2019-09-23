@@ -297,6 +297,11 @@ label{
 }
 
 //listActivities.php //home.php
+.filter-activities-form{
+  &.hidden{
+    display: none;
+  }
+}
 .activity-list{
   display: flex;
   flex-wrap: wrap;

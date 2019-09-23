@@ -1,12 +1,6 @@
 <?php
 
 class ActivityModel extends CI_Model{
-    
-    public function getActivityByName($name){
-        $sql = "SELECT * FROM activity WHERE act_name = ?";
-        $query = $this->db->query($sql, array($name));
-        return $query->row_array();
-    }
 
     public function getAllActivities(){
         $sql = "SELECT * FROM activity";

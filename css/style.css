@@ -6866,3 +6866,22 @@ a[data-goto], .fc-day-header {
     width: 49%;
     margin-bottom: 20px;
     font-size: 1.2rem; }
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem 3rem; }
+  .footer .newsletter {
+    width: 50%; }
+    .footer .newsletter .newletter-label {
+      font-size: 1rem;
+      color: white;
+      text-align: center;
+      margin-bottom: 10px; }
+    .footer .newsletter .newsletter-form {
+      display: flex; }
+      .footer .newsletter .newsletter-form input {
+        border-radius: 4px 0 0 4px; }
+      .footer .newsletter .newsletter-form .button {
+        border-radius: 0 4px 4px 0; }

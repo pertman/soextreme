@@ -30,6 +30,7 @@ class MY_Controller extends CI_Controller {
         $this->load->model('PromotionModel');
         $this->load->model('PaymentModel');
         $this->load->model('CommentModel');
+        $this->load->model('NewsletterModel');
 
         if (!isset($_SESSION['messages'])){
             $_SESSION['messages'] = array();

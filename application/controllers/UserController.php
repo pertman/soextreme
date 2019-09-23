@@ -165,4 +165,25 @@ class UserController extends MY_Controller {
             $this->redirectHome();
         }
     }
+
+    public function newsletterSubscription(){
+        $post = $this->input->post();
+
+        if (!isset($post['new_email'])){
+            die(json_encode(array('status' => 'error', 'message' => 'Veuillez renseigner une adresse mail')));
+        }
+
+        if (!filter_var($post['new_email'], FILTER_VALIDATE_EMAIL)){
+            die(json_encode(array('status' => 'error', 'message' => 'Veuillez saisir un email valide')));
+        }
+
+        $newsletterSubscription = $this->NewsletterModel->getNewsletterByEmail($post{'new_email'});
+
+        if ($newsletterSubscription){
+            die(json_encode(array('status' => 'error', 'message' => 'Cet email est déjà enregistré à la newsletter')));
+        }
+
+        $this->NewsletterModel->createNewsletter($post{'new_email'});
+        die(json_encode(array('status' => 'valid', 'message' => 'Inscription à la newslettter effectuée')));
+    }
 }

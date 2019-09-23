@@ -680,3 +680,29 @@ a[data-goto], .fc-day-header{
     }
   }
 }
+
+//footer
+.footer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem 3rem;
+  .newsletter{
+    width: 50%;
+    .newletter-label{
+      font-size: 1rem;
+      color: white;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .newsletter-form{
+      display: flex;
+      input{
+        border-radius: 4px 0 0 4px;
+      }
+      .button{
+        border-radius: 0 4px 4px 0;
+      }
+    }
+  }
+}

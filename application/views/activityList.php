@@ -10,7 +10,7 @@
         <?php foreach ($activities as $activity) : ?>
             <div class="card activity-list-card">
                 <div class="card-header activity-list-card-header">
-                    <a class="title is-4" href="<?php echo base_url("ActivityController/seeActivity"); ?>?id=<?php echo $activity['act_id']; ?>"><?php echo $activity['act_name']; ?></a>
+                    <a class="title is-4" href="<?php echo base_url("ActivityController/seeActivity"); ?>?id=<?php echo $activity['act_id']; ?>"><?php echo $activity['act_name']. " - ". getLevelLabel($activity['act_level']); ?></a>
                     <?php if (isCurrentUserAdmin()): ?>
                         <div class="act-status is-6">
                             <div class="led <?php echo $activitiesStatusColorMapping[$activity['act_status']]; ?>">
@@ -36,18 +36,25 @@
                         <?php endif; ?>
                     </figure>
                 </a>
-                <div class="card-content">
-                    <div class="act_resume row">
-                        <?php echo $activity['act_resume']; ?>.
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <div class="buttons">
-                        <?php if (isCurrentUserAdmin()): ?>
-                            <a class="button is-link" href="<?php echo base_url("AdminActivityController/updateActivity"); ?>?id=<?php echo $activity['act_id']; ?>">Modifier l'activité</a>
-                            <a class="button is-link" href="<?php echo base_url('AdminActivityController/planActivity') ?>?id=<?php echo $activity['act_id']; ?>" class="button">Plannifier</a>
+                <div class="card-bottom-container">
+                    <div class="card-content">
+                        <div class="act_resume row">
+                            <?php echo $activity['act_resume']; ?>.
+                        </div>
+                        <?php if ($activity['act_handicapped_accessibility']): ?>
+                            <figure class="image is-64x64">
+                                <img src="<?php echo base_url().'uploads/handicap-logo'; ?>" alt="handicap-accessibility">
+                            </figure>
                         <?php endif; ?>
-                        <a class="button is-link" href="<?php echo base_url("PlanningController/seeActivityPlanning"); ?>?id=<?php echo $activity['act_id'];?>">Voir le planning</a>
+                    </div>
+                    <div class="card-footer">
+                        <div class="buttons">
+                            <?php if (isCurrentUserAdmin()): ?>
+                                <a class="button is-link" href="<?php echo base_url("AdminActivityController/updateActivity"); ?>?id=<?php echo $activity['act_id']; ?>">Modifier l'activité</a>
+                                <a class="button is-link" href="<?php echo base_url('AdminActivityController/planActivity') ?>?id=<?php echo $activity['act_id']; ?>" class="button">Plannifier</a>
+                            <?php endif; ?>
+                            <a class="button is-link" href="<?php echo base_url("PlanningController/seeActivityPlanning"); ?>?id=<?php echo $activity['act_id'];?>">Voir le planning</a>
+                        </div>
                     </div>
                 </div>
             </div>

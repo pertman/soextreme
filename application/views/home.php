@@ -23,7 +23,7 @@
                 <?php foreach ($activities as $activity) : ?>
                     <div class="card activity-list-card">
                         <div class="card-header activity-list-card-header">
-                            <a class="title is-4" href="<?php echo base_url("ActivityController/seeActivity"); ?>?id=<?php echo $activity['act_id']; ?>"><?php echo $activity['act_name']; ?></a>
+                            <a class="title is-4" href="<?php echo base_url("ActivityController/seeActivity"); ?>?id=<?php echo $activity['act_id']; ?>"><?php echo $activity['act_name']. " - ". getLevelLabel($activity['act_level']); ?></a>
                             <div class="note">
                                 <?php if ($activity['act_note_count']): ?>
                                     <?php echo round($activity['act_note_sum'] / $activity['act_note_count'], 2) . "/10"; ?>

@@ -7,7 +7,7 @@
     <?php $this->load->view('messages',$messages); ?>
 </div>
 <section class="section">
-    <div class="main-container container">
+    <div class="main-container container<?php if (in_array($view, getFullSizePages())):?> full-size<?php endif; ?>">
         <?php $this->load->view($view,$data); ?>
     </div>
 </section>

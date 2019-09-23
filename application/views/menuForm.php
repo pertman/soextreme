@@ -11,7 +11,7 @@
 
 <form method="post" action="<?php if ($isMen): ?>updateMenu<?php else: ?>createMenu<?php endif; ?>">
     <div class="field">
-        <label for="act_title">Titre</label>
+        <label for="men_name">Titre</label>
         <div class="control">
             <input class="input" type="text" name="men_name" value="<?php echo $menName; ?>" required>
         </div>

@@ -2,12 +2,13 @@
 
 @import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
 
-$blue: #4462a5;
+//$blue: #4462a5;
+$blue: #1f3158;
+$orange: #ff9437;
 
 $tablet: 1012px !default
 
 $grey: #dbdbdb;
-$orange: #e38b40;
 $brown: #757763;
 
 $beige-light: #D0D1CD;
@@ -36,9 +37,24 @@ $light-grey : #f0f0f0;
 
 @import "../node_modules/bulma/bulma.sass";
 @import "../node_modules/bulma-calendar/dist/css/bulma-calendar.min.css";
+//Calendar
+@import '../node_modules/@fullcalendar/core/main.css';
+@import '../node_modules/@fullcalendar/daygrid/main.css';
+@import '../node_modules/@fullcalendar/timegrid/main.css';
+@import '../node_modules/@fullcalendar/list/main.css';
 
+//General
 .input, .textarea{
   box-shadow: none;
+  border-color: #D0D1CD;
+}
+
+select.select, .select > select{
+  border: 2px solid #D0D1CD;
+}
+
+.main-container.full-size{
+  max-width : none;
 }
 
 label{
@@ -50,7 +66,6 @@ label{
 }
 
 .card-header{
-  //&:not(.activity-list-card-header){
   background: $primary;
   .title{
     color: white;
@@ -61,7 +76,6 @@ label{
   .state{
     color: white;
   }
-  //}
 }
 
 //Override calendar
@@ -100,6 +114,11 @@ label{
 .datetimepicker{
   max-width: 100%;
   margin: auto;
+}
+
+.timepicker-input{
+  padding-top : 12px;
+  padding-bottom: 5px;
 }
 
 @media screen and (max-width: 1023px) {
@@ -163,13 +182,26 @@ label{
 }
 
 .page-title{
+  color: $primary;
   width: 100%;
   font-size: 2rem;
   margin-bottom: 30px;
 }
 
+.notification{
+  border-radius: 0;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  &:not(:last-child){
+    margin-bottom: 2px;
+  }
+  &.hidden{
+    display: none;
+  }
+}
+
 //MenuList.php //
-.menu-card, .category-card{
+.menu-card, .category-card, .promo-card{
   width: 100%;
   &:not(:last-child){
     margin-bottom: 20px;
@@ -177,7 +209,7 @@ label{
   &.is-top-menu{
     border: 1px solid $orange;
   }
-  .menu-title, .cat-title{
+  .menu-title, .cat-title, .promo-title{
     width: 100%;
   }
   .card-content{
@@ -215,9 +247,61 @@ label{
       margin-bottom: 0;
     }
   }
+  .activity-pictures{
+    display: flex;
+    flex-direction: row;
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
+    .picture{
+      width: calc(100%/3);
+      &:not(:last-child){
+        padding-right: 5px;
+      }
+      &:not(:first-child){
+        padding-left: 5px;
+      }
+      @media (max-width: 768px) {
+        width: 100%;
+        &:not(:last-child){
+          padding-right: 0;
+          padding-bottom: 10px;
+        }
+        &:not(:first-child){
+          padding-left: 0;
+        }
+      }
+    }
+  }
 }
 
-//listActivities.php
+.comments{
+  .comment-card{
+    width: 100%;
+    padding: 20px;
+    border: 1px solid $orange;
+    .show-comment-form{
+      user-select: none;
+    }
+    .comment-picture{
+      max-width: 80%;
+      height: auto;
+      margin-bottom: 20px;
+    }
+    .comment-form{
+      &.hidden{
+        display: none;
+      }
+    }
+  }
+}
+
+//listActivities.php //home.php
+.filter-activities-form{
+  &.hidden{
+    display: none;
+  }
+}
 .activity-list{
   display: flex;
   flex-wrap: wrap;
@@ -263,6 +347,10 @@ label{
           }
         }
       }
+      .note{
+        font-size: 1.1rem;
+        color: $orange;
+      }
     }
   }
 }
@@ -297,13 +385,324 @@ label{
     }
   }
 
-  .timepicker-input{
-    padding-top : 12px;
-    padding-bottom: 5px;
-  }
-
   .datetimepicker-container{
     display: flex;
     flex-direction: column-reverse;
+  }
+}
+
+//Calendar
+.fc-header-toolbar{
+  @media (max-width: 760px) {
+    display: flex;
+    flex-direction: column;
+    .fc-left{
+      width: 100%;
+    }
+    .fc-right{
+      width: 100%;
+    }
+  }
+}
+
+a[data-goto], .fc-day-header{
+  color: $blue;
+}
+
+.modal-card{
+  width: 80%;
+  .modal-card-body{
+    .time-slots{
+      display: flex;
+      flex-wrap: wrap;
+      label{
+        width: 40%;
+        margin-right: 10%;
+        margin-bottom: 10px;
+        padding: 10px;
+        background: #fffbff;
+        border-radius: 3px;
+        border: 1px solid $primary;
+        user-select:none;
+        color: $primary;
+        &.disabled{
+          cursor: default;
+          background: #a9a9a9a9;
+        }
+        .row{
+          display: flex;
+          justify-content: space-between;
+          margin: 5px 0;
+        }
+        &.selected{
+          background: #ff943712;
+          border: 1px solid $link;
+        }
+        &:hover{
+          &:not(.disabled){
+            background: #ff943712;
+          }
+        }
+        &:nth-child(2n){
+          margin-right: 0;
+        }
+      }
+      input{
+        display: none;
+      }
+      .value{
+        width: 30%;
+      }
+    }
+  }
+  .modal-card-foot{
+    flex-direction: column;
+  }
+}
+
+//ReservationForm
+.session-description{
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  .row{
+    display: flex;
+    width: 100%;
+    .session-label{
+      width: 40%;
+    }
+  }
+}
+.reservationForm1{
+  .participant{
+    margin: 25px 0;
+    .participant-label{
+      font-size: 1.5rem;
+      background: none;
+      margin-bottom: 10px;
+    }
+  }
+  .validate-reservation-form.hidden{
+    display: none;
+  }
+}
+
+.reservation-tickets{
+  .ticket{
+    padding: 10px;
+    border: 1px solid $primary;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    .ticket-column.left{
+      width: 100%;
+    }
+    .row{
+      display: flex;
+      width: 100%;
+      .ticket-label{
+        width: 35%;
+      }
+    }
+  }
+}
+
+.reservation-total{
+  font-size: 1.4rem;
+  color: $orange;
+  float: right;
+}
+
+//Promotion
+.promotionForm{
+  .field.hidden{
+    display: none;
+  }
+  .other-field{
+    display: none;
+  }
+  .explaination-message{
+    color: $orange;
+    font-size: 1.2rem;
+  }
+}
+
+//Prices
+.prices{
+  display: flex;
+  align-items: baseline;
+}
+
+.price.special-price{
+  color: $link;
+}
+
+.base-price{
+  text-decoration: line-through;
+  margin-right: 10px;
+  font-size: 0.9rem;
+}
+
+//Profile
+.modifyProfileButton, .modifyPasswordButton{
+  margin-bottom: 30px;
+}
+
+.modifyProfileForm.hidden, .modifyPasswordForm.hidden{
+  display: none;
+}
+
+.modifyProfileForm{
+  .profile-image{
+    max-width: 30%;
+  }
+}
+.profile-info{
+  margin-bottom: 20px;
+  .field{
+    margin-bottom: 10px;
+    .profile-label{
+      font-size: 1.2rem;
+    }
+    .value{
+      font-size: 1.1rem;
+    }
+  }
+}
+.reservations{
+  .reservation-card{
+    width: 100%;
+    &:not(:last-child){
+      margin-bottom: 25px;
+    }
+    .reservation-title{
+      font-size: 1.1rem;
+      color: white;
+    }
+
+    .buttons{
+      margin-top: 1rem;
+      &:not(:last-child) {
+        margin-bottom: 0;
+      }
+    }
+    .row{
+      display: flex;
+      justify-content: space-between;
+    }
+    .tickets{
+      &.hidden{
+        display: none;
+      }
+      .ticket{
+        border: 1px solid $orange;
+        padding: 10px;
+        display: flex;
+        &:not(:last-child){
+          margin-bottom: 20px;
+        }
+        .ticket-qr-code{
+          width: 123px;
+          .ticket-note{
+            text-align: center;
+            font-size: 1.3rem;
+            margin: 10px auto;
+            color: $orange;
+          }
+          .evaluate-button{
+            width: 100%;
+          }
+        }
+        .ticket-info{
+          width: 85%;
+          .row{
+            display: flex;
+            justify-content: flex-start;
+            .ticket-label{
+              width: 50%;
+              font-size: 1.2rem;
+            }
+            .ticket-value{
+              width: 50%;
+              font-size: 1.1rem;
+            }
+          }
+        }
+        &:not(:last-child){
+          margin-bottom: 10px;
+        }
+      }
+    }
+  }
+}
+
+//ActivityForm
+.activityForm .images{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  .row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    @media (max-width: 768px){
+      flex-direction: column;
+    }
+    .field{
+      width: 45%;
+      @media (max-width: 768px){
+        width: 100%;
+      }
+    }
+  }
+}
+
+//home.php
+.main-page{
+
+  .section-title{
+    font-size: 1.4rem;
+    color: $primary;
+    width: 100%;
+    padding: 20px 0 20px 0;
+  }
+  .promotions{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    .promotion{
+      color: $primary;
+      padding: 20px;
+      border: 1px solid $orange;
+      width: 49%;
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+    }
+  }
+}
+
+//footer
+.footer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem 3rem;
+  .newsletter{
+    width: 50%;
+    .newletter-label{
+      font-size: 1rem;
+      color: white;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .newsletter-form{
+      display: flex;
+      input{
+        border-radius: 4px 0 0 4px;
+      }
+      .button{
+        border-radius: 0 4px 4px 0;
+      }
+    }
   }
 }

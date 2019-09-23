@@ -5,11 +5,15 @@
 <?php $actCatId                     = ($isAct) ? $activity['cat_id']: ""; ?>
 <?php $actDescription               = ($isAct) ? $activity['act_description']: ""; ?>
 <?php $actResume                    = ($isAct) ? $activity['act_resume']: ""; ?>
+<?php $actLevel                     = ($isAct) ? $activity['act_level']: ""; ?>
 <?php $actBasePrice                 = ($isAct) ? $activity['act_base_price']: ""; ?>
 <?php $actDuration                  = ($isAct) ? $activity['act_duration']: ""; ?>
 <?php $actMonitorNb                 = ($isAct) ? $activity['act_monitor_nb']: ""; ?>
+<?php $actParticipantNb             = ($isAct) ? $activity['act_participant_nb']: ""; ?>
 <?php $actOperatorNb                = ($isAct) ? $activity['act_operator_nb']: ""; ?>
+<?php $actRequiredAge               = ($isAct) ? $activity['act_required_age']: ""; ?>
 <?php $actIsSpecialOffer            = ($isAct) ? $activity['act_is_special_offer']: ""; ?>
+<?php $actHandicappedAccessibility  = ($isAct) ? $activity['act_handicapped_accessibility']: ""; ?>
 <?php $actDescriptionSpecialOffer   = ($isAct) ? $activity['act_description_special_offer']: ""; ?>
 <?php $actStatus                    = ($isAct) ? $activity['act_status']: ""; ?>
 <?php $actStreet                    = ($isAct) ? $activity['act_street']: ""; ?>
@@ -21,7 +25,7 @@
     <?php if ($isAct): ?>Modification d'activité<?php else: ?>Création d'activité<?php endif; ?>
 </div>
 
-<form method="post" action="<?php if ($isAct): ?>updateActivity<?php else: ?>createActivity<?php endif; ?>">
+<form method="post" class="activityForm" action="<?php if ($isAct): ?>updateActivity<?php else: ?>createActivity<?php endif; ?>" enctype="multipart/form-data">
     <div class="field">
         <label for="act_title">Titre</label>
         <div class="control">
@@ -56,6 +60,25 @@
         </div>
     </div>
     <div class="field">
+        <label for="act_level">Niveau</label>
+        <div class="control">
+            <div class="select">
+                <select class="select" name="act_level" required>
+                    <option value="">Selectionnez une niveau d'activité</option>
+                    <option value="beginner" <?php if ($actLevel == "beginner"): ?>selected<?php endif; ?>>Débutant</option>
+                    <option value="confirmed" <?php if ($actLevel == "confirmed"): ?>selected<?php endif; ?>>Confirmé</option>
+                    <option value="expert" <?php if ($actLevel == "expert"): ?>selected<?php endif; ?>>Expert</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="field">
+        <label class="checkbox">
+            L'activité est accessible aux personnes à mobilité réduite ?
+            <input type="checkbox" name="act_handicapped_accessibility" <?php if ($actHandicappedAccessibility): ?>checked<?php endif; ?>>
+        </label>
+    </div>
+    <div class="field">
         <label for="act_base_price">Prix hors promotion (€)</label>
         <div class="control">
             <input class="input" type="number" min="0.00" step="0.01" name="act_base_price" value="<?php echo $actBasePrice; ?>" required>
@@ -68,6 +91,12 @@
         </div>
     </div>
     <div class="field">
+        <label for="act_participant_nb">Nombre de participants</label>
+        <div class="control">
+            <input class="input" type="number" min="0" name="act_participant_nb" value="<?php echo $actParticipantNb; ?>" required>
+        </div>
+    </div>
+    <div class="field">
         <label for="act_monitor_nb">Nombre de moniteur requis</label>
         <div class="control">
             <input class="input" type="number" min="0" name="act_monitor_nb" value="<?php echo $actMonitorNb; ?>" required>
@@ -77,6 +106,12 @@
         <label for="act_operator_nb">Nombre d'opérateur requis</label>
         <div class="control">
             <input class="input" type="number" min="0" name="act_operator_nb" value="<?php echo $actOperatorNb; ?>" required>
+        </div>
+    </div>
+    <div class="field">
+        <label for="act_required_age">Age minimum requis</label>
+        <div class="control">
+            <input class="input" type="number" min="0" name="act_required_age" value="<?php echo $actRequiredAge; ?>" required>
         </div>
     </div>
     <div class="field">
@@ -127,9 +162,53 @@
             <input class="input" type="text" name="act_country" value="<?php echo $actCountry; ?>" required>
         </div>
     </div>
+    <div class="images">
+        <div class="row">
+            <div class="field">
+                <label for="act_image_1">Image Principale</label>
+                <?php if ($isAct && $activity['act_image_1']): ?>
+                    <img src="<?php echo base_url().$activity['act_image_1']; ?>" alt="<?php echo $activity['act_name']; ?>">
+                <?php endif; ?>
+                <div class="control">
+                    <input type="file" name="act_image_1" id="act_image_1" <?php if (!$isAct): ?>required<?php endif; ?>>
+                </div>
+            </div>
+            <div class="field">
+                <label for="act_image_2">Image 2</label>
+                <?php if ($isAct && $activity['act_image_2']): ?>
+                    <img src="<?php echo base_url().$activity['act_image_2']; ?>" alt="<?php echo $activity['act_name']; ?>">
+                <?php endif; ?>
+                <div class="control">
+                    <input type="file" name="act_image_2" id="act_image_2">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="field">
+                <label for="act_image_3">Image 3</label>
+                <?php if ($isAct && $activity['act_image_3']): ?>
+                    <img src="<?php echo base_url().$activity['act_image_3']; ?>" alt="<?php echo $activity['act_name']; ?>">
+                <?php endif; ?>
+                <div class="control">
+                    <input type="file" name="act_image_3" id="act_image_3">
+                </div>
+            </div>
+            <div class="field">
+                <label for="act_image_4">Image 4</label>
+                <?php if ($isAct && $activity['act_image_4']): ?>
+                    <img src="<?php echo base_url().$activity['act_image_4']; ?>" alt="<?php echo $activity['act_name']; ?>">
+                <?php endif; ?>
+                <div class="control">
+                    <input type="file" name="act_image_4" id="act_image_4">
+                </div>
+            </div>
+        </div>
+    </div>
+
     <?php if ($isAct): ?>
         <input type="hidden" name="act_id" value="<?php echo $activity['act_id']; ?>">
     <?php endif; ?>
+
     <div class="field buttons">
         <div class="control">
             <button class="button is-link">Valider</button>

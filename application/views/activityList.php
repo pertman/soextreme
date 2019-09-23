@@ -11,11 +11,20 @@
             <div class="card activity-list-card">
                 <div class="card-header activity-list-card-header">
                     <a class="title is-4" href="<?php echo base_url("ActivityController/seeActivity"); ?>?id=<?php echo $activity['act_id']; ?>"><?php echo $activity['act_name']; ?></a>
-                    <div class="act-status is-6">
-                        <div class="led <?php echo $activitiesStatusColorMapping[$activity['act_status']]; ?>">
+                    <?php if (isCurrentUserAdmin()): ?>
+                        <div class="act-status is-6">
+                            <div class="led <?php echo $activitiesStatusColorMapping[$activity['act_status']]; ?>">
 
+                            </div>
+                            <div class="state"><?php echo $activitiesStatusMapping[$activity['act_status']]; ?></div>
                         </div>
-                        <div class="state"><?php echo $activitiesStatusMapping[$activity['act_status']]; ?></div>
+                    <?php endif; ?>
+                    <div class="note">
+                        <?php if ($activity['act_note_count']): ?>
+                            <?php echo round($activity['act_note_sum'] / $activity['act_note_count'], 2) . "/10"; ?>
+                        <?php else: ?>
+                            Non evalué
+                        <?php endif; ?>
                     </div>
                 </div>
                 <a class="card-image" href="<?php echo base_url("ActivityController/seeActivity"); ?>?id=<?php echo $activity['act_id']; ?>">

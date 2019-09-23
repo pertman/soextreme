@@ -37,4 +37,28 @@ class TicketModel extends CI_Model{
         $sql = 'UPDATE ticket SET tic_is_used = ?, `tic_updated_at` = ? WHERE `tic_id` = ?';
         return $this->db->query($sql, array(1, $now, $ticId));
     }
+
+    public function evaluateActivityByTicket($ticId, $ticNote){
+        $now = date('Y-m-d H:i:s');
+        $sql = 'UPDATE ticket SET tic_note= ?, `tic_updated_at` = ? WHERE `tic_id` = ?';
+        return $this->db->query($sql, array($ticNote, $now, $ticId));
+    }
+
+    public function getActivityByTicketId($ticId){
+        $sql = "SELECT * FROM activity
+                LEFT JOIN reservation ON activity.act_id = reservation.act_id
+                LEFT JOIN ticket_reservation_link ON reservation.res_id = ticket_reservation_link.res_id
+                WHERE ticket_reservation_link.tic_id = ?";
+        $query = $this->db->query($sql, array($ticId));
+        return $query->row_array();
+    }
+
+    public function getActivityUsedTicketsByUser($usrId, $actId){
+        $sql = "SELECT * FROM ticket
+                LEFT JOIN ticket_reservation_link ON ticket.tic_id = ticket_reservation_link.tic_id
+                LEFT JOIN reservation ON ticket_reservation_link.res_id = reservation.res_id
+                WHERE ticket.tic_is_used = ? AND ticket.tic_is_gift = ? AND reservation.usr_id = ? AND reservation.act_id = ?";
+        $query = $this->db->query($sql, array(1, 0, $usrId, $actId));
+        return $query->result_array();
+    }
 }

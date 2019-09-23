@@ -86,4 +86,9 @@ class ActivityModel extends CI_Model{
         $query = $this->db->query($sql, array($act_status, 1));
         return $query->result_array();
     }
+
+    public function updateActivityNoteSumAndCount($sum, $count, $actId){
+        $sql = 'UPDATE activity SET act_note_sum = ?, act_note_count = ? WHERE act_id = ?';
+        return $this->db->query($sql, array($sum, $count, $actId));
+    }
 }

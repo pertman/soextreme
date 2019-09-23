@@ -222,4 +222,25 @@ class ReservationController extends MY_Controller
         $_SESSION['messages'][] = "Ticket validé";
         $this->redirectHome();
     }
+
+    public function cancelReservation(){
+        $resId = $this->input->get('id');
+
+        if (!$resId){
+            $_SESSION['messages'][] = "Identifiant de réservation manquant";
+            redirect('/UserController/profile', 'refresh');
+        }
+
+        $reservation = $this->ReservationModel->getReservationById($resId);
+
+        if ($reservation['usr_id'] != $_SESSION['user']['id']){
+            $_SESSION['messages'][] = "Vous ne pouvez pas effectuer cette action";
+            redirect('/UserController/profile', 'refresh');
+        }
+
+        $this->ReservationModel->cancelReservation($resId);
+
+        $_SESSION['messages'][] = "Réservation annulée, vous serez remboursé dans un délais de 5 jours";
+        redirect('/UserController/profile', 'refresh');
+    }
 }

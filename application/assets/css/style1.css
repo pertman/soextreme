@@ -1,0 +1,127 @@
+/* CARDS SURCOUCHES */
+
+.card-image-libelle {
+	position: absolute;
+	bottom: 0;
+	background: #000000b5;
+	width: 100%; 
+	padding: 1em;
+	
+}
+
+.card-image-libelle .subtitle {
+	padding-left: 1.25em;
+}
+
+.card-image-libelle .i {
+	margin-right: 1em;
+}
+
+.card.large.round.column.is-full-mobile {
+    background: none;
+    box-shadow: none;
+}
+
+.modal-card {
+    /*width: 50%!important;*/
+}
+
+/* NAVBAR */
+nav, .navbar-dropdown {
+	background-color: #1f3158!important;
+}
+
+/*override*/
+.navbar-item, .navbar-link {
+	color:white;
+}
+
+/* SECTIONS */
+
+/* header */
+.modal-menu {
+	border-bottom: 3px solid grey;
+    border-radius: 15%;
+    margin-top: 1em;
+}
+
+.is-active-modal {
+	border-bottom: 3px solid orange;
+    border-radius: 15%;
+    margin-top: 1em;
+}
+
+
+/* home.php */
+#home-2 {
+	/*background-color: #1f3158;*/
+	position: relative;
+}
+
+#newsletter {
+	padding-bottom: 4em;
+}
+
+.header-hero {
+	background-image: url('../images/cover_bg_1.jpg')!important;
+	background-attachment: fixed;
+	background-position: top;
+	background-repeat: no-repeat;
+	background-size: cover;
+	/*min-height: 500px;*/
+}
+
+.bg-1 {
+    background-color:#1f3158;
+    position: relative;
+}
+.bg-1:before {
+    content:"";
+    background-color:#1f3158;
+    position: absolute;
+    height: 100%;
+    width: 4000px;
+    left: -2000px;
+    z-index: -1;
+}
+
+hr.hr-1 {
+  border: 1.50px solid #FF9437;
+  border-radius: 5px;
+  margin-left:2em;
+  width: 250px;
+}
+
+.fa-star, .fa-star-half-alt {
+	color: yellow;
+}
+/* footer.php */
+
+.footer {
+	background-color: black;
+	padding: 6em;
+}
+
+
+
+
+
+
+/* à mettre dans le scss */
+.color-orange {
+	color: #FF9437!important;
+}
+.color-grey {
+	color: #A2A2A2!important;
+}
+
+.color-black {
+	color: black!important;
+}
+
+.no-padding {
+	padding: 0!important;
+}
+
+
+

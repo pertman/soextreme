@@ -70,13 +70,66 @@ class UserController extends MY_Controller {
         $this->_params['view']              = 'profile.php';
 
         $this->_params['data']['user'] = $this->UserModel->getUserById($_SESSION['user']['id']);
-        $reservations = $this->ReservationModel->getReservationsByUserId($_SESSION['user']['id']);
+        $reservations           = $this->ReservationModel->getReservationsByUserId($_SESSION['user']['id']);
+        $cancelledReservation   = array();
+        $passedReservation      = array();
+
         foreach ($reservations as $key => $reservation){
-            $reservations[$key]['activity'] = $this->ActivityModel->getActivityById($reservation['act_id']);
-            $reservations[$key]['tickets'] = $this->TicketModel->getTicketsByReservationId($reservation['res_id']);
+            $reservations[$key]['canCancelReservation'] = $this->isReservationStartMoreThanIn4Days($reservation);
+            $reservations[$key]['activity']             = $this->ActivityModel->getActivityById($reservation['act_id']);
+            $reservations[$key]['tickets']              = $this->TicketModel->getTicketsByReservationId($reservation['res_id']);
+
+            if ($reservation['res_status'] == 'cancelled'){
+                $cancelledReservation[] = $reservations[$key];
+                unset($reservations[$key]);
+                continue;
+            }elseif ($this->isPassedReservation($reservation)){
+                $passedReservation[] = $reservations[$key];
+                unset($reservations[$key]);
+                continue;
+            }
         }
-        $this->_params['data']['reservations'] = $reservations;
+
+        $this->_params['data']['reservations']              = $reservations;
+        $this->_params['data']['cancelledReservations']     = $cancelledReservation;
+        $this->_params['data']['passedReservations']        = $passedReservation;
         $this->load->view('template.php', $this->_params);
+    }
+
+    public function isReservationStartMoreThanIn4Days($reservation){
+        $result = false;
+
+        $activityDateTimeString =  $reservation['res_date'].' '.getTimeSlotStartHour($reservation['res_time_slot']);
+        $activityStartDateTime  = new DateTime($activityDateTimeString);
+
+        $dateTime = new DateTime();
+        $dateTime->setTimestamp(date(strtotime('now +2 hour')));
+
+        $dateInterval = $dateTime->diff($activityStartDateTime);
+
+        if ($dateInterval->invert == 0 && $dateInterval->days >= 4){
+            $result = true;
+        }
+
+        return $result;
+    }
+
+    public function isPassedReservation($reservation){
+        $result = false;
+
+        $activityDateTimeString =  $reservation['res_date'].' '.getTimeSlotStartHour($reservation['res_time_slot']);
+        $activityStartDateTime  = new DateTime($activityDateTimeString);
+
+        $dateTime = new DateTime();
+        $dateTime->setTimestamp(date(strtotime('now +2 hour')));
+
+        $dateInterval = $dateTime->diff($activityStartDateTime);
+
+        if ($dateInterval->invert == 1){
+            $result = true;
+        }
+
+        return $result;
     }
 
     public function updateProfile(){
@@ -143,6 +196,61 @@ class UserController extends MY_Controller {
                 rename($path.'/'.$filename, $realPath);
                 $this->UserModel->setProfilePicturePath($key, $realPath, $usrId);
             }
+        }
+    }
+
+    public function evaluateActivityTicket()
+    {
+        $post = $this->input->post();
+        if (isset($post['tic_id']) && isset($post['tic_note'])){
+            $this->TicketModel->evaluateActivityByTicket($post['tic_id'], $post['tic_note']);
+            $activity = $this->TicketModel->getActivityByTicketId($post['tic_id']);
+
+            $newSum     = $activity['act_note_sum'] + $post['tic_note'];
+            $newCount   = $activity['act_note_count'] + 1;
+
+            $this->ActivityModel->updateActivityNoteSumAndCount($newSum, $newCount, $activity['act_id']);
+
+            $_SESSION['messages'][] = "Votre evaluation a bien été prise en compte";
+            return $this->profile();
+        }else{
+            $_SESSION['messages'][] = "Tous les parametres requis ne sont pas présent";
+            $this->redirectHome();
+        }
+    }
+
+    public function newsletterSubscription(){
+        $post = $this->input->post();
+
+        if (!isset($post['new_email'])){
+            die(json_encode(array('status' => 'error', 'message' => 'Veuillez renseigner une adresse mail')));
+        }
+
+        if (!filter_var($post['new_email'], FILTER_VALIDATE_EMAIL)){
+            die(json_encode(array('status' => 'error', 'message' => 'Veuillez saisir un email valide')));
+        }
+
+        $newsletterSubscription = $this->NewsletterModel->getNewsletterByEmail($post{'new_email'});
+
+        if ($newsletterSubscription){
+            die(json_encode(array('status' => 'error', 'message' => 'Cet email est déjà enregistré à la newsletter')));
+        }
+
+        $this->NewsletterModel->createNewsletter($post{'new_email'});
+        die(json_encode(array('status' => 'valid', 'message' => 'Inscription à la newslettter effectuée')));
+    }
+
+    public function contactAdmin(){
+        if ($post = $this->input->post()){
+            $this->AdminRequestModel->createRequest($post);
+
+            $_SESSION['messages'][] = "Votre demande a été prise en compte";
+            $this->redirectHome();
+        }else{
+            $this->_params['headData']['title'] = 'Contact Administration';
+            $this->_params['view']              = 'adminContact.php';
+
+            $this->load->view('template.php', $this->_params);
         }
     }
 }

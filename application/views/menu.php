@@ -53,6 +53,16 @@
                         <a href="<?php echo base_url("AdminPromotionController/listPromotion"); ?>" class="navbar-item">Liste</a>
                     </div>
                 </div>
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <p class="navbar-link">
+                        <a href="<?php echo base_url("AdminRequestController/requests"); ?>" class="navbar-item">Demandes</a>
+                    </p>
+                    <div class="navbar-dropdown is-boxed">
+                        <a href="<?php echo base_url("AdminRequestController/openRequests"); ?>" class="navbar-item">Demandes ouverts</a>
+                        <a href="<?php echo base_url("AdminRequestController/closedRequests"); ?>" class="navbar-item">Demandes fermées</a>
+                        <a href="<?php echo base_url("AdminRequestController/paybackRequests"); ?>" class="navbar-item">Demandes de remboursement</a>
+                    </div>
+                </div>
             <?php endif; ?>
 
             <?php if (isCurrentUserCustomer()): ?>

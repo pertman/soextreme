@@ -50,6 +50,9 @@ class PlanningController extends MY_Controller
 
         $activityDate = array();
 
+        $todayDateTime = new DateTime();
+        $todayDateTime->setTime(0,0,0);
+
         $allPlanningItemsForActivity =  $this->PlanningModel->getAllPlanningItemsForActivity($activity['act_id']);
 
         foreach ($allPlanningItemsForActivity as $planningItem){
@@ -66,7 +69,12 @@ class PlanningController extends MY_Controller
             $slots = $this->getSessionsBetweenHours($startHour, $endHour, $activity);
 
             foreach ($planningItemResult as $date){
+                
+                $planningDateTime = new DateTime($date);
 
+                if ($planningDateTime < $todayDateTime){
+                    continue;
+                }
                 $reservedSlots =  $this->getDateReservedSlots($date, $activity['act_id']);
 
                 $dateSlots = $this->applyPromotionsToDateSlots($slots, $date, $startHour, $endHour, $activity);

@@ -1,34 +1,23 @@
-
-<section id="newsletter">
-	<div class="columns">	
-		<div class="column is-12 is-size-2 has-text-centered has-text-black is-bold"> Abonnez-vous à la <span class="color-orange">newsletter</span> </div>
-		
-	</div>
-	<div class="columns">
-		<div class="column is-2"></div>
-		<div class="column is-8">
-			<div class="field is-grouped">
-				<div class="control has-icons-left has-icons-right is-expanded">
-					<input type="text" class="input is-medium" placeholder="Mon adresse mail ...">
-					<span class="icon is-medium is-left">
-					  <i class="fa fa-envelope"></i>
-					</span>
-				</div>
-				<p class="control">
-					<a class="button is-medium">S'inscrire</a>
-				</p>
-			</div>
-		</div>
-		<div class="column is-2"></div>
-		
-	</div>
-	<div class="columns">
-		<div class="column is-12"></div>
-		<div class="column is-12 is-hidden-mobile">
-	</div>
-</section>
 <footer class="footer has-text-white">
-
+    <div class="footer-container">
+        <div class="newsletter">
+            <div class="newletter-label">
+                Abonnez-vous à la newsletter
+            </div>
+            <form action="" method="post" class="newsletter-form" onsubmit="event.preventDefault(); return subscriptionFormValidate()">
+                <input class="input" type="text" name="new_email" value="" placeholder="Adresse mail">
+                <input class="button is-link" type="submit" value="Valider">
+            </form>
+        </div>
+        <?php if (isCurrentUserCustomer()): ?>
+            <div class="admin-contact">
+                <div class="admin-contact-label">
+                    Besoin d'aide ?
+                </div>
+                <a class="button is-link" href="<?php echo base_url("UserController/contactAdmin"); ?>">Contacter un administrateur</a>
+            </div>
+        <?php endif; ?>
+    </div>
     <div class="columns">	
 		<div class="column is-one-quarter"> 
 			<h1 class="has-text-weight-bold is-size-4">
@@ -66,4 +55,21 @@
     $('.notification .delete').click(function () {
         this.parentElement.classList.add('hidden');
     });
+
+    function subscriptionFormValidate() {
+        $.ajax({
+            type: "POST",
+            url: '<?php echo base_url("UserController/newsletterSubscription")?>',
+            data: $(".newsletter-form").serialize(),
+            success: function (data) {
+                let response = JSON.parse(data);
+                if(response.status === 'valid'){
+                    $('.newsletter-form').hide();
+                    $('.newletter-label')[0].innerText = response.message;
+                }else{
+                    alert(response.message);
+                }
+            },
+        });
+    }
 </script>

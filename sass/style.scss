@@ -66,7 +66,6 @@ label{
 }
 
 .card-header{
-  //&:not(.activity-list-card-header){
   background: $primary;
   .title{
     color: white;
@@ -77,7 +76,6 @@ label{
   .state{
     color: white;
   }
-  //}
 }
 
 //Override calendar
@@ -277,7 +275,33 @@ label{
   }
 }
 
+.comments{
+  .comment-card{
+    width: 100%;
+    padding: 20px;
+    border: 1px solid $orange;
+    .show-comment-form{
+      user-select: none;
+    }
+    .comment-picture{
+      max-width: 80%;
+      height: auto;
+      margin-bottom: 20px;
+    }
+    .comment-form{
+      &.hidden{
+        display: none;
+      }
+    }
+  }
+}
+
 //listActivities.php //home.php
+.filter-activities-form{
+  &.hidden{
+    display: none;
+  }
+}
 .activity-list{
   display: flex;
   flex-wrap: wrap;
@@ -322,6 +346,10 @@ label{
             background-color: orange;
           }
         }
+      }
+      .note{
+        font-size: 1.1rem;
+        color: $orange;
       }
     }
   }
@@ -541,20 +569,25 @@ a[data-goto], .fc-day-header{
     }
   }
 }
-.reservations{
-  &.hidden{
-    display: none;
+.reservations, .cancelled-reervations{
+  .reservation-section-title{
+    font-size: 1.4rem;
+    color: $primary;
+    margin: 25px 0;
   }
   .reservation-card{
     width: 100%;
     &:not(:last-child){
       margin-bottom: 25px;
     }
-    .reservation-title{
-      font-size: 1.1rem;
-      color: white;
+    .card-header{
+      display: flex;
+      justify-content: space-between;
+      .reservation-title{
+        font-size: 1.1rem;
+        color: white;
+      }
     }
-
     .buttons{
       margin-top: 1rem;
       &:not(:last-child) {
@@ -578,6 +611,15 @@ a[data-goto], .fc-day-header{
         }
         .ticket-qr-code{
           width: 123px;
+          .ticket-note{
+            text-align: center;
+            font-size: 1.3rem;
+            margin: 10px auto;
+            color: $orange;
+          }
+          .evaluate-button{
+            width: 100%;
+          }
         }
         .ticket-info{
           width: 85%;
@@ -644,5 +686,63 @@ a[data-goto], .fc-day-header{
       margin-bottom: 20px;
       font-size: 1.2rem;
     }
+  }
+}
+
+//footer
+.footer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 3rem 1.5rem 3rem;
+  .footer-container{
+    margin-bottom: 50px;
+    width: 50%;
+    @media (max-width: 768px){
+      width: 90%;
+    }
+    .newsletter{
+      width: 100%;
+      .newletter-label{
+        color: white;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+      .newsletter-form{
+        display: flex;
+        input{
+          border-radius: 4px 0 0 4px;
+        }
+        .button{
+          border-radius: 0 4px 4px 0;
+        }
+      }
+    }
+    .admin-contact{
+      margin-top: 25px;
+      .admin-contact-label{
+        color: white;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+      .button{
+        width: 100%;
+      }
+    }
+  }
+}
+
+//AdminRequestList.php
+.request-type-label{
+  font-size: 1.2rem;
+  color: $primary;
+  margin: 10px 0;
+}
+
+.request-card{
+  width: 100%;
+  &:not(:last-child){
+    margin-bottom: 15px;
   }
 }

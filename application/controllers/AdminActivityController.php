@@ -22,25 +22,17 @@ class AdminActivityController extends MY_Controller{
     public function createActivity(){
 
         if ($post = $this->input->post()) {
+            $this->ActivityModel->createActivity($post);
 
-            $existingActivity = $this->ActivityModel->getActivityByName($post['act_name']);
+            $actId = $this->db->insert_id();
 
-            if ($existingActivity){
-                $this->_params['messages'][] = "Une activité avec ce nom existe déjà";
-                $this->load->view('template', $this->_params);
-            }else{
-                $this->ActivityModel->createActivity($post);
-
-                $actId = $this->db->insert_id();
-
-                foreach ($_FILES as $key => $file){
-                    $this->uploadPhoto($key, $file, $actId);
-                }
-
-                $_SESSION['messages'][] = "L'activité ". $post['act_name'] . " a bien été crée";
-
-                redirect('/ActivityController/listActivities', 'refresh');
+            foreach ($_FILES as $key => $file){
+                $this->uploadPhoto($key, $file, $actId);
             }
+
+            $_SESSION['messages'][] = "L'activité ". $post['act_name'] . " a bien été crée";
+
+            redirect('/ActivityController/listActivities', 'refresh');
         }else{
             $this->_params['data']['categories']  = $this->CategoryModel->getActiveCategories();
             $this->load->view('template', $this->_params);

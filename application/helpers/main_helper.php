@@ -41,6 +41,16 @@ function getActivitiesStatusColorMapping(){
     );
 }
 
+function getLevelLabel($value){
+    $levelMapping = array(
+       "beginner" => "Débutant",
+       "confirmed"=> "Confirmé",
+       "expert" => "Expert",
+    );
+
+    return $levelMapping[$value];
+}
+
 function getDurationValueFromMinute($minutes){
     if ($minutes >= 60){
         $hours = round($minutes / 60, 0);

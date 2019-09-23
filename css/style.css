@@ -6576,6 +6576,22 @@ label {
           .activity-card .activity-pictures .picture:not(:first-child) {
             padding-left: 0; } }
 
+.comments .comment-card {
+  width: 100%;
+  padding: 20px;
+  border: 1px solid #ff9437; }
+  .comments .comment-card .show-comment-form {
+    user-select: none; }
+  .comments .comment-card .comment-picture {
+    max-width: 80%;
+    height: auto;
+    margin-bottom: 20px; }
+  .comments .comment-card .comment-form.hidden {
+    display: none; }
+
+.filter-activities-form.hidden {
+  display: none; }
+
 .activity-list {
   display: flex;
   flex-wrap: wrap; }
@@ -6612,6 +6628,9 @@ label {
             background-color: red; }
           .activity-list .card .card-header .act-status .led.red {
             background-color: orange; }
+      .activity-list .card .card-header .note {
+        font-size: 1.1rem;
+        color: #ff9437; }
 
 .activity-plan-container .daySelectPlan {
   display: flex;
@@ -6768,45 +6787,57 @@ a[data-goto], .fc-day-header {
     .profile-info .field .value {
       font-size: 1.1rem; }
 
-.reservations.hidden {
-  display: none; }
+.reservations .reservation-section-title, .cancelled-reervations .reservation-section-title {
+  font-size: 1.4rem;
+  color: #1f3158;
+  margin: 25px 0; }
 
-.reservations .reservation-card {
+.reservations .reservation-card, .cancelled-reervations .reservation-card {
   width: 100%; }
-  .reservations .reservation-card:not(:last-child) {
+  .reservations .reservation-card:not(:last-child), .cancelled-reervations .reservation-card:not(:last-child) {
     margin-bottom: 25px; }
-  .reservations .reservation-card .reservation-title {
-    font-size: 1.1rem;
-    color: white; }
-  .reservations .reservation-card .buttons {
-    margin-top: 1rem; }
-    .reservations .reservation-card .buttons:not(:last-child) {
-      margin-bottom: 0; }
-  .reservations .reservation-card .row {
+  .reservations .reservation-card .card-header, .cancelled-reervations .reservation-card .card-header {
     display: flex;
     justify-content: space-between; }
-  .reservations .reservation-card .tickets.hidden {
+    .reservations .reservation-card .card-header .reservation-title, .cancelled-reervations .reservation-card .card-header .reservation-title {
+      font-size: 1.1rem;
+      color: white; }
+  .reservations .reservation-card .buttons, .cancelled-reervations .reservation-card .buttons {
+    margin-top: 1rem; }
+    .reservations .reservation-card .buttons:not(:last-child), .cancelled-reervations .reservation-card .buttons:not(:last-child) {
+      margin-bottom: 0; }
+  .reservations .reservation-card .row, .cancelled-reervations .reservation-card .row {
+    display: flex;
+    justify-content: space-between; }
+  .reservations .reservation-card .tickets.hidden, .cancelled-reervations .reservation-card .tickets.hidden {
     display: none; }
-  .reservations .reservation-card .tickets .ticket {
+  .reservations .reservation-card .tickets .ticket, .cancelled-reervations .reservation-card .tickets .ticket {
     border: 1px solid #ff9437;
     padding: 10px;
     display: flex; }
-    .reservations .reservation-card .tickets .ticket:not(:last-child) {
+    .reservations .reservation-card .tickets .ticket:not(:last-child), .cancelled-reervations .reservation-card .tickets .ticket:not(:last-child) {
       margin-bottom: 20px; }
-    .reservations .reservation-card .tickets .ticket .ticket-qr-code {
+    .reservations .reservation-card .tickets .ticket .ticket-qr-code, .cancelled-reervations .reservation-card .tickets .ticket .ticket-qr-code {
       width: 123px; }
-    .reservations .reservation-card .tickets .ticket .ticket-info {
+      .reservations .reservation-card .tickets .ticket .ticket-qr-code .ticket-note, .cancelled-reervations .reservation-card .tickets .ticket .ticket-qr-code .ticket-note {
+        text-align: center;
+        font-size: 1.3rem;
+        margin: 10px auto;
+        color: #ff9437; }
+      .reservations .reservation-card .tickets .ticket .ticket-qr-code .evaluate-button, .cancelled-reervations .reservation-card .tickets .ticket .ticket-qr-code .evaluate-button {
+        width: 100%; }
+    .reservations .reservation-card .tickets .ticket .ticket-info, .cancelled-reervations .reservation-card .tickets .ticket .ticket-info {
       width: 85%; }
-      .reservations .reservation-card .tickets .ticket .ticket-info .row {
+      .reservations .reservation-card .tickets .ticket .ticket-info .row, .cancelled-reervations .reservation-card .tickets .ticket .ticket-info .row {
         display: flex;
         justify-content: flex-start; }
-        .reservations .reservation-card .tickets .ticket .ticket-info .row .ticket-label {
+        .reservations .reservation-card .tickets .ticket .ticket-info .row .ticket-label, .cancelled-reervations .reservation-card .tickets .ticket .ticket-info .row .ticket-label {
           width: 50%;
           font-size: 1.2rem; }
-        .reservations .reservation-card .tickets .ticket .ticket-info .row .ticket-value {
+        .reservations .reservation-card .tickets .ticket .ticket-info .row .ticket-value, .cancelled-reervations .reservation-card .tickets .ticket .ticket-info .row .ticket-value {
           width: 50%;
           font-size: 1.1rem; }
-    .reservations .reservation-card .tickets .ticket:not(:last-child) {
+    .reservations .reservation-card .tickets .ticket:not(:last-child), .cancelled-reervations .reservation-card .tickets .ticket:not(:last-child) {
       margin-bottom: 10px; }
 
 .activityForm .images {
@@ -6843,3 +6874,46 @@ a[data-goto], .fc-day-header {
     width: 49%;
     margin-bottom: 20px;
     font-size: 1.2rem; }
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 3rem 1.5rem 3rem; }
+  .footer .footer-container {
+    margin-bottom: 50px;
+    width: 50%; }
+    @media (max-width: 768px) {
+      .footer .footer-container {
+        width: 90%; } }
+    .footer .footer-container .newsletter {
+      width: 100%; }
+      .footer .footer-container .newsletter .newletter-label {
+        color: white;
+        text-align: center;
+        margin-bottom: 10px; }
+      .footer .footer-container .newsletter .newsletter-form {
+        display: flex; }
+        .footer .footer-container .newsletter .newsletter-form input {
+          border-radius: 4px 0 0 4px; }
+        .footer .footer-container .newsletter .newsletter-form .button {
+          border-radius: 0 4px 4px 0; }
+    .footer .footer-container .admin-contact {
+      margin-top: 25px; }
+      .footer .footer-container .admin-contact .admin-contact-label {
+        color: white;
+        text-align: center;
+        margin-bottom: 10px; }
+      .footer .footer-container .admin-contact .button {
+        width: 100%; }
+
+.request-type-label {
+  font-size: 1.2rem;
+  color: #1f3158;
+  margin: 10px 0; }
+
+.request-card {
+  width: 100%; }
+  .request-card:not(:last-child) {
+    margin-bottom: 15px; }

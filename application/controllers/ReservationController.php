@@ -154,6 +154,7 @@ class ReservationController extends MY_Controller
     }
 
     public function reservationStep3(){
+		
         $quote  = $_SESSION['current_quote'];
 
         $date = formatDateFromFrToUs($quote['date']);
@@ -189,7 +190,7 @@ class ReservationController extends MY_Controller
         }
 
         //@TODO CREATE PAYMENT WITH PAYPAL DATA
-        $bankResponse = '';
+        $bankResponse = $_POST['id_paypal'];
         $this->PaymentModel->createPayment($resId, $quote['total'], $bankResponse);
 
         unset($_SESSION['current_quote']);

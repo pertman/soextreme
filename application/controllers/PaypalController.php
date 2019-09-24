@@ -29,6 +29,8 @@ class PaypalController extends MY_Controller{
     }
 
     public function createPayment(){
+		$name = $_POST['name'];
+		$total = $_POST['total'];
 		
 		// success qui sera un booléen (0 ou 1) permettant de savoir si tout s'est passé correctement ou non
         $success = 0;	
@@ -53,7 +55,7 @@ class PaypalController extends MY_Controller{
 		   "transactions" => [
 			  [
 				 "amount" => [
-					"total" => "9.99", // Prix total de la transaction, ici le prix de notre item
+					"total" => $total, // Prix total de la transaction, ici le prix de notre item
 					"currency" => "EUR" // USD, CAD, etc.
 				 ],
 				 "item_list" => [
@@ -61,8 +63,8 @@ class PaypalController extends MY_Controller{
 					   [
 						  "sku" => "1PK5Z9", // Un identifiant quelconque (code / référence) que vous pouvez attribuer au produit que vous vendez
 						  "quantity" => "1",
-						  "name" => "Un produit quelconque",
-						  "price" => "9.99",
+						  "name" => $name,
+						  "price" => $total,
 						  "currency" => "EUR"
 					   ]
 					]

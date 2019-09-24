@@ -33,7 +33,11 @@
         // On crée une variable contenant le chemin vers notre script PHP côté serveur qui se chargera de créer le paiement
         var CREATE_URL = '<?php echo base_url("PaypalController/createPayment"); ?>';
         // On exécute notre requête pour créer le paiement
-        return paypal.request.post(CREATE_URL)
+		var data = {
+          total:54,
+		  name:"test"
+        };
+        return paypal.request.post(CREATE_URL, data)
           .then(function(data) { // Notre script PHP renvoie un certain nombre d'informations en JSON (vous savez, grâce à notre echo json_encode(...) dans notre script PHP !) qui seront récupérées ici dans la variable "data"
             if (data.success) { // Si success est vrai (<=> 1), on peut renvoyer l'id du paiement généré par PayPal et stocké dans notre data.paypal_reponse (notre script en aura besoin pour poursuivre le processus de paiement)
                return data.paypal_response.id;   

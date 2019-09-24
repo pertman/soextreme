@@ -76,13 +76,66 @@
 
 <form class="reservationForm2" method="post" action="reservationStep3">
     <div class="bank-infomations">
-        <?php //@TODO PAYPAL ?>
+		<input type="hidden" id="id-paypal" name="id_paypal" value="">
     </div>
     <div class="buttons">
         <div class="field">
             <div class="control">
-                <button class="button validate-reservation-form hidden is-link">Valider</button>
+                <button class="button validate-reservation-form visibility-hidden is-link">Valider</button>
             </div>
         </div>
     </div>
 </form>
+<div id="bouton-paypal"></div>
+
+<script>
+    paypal.Button.render({
+      env: 'sandbox',
+      commit: true,
+      style: {
+        color: 'gold',
+        size: 'responsive',
+      },
+      payment: function() {
+		var data = {
+          total:<?php echo formatPrice($totalPrice); ?>, 
+		  name:"<?php echo $quote['activity']['act_name']; ?>"
+        };
+        var CREATE_URL = '<?php echo base_url("PaypalController/createPayment"); ?>';
+        return paypal.request.post(CREATE_URL, data)
+          .then(function(data) {
+            if (data.success) {
+               return data.paypal_response.id;   
+            } else {
+               alert(data.msg);
+               return false;   
+            }
+         });
+      },
+      onAuthorize: function(data, actions) {
+        var EXECUTE_URL = '<?php echo base_url("PaypalController/executePayment"); ?>';
+
+        var data = {
+          paymentID: data.paymentID,
+          payerID: data.payerID
+        };
+
+        return paypal.request.post(EXECUTE_URL, data)
+          .then(function (data) {
+          if (data.success) {
+            alert("Paiement approuvé ! Merci !");
+			$("#id-paypal").val(data.paypal_response.id);
+			$(".validate-reservation-form").click();
+          } else {
+            alert(data.msg);
+          }
+        });
+      },
+      onCancel: function(data, actions) {
+        alert("Paiement annulé : vous avez fermé la fenêtre de paiement.");
+      },
+      onError: function(err) {
+        alert("Paiement annulé : une erreur est survenue. Merci de bien vouloir réessayer ultérieurement.");
+      }
+    }, '#bouton-paypal');
+</script>

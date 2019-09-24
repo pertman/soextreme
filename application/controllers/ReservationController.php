@@ -189,7 +189,6 @@ class ReservationController extends MY_Controller
             }
         }
 
-        //@TODO CREATE PAYMENT WITH PAYPAL DATA
         $bankResponse = $_POST['id_paypal'];
         $this->PaymentModel->createPayment($resId, $quote['total'], $bankResponse);
 

@@ -441,8 +441,13 @@ a[data-goto], .fc-day-header{
       margin-bottom: 10px;
     }
   }
-  .validate-reservation-form.hidden{
-    display: none;
+  .validate-reservation-form{
+    &.visibility-hidden{
+      visibility: hidden;
+    }
+    &.hidden{
+      display: none;
+    }
   }
 }
 

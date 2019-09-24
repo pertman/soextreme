@@ -6696,6 +6696,9 @@ a[data-goto], .fc-day-header {
     background: none;
     margin-bottom: 10px; }
 
+.reservationForm1 .validate-reservation-form.visibility-hidden {
+  visibility: hidden; }
+
 .reservationForm1 .validate-reservation-form.hidden {
   display: none; }
 

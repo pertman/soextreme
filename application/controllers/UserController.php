@@ -60,6 +60,11 @@ class UserController extends MY_Controller {
                 $this->redirectHome();
             }
         }else{
+
+            if ($mail = $this->input->get('mail')){
+                $this->_params['data']['mail'] = $mail;
+            }
+
             $this->load->view('template.php', $this->_params);
         }
     }
@@ -68,16 +73,18 @@ class UserController extends MY_Controller {
     {
         $this->_params['headData']['title'] = 'Mon profil';
         $this->_params['view']              = 'profile.php';
+        $user = $this->UserModel->getUserById($_SESSION['user']['id']);
 
-        $this->_params['data']['user'] = $this->UserModel->getUserById($_SESSION['user']['id']);
-        $reservations           = $this->ReservationModel->getReservationsByUserId($_SESSION['user']['id']);
-        $cancelledReservation   = array();
-        $passedReservation      = array();
+        $this->_params['data']['user']  = $user;
+        $reservations                   = $this->ReservationModel->getReservationsByUserId($_SESSION['user']['id']);
+        $cancelledReservation           = array();
+        $passedReservation              = array();
 
         foreach ($reservations as $key => $reservation){
             $reservations[$key]['canCancelReservation'] = $this->isReservationStartMoreThanIn4Days($reservation);
             $reservations[$key]['activity']             = $this->ActivityModel->getActivityById($reservation['act_id']);
             $reservations[$key]['tickets']              = $this->TicketModel->getTicketsByReservationId($reservation['res_id']);
+
 
             if ($reservation['res_status'] == 'cancelled'){
                 $cancelledReservation[] = $reservations[$key];
@@ -90,6 +97,14 @@ class UserController extends MY_Controller {
             }
         }
 
+        $giftReservations = $this->ReservationModel->getGiftReservations($user['usr_email'], $user['usr_id']);
+
+        foreach ($giftReservations as $key => $giftReservation){
+            $giftReservations[$key]['canCancelReservation'] = $this->isReservationStartMoreThanIn4Days($giftReservation);
+            $giftReservations[$key]['activity']                 = $this->ActivityModel->getActivityById($giftReservation['act_id']);
+        }
+
+        $this->_params['data']['giftReservations']          = $giftReservations;
         $this->_params['data']['reservations']              = $reservations;
         $this->_params['data']['cancelledReservations']     = $cancelledReservation;
         $this->_params['data']['passedReservations']        = $passedReservation;

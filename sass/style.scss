@@ -49,6 +49,12 @@ $light-grey : #f0f0f0;
   border-color: #D0D1CD;
 }
 
+.input[disabled]{
+  border-color: #D0D1CD;
+  color: #363636;
+  background: #cecece;
+}
+
 select.select, .select > select{
   border: 2px solid #D0D1CD;
 }
@@ -574,7 +580,7 @@ a[data-goto], .fc-day-header{
     }
   }
 }
-.reservations, .cancelled-reervations{
+.reservations, .cancelled-resrvations, .passed-resrvations{
   .reservation-section-title{
     font-size: 1.4rem;
     color: $primary;

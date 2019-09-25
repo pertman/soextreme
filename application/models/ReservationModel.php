@@ -13,6 +13,18 @@ class ReservationModel extends CI_Model{
         return $query->result_array();
     }
 
+    public function getReservationById($resId){
+        $sql = "SELECT * FROM reservation WHERE res_id = ?";
+        $query = $this->db->query($sql, array($resId));
+        return $query->row_array();
+    }
+
+    public function cancelReservation($resId){
+        $now = date('Y-m-d H:i:s');
+        $sql = 'UPDATE reservation SET res_status = ?, `res_updated_at` = ? WHERE `res_id` = ?';
+        return $this->db->query($sql, array('cancelled', $now, $resId));
+    }
+
     public function getReservationsNumberForTimeSlot($date, $timeSlot, $actId){
         $sql = "SELECT SUM(res_participant_nb) as reservation_nb FROM reservation WHERE res_date = ? AND res_time_slot = ? AND act_id = ?";
         $query = $this->db->query($sql, array($date, $timeSlot, $actId));
@@ -24,6 +36,15 @@ class ReservationModel extends CI_Model{
                 LEFT JOIN payment ON reservation.res_id = payment.res_id
                 WHERE usr_id = ?";
         $query = $this->db->query($sql, array($usrId));
+        return $query->result_array();
+    }
+
+    public function getCancelledReservations(){
+        $sql = "SELECT * FROM reservation
+                LEFT JOIN payment ON reservation.res_id = payment.res_id
+                LEFT JOIN `user` ON reservation.usr_id = `user`.usr_id
+                WHERE reservation.res_status = ?";
+        $query = $this->db->query($sql, array('cancelled'));
         return $query->result_array();
     }
 }

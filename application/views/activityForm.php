@@ -5,6 +5,7 @@
 <?php $actCatId                     = ($isAct) ? $activity['cat_id']: ""; ?>
 <?php $actDescription               = ($isAct) ? $activity['act_description']: ""; ?>
 <?php $actResume                    = ($isAct) ? $activity['act_resume']: ""; ?>
+<?php $actLevel                     = ($isAct) ? $activity['act_level']: ""; ?>
 <?php $actBasePrice                 = ($isAct) ? $activity['act_base_price']: ""; ?>
 <?php $actDuration                  = ($isAct) ? $activity['act_duration']: ""; ?>
 <?php $actMonitorNb                 = ($isAct) ? $activity['act_monitor_nb']: ""; ?>
@@ -12,6 +13,7 @@
 <?php $actOperatorNb                = ($isAct) ? $activity['act_operator_nb']: ""; ?>
 <?php $actRequiredAge               = ($isAct) ? $activity['act_required_age']: ""; ?>
 <?php $actIsSpecialOffer            = ($isAct) ? $activity['act_is_special_offer']: ""; ?>
+<?php $actHandicappedAccessibility  = ($isAct) ? $activity['act_handicapped_accessibility']: ""; ?>
 <?php $actDescriptionSpecialOffer   = ($isAct) ? $activity['act_description_special_offer']: ""; ?>
 <?php $actStatus                    = ($isAct) ? $activity['act_status']: ""; ?>
 <?php $actStreet                    = ($isAct) ? $activity['act_street']: ""; ?>
@@ -56,6 +58,25 @@
         <div class="control">
             <textarea class="textarea" name="act_resume" placeholder="Description courte de l'activité..." required><?php echo $actResume; ?></textarea>
         </div>
+    </div>
+    <div class="field">
+        <label for="act_level">Niveau</label>
+        <div class="control">
+            <div class="select">
+                <select class="select" name="act_level" required>
+                    <option value="">Selectionnez une niveau d'activité</option>
+                    <option value="beginner" <?php if ($actLevel == "beginner"): ?>selected<?php endif; ?>>Débutant</option>
+                    <option value="confirmed" <?php if ($actLevel == "confirmed"): ?>selected<?php endif; ?>>Confirmé</option>
+                    <option value="expert" <?php if ($actLevel == "expert"): ?>selected<?php endif; ?>>Expert</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="field">
+        <label class="checkbox">
+            L'activité est accessible aux personnes à mobilité réduite ?
+            <input type="checkbox" name="act_handicapped_accessibility" <?php if ($actHandicappedAccessibility): ?>checked<?php endif; ?>>
+        </label>
     </div>
     <div class="field">
         <label for="act_base_price">Prix hors promotion (€)</label>

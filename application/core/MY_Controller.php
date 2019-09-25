@@ -29,6 +29,9 @@ class MY_Controller extends CI_Controller {
         $this->load->model('TicketModel');
         $this->load->model('PromotionModel');
         $this->load->model('PaymentModel');
+        $this->load->model('CommentModel');
+        $this->load->model('NewsletterModel');
+        $this->load->model('AdminRequestModel');
 
         if (!isset($_SESSION['messages'])){
             $_SESSION['messages'] = array();

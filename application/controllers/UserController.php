@@ -60,6 +60,11 @@ class UserController extends MY_Controller {
                 $this->redirectHome();
             }
         }else{
+
+            if ($mail = $this->input->get('mail')){
+                $this->_params['data']['mail'] = $mail;
+            }
+
             $this->load->view('template.php', $this->_params);
         }
     }
@@ -68,15 +73,78 @@ class UserController extends MY_Controller {
     {
         $this->_params['headData']['title'] = 'Mon profil';
         $this->_params['view']              = 'profile.php';
+        $user = $this->UserModel->getUserById($_SESSION['user']['id']);
 
-        $this->_params['data']['user'] = $this->UserModel->getUserById($_SESSION['user']['id']);
-        $reservations = $this->ReservationModel->getReservationsByUserId($_SESSION['user']['id']);
+        $this->_params['data']['user']  = $user;
+        $reservations                   = $this->ReservationModel->getReservationsByUserId($_SESSION['user']['id']);
+        $cancelledReservation           = array();
+        $passedReservation              = array();
+
         foreach ($reservations as $key => $reservation){
-            $reservations[$key]['activity'] = $this->ActivityModel->getActivityById($reservation['act_id']);
-            $reservations[$key]['tickets'] = $this->TicketModel->getTicketsByReservationId($reservation['res_id']);
+            $reservations[$key]['canCancelReservation'] = $this->isReservationStartMoreThanIn4Days($reservation);
+            $reservations[$key]['activity']             = $this->ActivityModel->getActivityById($reservation['act_id']);
+            $reservations[$key]['tickets']              = $this->TicketModel->getTicketsByReservationId($reservation['res_id']);
+
+
+            if ($reservation['res_status'] == 'cancelled'){
+                $cancelledReservation[] = $reservations[$key];
+                unset($reservations[$key]);
+                continue;
+            }elseif ($this->isPassedReservation($reservation)){
+                $passedReservation[] = $reservations[$key];
+                unset($reservations[$key]);
+                continue;
+            }
         }
-        $this->_params['data']['reservations'] = $reservations;
+
+        $giftReservations = $this->ReservationModel->getGiftReservations($user['usr_email'], $user['usr_id']);
+
+        foreach ($giftReservations as $key => $giftReservation){
+            $giftReservations[$key]['canCancelReservation'] = $this->isReservationStartMoreThanIn4Days($giftReservation);
+            $giftReservations[$key]['activity']                 = $this->ActivityModel->getActivityById($giftReservation['act_id']);
+        }
+
+        $this->_params['data']['giftReservations']          = $giftReservations;
+        $this->_params['data']['reservations']              = $reservations;
+        $this->_params['data']['cancelledReservations']     = $cancelledReservation;
+        $this->_params['data']['passedReservations']        = $passedReservation;
         $this->load->view('template.php', $this->_params);
+    }
+
+    public function isReservationStartMoreThanIn4Days($reservation){
+        $result = false;
+
+        $activityDateTimeString =  $reservation['res_date'].' '.getTimeSlotStartHour($reservation['res_time_slot']);
+        $activityStartDateTime  = new DateTime($activityDateTimeString);
+
+        $dateTime = new DateTime();
+        $dateTime->setTimestamp(date(strtotime('now +2 hour')));
+
+        $dateInterval = $dateTime->diff($activityStartDateTime);
+
+        if ($dateInterval->invert == 0 && $dateInterval->days >= 4){
+            $result = true;
+        }
+
+        return $result;
+    }
+
+    public function isPassedReservation($reservation){
+        $result = false;
+
+        $activityDateTimeString =  $reservation['res_date'].' '.getTimeSlotStartHour($reservation['res_time_slot']);
+        $activityStartDateTime  = new DateTime($activityDateTimeString);
+
+        $dateTime = new DateTime();
+        $dateTime->setTimestamp(date(strtotime('now +2 hour')));
+
+        $dateInterval = $dateTime->diff($activityStartDateTime);
+
+        if ($dateInterval->invert == 1){
+            $result = true;
+        }
+
+        return $result;
     }
 
     public function updateProfile(){
@@ -185,5 +253,19 @@ class UserController extends MY_Controller {
 
         $this->NewsletterModel->createNewsletter($post{'new_email'});
         die(json_encode(array('status' => 'valid', 'message' => 'Inscription à la newslettter effectuée')));
+    }
+
+    public function contactAdmin(){
+        if ($post = $this->input->post()){
+            $this->AdminRequestModel->createRequest($post);
+
+            $_SESSION['messages'][] = "Votre demande a été prise en compte";
+            $this->redirectHome();
+        }else{
+            $this->_params['headData']['title'] = 'Contact Administration';
+            $this->_params['view']              = 'adminContact.php';
+
+            $this->load->view('template.php', $this->_params);
+        }
     }
 }

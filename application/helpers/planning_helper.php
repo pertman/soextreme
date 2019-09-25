@@ -28,3 +28,8 @@ function formatDateAndTime($dateAndTime){
 
     return 'Le '. formatDateFromUsToFr($dateAndTimeArray[0]) . ' à '. substr($dateAndTimeArray[1], 0, -3). 'h';
 }
+
+function getTimeSlotStartHour($timeSlot){
+    $timeSlotArray = explode('-', $timeSlot);
+    return $timeSlotArray[0];
+}

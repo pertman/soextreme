@@ -154,6 +154,7 @@ class ReservationController extends MY_Controller
     }
 
     public function reservationStep3(){
+		
         $quote  = $_SESSION['current_quote'];
 
         $date = formatDateFromFrToUs($quote['date']);
@@ -183,13 +184,17 @@ class ReservationController extends MY_Controller
             }
 
             $this->TicketModel->createTicketReservationLink($resId, $ticId);
-            if($participant['usr_gift_email']){
-                //@TODO send mail
+
+            if($email = $participant['usr_gift_email']){
+                $user = $this->UserModel->getUserByEmail($participant['usr_gift_email']);
+
+                if (!$user){
+                    //@TODO send mail to $email with <a href="base_url().'UserController/create?mail='.$email /> for account creation
+                }
             }
         }
 
-        //@TODO CREATE PAYMENT WITH PAYPAL DATA
-        $bankResponse = '';
+        $bankResponse = $_POST['id_paypal'];
         $this->PaymentModel->createPayment($resId, $quote['total'], $bankResponse);
 
         unset($_SESSION['current_quote']);
@@ -221,5 +226,26 @@ class ReservationController extends MY_Controller
         $this->TicketModel->validateTicket($ticId);
         $_SESSION['messages'][] = "Ticket validé";
         $this->redirectHome();
+    }
+
+    public function cancelReservation(){
+        $resId = $this->input->get('id');
+
+        if (!$resId){
+            $_SESSION['messages'][] = "Identifiant de réservation manquant";
+            redirect('/UserController/profile', 'refresh');
+        }
+
+        $reservation = $this->ReservationModel->getReservationById($resId);
+
+        if ($reservation['usr_id'] != $_SESSION['user']['id']){
+            $_SESSION['messages'][] = "Vous ne pouvez pas effectuer cette action";
+            redirect('/UserController/profile', 'refresh');
+        }
+
+        $this->ReservationModel->cancelReservation($resId);
+
+        $_SESSION['messages'][] = "Réservation annulée, vous serez remboursé dans un délais de 5 jours";
+        redirect('/UserController/profile', 'refresh');
     }
 }

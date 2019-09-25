@@ -31,6 +31,8 @@ class MY_Controller extends CI_Controller {
         $this->load->model('PaymentModel');
         $this->load->model('CommentModel');
         $this->load->model('NewsletterModel');
+        $this->load->model('AdminRequestModel');
+        $this->load->model('PaypalModel');
 
         if (!isset($_SESSION['messages'])){
             $_SESSION['messages'] = array();

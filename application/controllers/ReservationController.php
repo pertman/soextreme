@@ -190,6 +190,19 @@ class ReservationController extends MY_Controller
 
                 if (!$user){
                     //@TODO send mail to $email with <a href="base_url().'UserController/create?mail='.$email /> for account creation
+                    $this->load->library('email');
+                    $mail['template']='activationCompte';
+
+                    //Ci-dessous pour envoyer une variable à utiliser dans le mail
+                    //$mail['utilisateur_id']=$utilisateur_id;
+
+                    $this->email->set_newline("\r\n");
+                    $this->email->from('frantzcorentin@gmail.com', 'Votre équipe So Extreme');
+                    $this->email->to('frantzcorentin@gmail.com');
+                    $this->email->subject("Vous avez reçu un cadeau 🎁");
+                    $message=$this->load->view('email/activationCompte', $mail,true);
+                    $this->email->message($message);
+                    $this->email->send();
                 }
             }
         }
@@ -201,6 +214,25 @@ class ReservationController extends MY_Controller
 
         $_SESSION['messages'][] = "Votre réservation a bien été effectuée";
         $this->redirectHome();
+    }
+
+    public function testmail(){
+        $this->load->library('email');
+        $mail['template']='activationCompte';
+        //Ci-dessous pour envoyer une variable à utiliser dans le mail
+        //$mail['utilisateur_id']=$utilisateur_id;
+        $this->email->set_newline("\r\n");
+        $this->email->from('frantzcorentin@gmail.com', 'Votre équipe So Extreme');
+        $this->email->to('frantzcorentin@gmail.com');
+        $this->email->subject("Vous avez reçu un cadeau 🎁");
+        $message=$this->load->view('email/activationCompte', $mail,true);
+        $this->email->message($message);
+        if ($this->email->send()) {
+            echo ('Mail envoyé');
+        }else{
+            echo ('echec envoi mail');
+        }
+
     }
 
     public function validateTicket(){

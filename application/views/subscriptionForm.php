@@ -5,8 +5,9 @@
 <?php
     $firstName    = '';
     $lastName     = '';
-    $email        = '';
+    $email        = isset($mail) ? $mail : '';
     $phone        = '';
+    $isGift       = isset($mail);
     if (isset($post)){
         $firstName    = $post['usr_firstname'];
         $lastName     = $post['usr_lastname'];
@@ -33,7 +34,7 @@
             <div class="field">
                 <label for="usr_email">Email</label>
                 <div class="control">
-                    <input type="mail" class="input" name="usr_email" value="<?php echo $email; ?>" required>
+                    <input type="mail" class="input" name="usr_email" value="<?php echo $email; ?>" required <?php if ($isGift): ?>disabled<?php endif; ?>>
                 </div>
             </div>
         </div>
@@ -64,6 +65,9 @@
             <input type="file" name="usr_profile_picture" id="usr_profile_picture">
         </div>
     </div>
+    <?php if ($isGift): ?>
+        <input type="hidden" name="usr_email" value="<?php echo $email; ?>">
+    <?php endif; ?>
     <div class="buttons">
         <div class="field">
             <div class="control">

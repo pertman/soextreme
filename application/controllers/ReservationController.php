@@ -154,6 +154,7 @@ class ReservationController extends MY_Controller
     }
 
     public function reservationStep3(){
+		
         $quote  = $_SESSION['current_quote'];
 
         $date = formatDateFromFrToUs($quote['date']);
@@ -183,13 +184,17 @@ class ReservationController extends MY_Controller
             }
 
             $this->TicketModel->createTicketReservationLink($resId, $ticId);
-            if($participant['usr_gift_email']){
-                //@TODO send mail
+
+            if($email = $participant['usr_gift_email']){
+                $user = $this->UserModel->getUserByEmail($participant['usr_gift_email']);
+
+                if (!$user){
+                    //@TODO send mail to $email with <a href="base_url().'UserController/create?mail='.$email /> for account creation
+                }
             }
         }
 
-        //@TODO CREATE PAYMENT WITH PAYPAL DATA
-        $bankResponse = '';
+        $bankResponse = $_POST['id_paypal'];
         $this->PaymentModel->createPayment($resId, $quote['total'], $bankResponse);
 
         unset($_SESSION['current_quote']);

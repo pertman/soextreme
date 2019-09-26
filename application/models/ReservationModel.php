@@ -47,4 +47,13 @@ class ReservationModel extends CI_Model{
         $query = $this->db->query($sql, array('cancelled'));
         return $query->result_array();
     }
+
+    public function getGiftReservations($usrEmail, $usrId){
+        $sql = "SELECT * FROM reservation
+                LEFT JOIN ticket_reservation_link ON reservation.res_id = ticket_reservation_link.res_id
+                LEFT JOIN ticket ON ticket_reservation_link.tic_id = ticket.tic_id
+                WHERE ticket.tic_is_gift = ? AND ticket.tic_email = ? AND reservation.usr_id <> ?";
+        $query = $this->db->query($sql, array(1, $usrEmail, $usrId));
+        return $query->result_array();
+    }
 }

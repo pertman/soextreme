@@ -74,7 +74,7 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
-    'dsn'    => '',
+    'dsn'	=> '',
     'hostname' => 'thenightwatchtavern.v-info.info',
     'username' => 'soextreme',
     'password' => '1x[{XN!6Cy=I',
@@ -93,4 +93,4 @@ $db['default'] = array(
     'stricton' => FALSE,
     'failover' => array(),
     'save_queries' => TRUE
-);
+); 

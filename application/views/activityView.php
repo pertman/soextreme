@@ -290,8 +290,10 @@
     }
 
     function formatDateTime(createdAt){
-        let dateAndTimeArray = createdAt.split(' ');
-        let dateArray        = dateAndTimeArray[0].split('-');
-        return 'Le ' +  dateArray[2] + '/' + dateArray[1] + '/' + dateArray[0] + ' à ' + dateAndTimeArray[1].slice(0, -3) + 'h';
+        let createdAtDate = new Date(createdAt);
+        let timestamp = createdAtDate.setTime(createdAtDate.getTime() + (2*60*60*1000));
+        let date = new Date(timestamp);
+
+        return 'Le ' + ("0" + date.getDate()).slice(-2) + '/' + ("0" + date.getMonth()).slice(-2) + '/' + date.getFullYear() + ' à ' + ("0" + date.getHours()).slice(-2) + ':' + ("0" + date.getMinutes()).slice(-2) + 'h';
     }
 </script>

@@ -322,4 +322,13 @@ class ApiController extends REST_Controller {
 
 
     }
+
+
+    //Gestion promotions
+    public function promotion_get(){
+        $actId = $this->input->get('act');
+        $promotions = $this->PromotionModel->getAllPromotionsById($actId);
+        die(json_encode($promotions));
+    }
+
 }

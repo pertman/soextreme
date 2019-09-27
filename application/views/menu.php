@@ -93,7 +93,7 @@
             <?php if (isCurrentUserCustomer()): ?>
                 <a href="<?php echo base_url("UserController/profile"); ?>" class="navbar-item">Mon profil</a>
                 <a href="<?php echo base_url("LoginController/disconnect"); ?>" class="navbar-item">Déconnexion</a>
-				 <a href="#" class="navbar-item"><i class="fas fa-shopping-cart"></i></a>
+				<!-- <a href="#" class="navbar-item"><i class="fas fa-shopping-cart"></i></a>-->
 				
             <?php endif; ?>
             <?php if(isCurrentUserNotLoggedIn()): ?>

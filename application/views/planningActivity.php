@@ -306,6 +306,7 @@ foreach ($dates as $index => $date){
 		$(document).on ("click", ".close-event-modal", function () {
 			$('.reservation-tickets').html('');
 			$(".paypal-button").remove();
+			
 		});
 	
 		$('#modal-step1').find('.action-event-modal').prop("disabled", true);
@@ -326,6 +327,8 @@ foreach ($dates as $index => $date){
 		$('#modal-step1').find('.close-event-modal').click(function () {
 			$('#modal-step1').removeClass('is-active');
 			$('#modal-planning').addClass('is-active');
+			$('#modal-step1').find('.action-event-modal').off('click');
+			$('.reservationForm1').find('.validate-reservation-form').off('click');
 			//$('#modal-planning').addClass('is-active');
 		});
 		
@@ -341,6 +344,7 @@ foreach ($dates as $index => $date){
 			var eventModalPrice = $('.event_modal_price').val();
 			var eventModalPromotionIds = $('.event_modal_promotion_ids').val();
 			
+			
 
 			$.ajax({
 				url:  urlReservationStep1,
@@ -355,11 +359,14 @@ foreach ($dates as $index => $date){
  					console.log(JSON.parse(data));
 					console.log(activity);
 					
+					
 					var reservationStep1IdsPromotion = Object.keys(array_reservationStep1['data']['promotions']);
 					reservationStep1IdsPromotion = reservationStep1IdsPromotion.join(',');
 					
 					$('.modal-card-body').removeClass('is-active');
-					$('.base-price, .promotions').remove();
+					$('#modal-step1').find('.promotions').remove();
+					$('.row.price').children('.prices').children('.base-price').remove();
+					$('.row.price').children('.prices').children('.price').removeClass('special-price');
 					$('#modal-step1').addClass('is-active');
 					
 					
@@ -383,13 +390,13 @@ foreach ($dates as $index => $date){
 					$('.step1-activity').html(activity['act_name']);
 					$('.step1-date').html(array_reservationStep1['data']['selectedDate']);
 					$('.step1-time').html(array_reservationStep1['data']['selectedTime']);
-					$('.prices').children('.price').html(array_reservationStep1['data']['price']);
+					$('.row.price').children('.prices').children('.price').html(array_reservationStep1['data']['price']);
 					$('.select-participant-nb').html(divsAvailableTickets);
 					
 					if(array_reservationStep1['data']['promotions'].length !== 0)
 					{
-						$('.prices').append('<div class="base-price">'+new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(activity['act_base_price'])+'</div>');
-						$('.prices').children('.price').addClass('special-price');
+						$('.row.price').children('.prices').append('<div class="base-price">'+new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(activity['act_base_price'])+'</div>');
+						$('.row.price').children('.prices').children('.price').addClass('special-price');
 						
 						$('.row.price').after('<div class="row promotions">'+        
 					'       		<div class="session-label">Promotions appliquées :</div>'+
@@ -401,10 +408,10 @@ foreach ($dates as $index => $date){
 					
 					// Sur le clique de validation du modal étape participant
 					$('#modal-step1').find('.action-event-modal').click(function () {
-						$('.validate-reservation-form').click();
+						$('.reservationForm1').find('.validate-reservation-form').click();
 					});
 					
-					$('.validate-reservation-form').click(function () {
+					$('.reservationForm1').find('.validate-reservation-form').click(function () {
 						var f = $('.reservationForm1')[0];
 						
 							if(f.checkValidity()) 
@@ -554,7 +561,7 @@ foreach ($dates as $index => $date){
 											  if (data.success) {
 												alert("Paiement approuvé ! Merci !");
 												$("#id-paypal").val(data.paypal_response.id);
-												$(".validate-reservation-form").click();
+												$('.reservationForm2').find(".validate-reservation-form").click();
 												$(".validate-paypal").click();
 												location.href = '<?php echo base_url(); ?>';
 											  } else {
@@ -748,6 +755,20 @@ foreach ($dates as $index => $date){
 				error: function(e){
 					console.log(e);
 					alert('Une erreur est survenue') ;
+				},
+				complete: function(e){
+					if($('.participant').length > 0)
+					{
+						if($(".select-participant-nb").children('option').length < $('.participant').length)
+						{
+							while($(".select-participant-nb").children('option').length < $('.participant').length)
+							{
+								$('.participant').last().remove();
+							}
+						}
+
+						$(".select-participant-nb").val($('.participant').length);
+					}
 				}
 			}); 
 			

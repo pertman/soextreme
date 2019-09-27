@@ -22,6 +22,7 @@
             <h2 class="subtitle">
                 Vivez des sensations fortes
             </h2>
+			<!--
 			<div class="columns">
 				<div class="column is-2"></div>
 				<div class="column is-8 is-full-mobile">
@@ -33,7 +34,7 @@
 					</div>
 				</div>
 			</div>
-			
+			-->
         </div>
 		<p>
   </p>

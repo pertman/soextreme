@@ -274,7 +274,6 @@ var urlReservationStep2 = '<?php echo base_url(); ?>ReservationController/reserv
 
         <footer class="modal-card-foot">
             <div class="buttons">
-                <button type="button" class="button is-primary action-event-modal"></button>
                 <button class="button close-event-modal">Annuler</button>
             </div>
         </footer>
@@ -306,6 +305,7 @@ foreach ($dates as $index => $date){
 		
 		$(document).on ("click", ".close-event-modal", function () {
 			$('.reservation-tickets').html('');
+			$(".paypal-button").remove();
 		});
 	
 		$('#modal-step1').find('.action-event-modal').prop("disabled", true);
@@ -313,6 +313,7 @@ foreach ($dates as $index => $date){
 		$('#modal-step3').find('.close-event-modal').click(function () {
 			$('#modal-step3').removeClass('is-active');
 			$('#modal-step2').addClass('is-active');
+			
 			//$('#modal-planning').addClass('is-active');
 		});
 		
@@ -510,7 +511,7 @@ foreach ($dates as $index => $date){
 													
 													
 										});
-										
+										console.log(divsTicket);
 										$('.reservation-tickets').append(divsTicket);
 										$('.reservation-total').html(new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(totalPrice));
 										

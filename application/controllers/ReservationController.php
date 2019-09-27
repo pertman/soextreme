@@ -23,9 +23,11 @@ class ReservationController extends MY_Controller
         $timeSlot           = $this->input->post('event_modal_time');
         $price              = $this->input->post('event_modal_price');
         $promotionIds       = $this->input->post('event_modal_promotion_ids');
-
+		
+		$isJson = $this->uri->segment(3);
+		
         $promotionsNames   = array();
-
+		
         if ($promotionIds){
             $promotions =  $this->PromotionModel->getPromotionsByPromotionIds($promotionIds);
             foreach ($promotions as $promotion){
@@ -99,6 +101,17 @@ class ReservationController extends MY_Controller
         $this->_params['data']['promotions']        = $promotionsNames;
         $this->_params['data']['price']             = $price;
         $this->_params['data']['activity']          = $activity;
+		
+		if($isJson)
+		{
+			$encodeParamsJson = json_encode($this->_params);
+
+			echo $encodeParamsJson;
+	
+			//echo $encodeParamsJson;
+			exit();
+		}
+		
         $this->load->view('template', $this->_params);
 
     }
@@ -106,6 +119,9 @@ class ReservationController extends MY_Controller
     public function reservationStep2(){
 
         $quote = $this->input->post();
+		$isJson = $this->uri->segment(3);
+		//array_shift($quote['participants']);
+
 
         $promotions       = array();
         if ($promotionIds = $quote['promotionIds']){
@@ -115,6 +131,8 @@ class ReservationController extends MY_Controller
         $agePromotions = $this->PromotionModel->getAgePromotions();
 
         foreach ($quote['participants'] as $key => $participant){
+			if($key == 0) continue;
+				
             $price = $quote['price'];
 
             $quote['participants'][$key]['base_price']      = $price;
@@ -149,8 +167,23 @@ class ReservationController extends MY_Controller
 
         $quote['activity']                          = $activity;
         $_SESSION['current_quote']                  = $quote;
-
-        $this->load->view('template', $this->_params);
+		
+		if($isJson)
+		{
+			
+			$encodeParamsJson = json_encode($this->_params);
+			$encodeQuoteJson = json_encode($quote);
+			
+			$array = array_merge($this->_params, $quote);
+			echo json_encode($array);
+			/*
+			echo $encodeQuoteJson;
+			echo $encodeQuoteJson;
+*/			exit();
+			
+		}
+		
+        //$this->load->view('template', $this->_params);
     }
 
     public function reservationStep3(){
@@ -248,4 +281,9 @@ class ReservationController extends MY_Controller
         $_SESSION['messages'][] = "Réservation annulée, vous serez remboursé dans un délais de 5 jours";
         redirect('/UserController/profile', 'refresh');
     }
+	
+	public function validateSession(){
+		
+		$_SESSION['current_quote']['total'] = $this->input->post('total_price');
+	}
 }

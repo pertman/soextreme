@@ -3,6 +3,7 @@
 </div>
 
 <?php if (!$quote = $_SESSION['current_quote']): ?>
+<?php if (!$quote = $_SESSION['current_quote']): ?>
     <?php redirect('/', 'refresh'); ?>
 <?php endif; ?>
 

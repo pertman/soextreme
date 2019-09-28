@@ -188,18 +188,22 @@ class ReservationController extends MY_Controller
 
     public function reservationStep3(){
 		
-        $quote  = $_SESSION['current_quote'];
+		$isJson = $this->uri->segment(3);
+		
+		if($isJson) $_SESSION['current_quote']['total'] =  $_POST['total_price'];
 
+        $quote  = $_SESSION['current_quote'];
         $date = formatDateFromFrToUs($quote['date']);
 
-        $this->ReservationModel->createReservation($date, $quote['time'], count($quote['participants']), $quote['tsl_id'], $_SESSION['user']['id'], $quote['activity']['act_id']);
-
+        $this->ReservationModel->createReservation($date, $quote['time'], ($isJson ? count($quote['participants']) - 1 : count($quote['participants'])), $quote['tsl_id'], $_SESSION['user']['id'], $quote['activity']['act_id']);
+		
         $resId = $this->db->insert_id();
 
         include('phpqrcode/qrlib.php');
 
         foreach ($quote['participants'] as $key => $participant){
-
+			if($key == 0) continue;
+			
             $this->TicketModel->createTicket($participant['usr_firstname'], $participant['usr_lastname'], $participant['usr_age'], $participant['usr_gift_email'], $participant['price']);
 
             $ticId = $this->db->insert_id();
@@ -231,7 +235,13 @@ class ReservationController extends MY_Controller
         $this->PaymentModel->createPayment($resId, $quote['total'], $bankResponse);
 
         unset($_SESSION['current_quote']);
-
+		$_SESSION['messages'][] = "Votre réservation a bien été effectuée";
+		
+		if($isJson)
+		{
+			echo json_encode("Votre réservation a bien été effectuée");
+			exit();
+		}
         $_SESSION['messages'][] = "Votre réservation a bien été effectuée";
         $this->redirectHome();
     }

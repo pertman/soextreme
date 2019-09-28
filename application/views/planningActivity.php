@@ -1,6 +1,7 @@
 <script>
 var urlReservationStep1 = '<?php if (isCurrentUserCustomer()): ?><?php echo base_url(); ?>ReservationController/reservationStep1/json<?php else: ?>../AdminActivityController/modifyPlanning<?php endif; ?>';
 var urlReservationStep2 = '<?php echo base_url(); ?>ReservationController/reservationStep2/json';
+var urlReservationStep3 =  '<?php echo base_url(); ?>ReservationController/reservationStep3/json';
 
 </script>
 
@@ -256,7 +257,7 @@ var urlReservationStep2 = '<?php echo base_url(); ?>ReservationController/reserv
 
 			<div class="reservation-total"></div>
 
-			<form class="reservationForm2" method="post" action="reservationStep3">
+			<form class="reservationForm3" method="post" action="<?php echo base_url(); ?>ReservationController/reservationStep3">
 				<div class="bank-infomations">
 					<input type="hidden" id="id-paypal" name="id_paypal" value="">
 				</div>
@@ -343,7 +344,7 @@ foreach ($dates as $index => $date){
 			var eventModalTime = $('.event_modal_time').val();
 			var eventModalPrice = $('.event_modal_price').val();
 			var eventModalPromotionIds = $('.event_modal_promotion_ids').val();
-			
+			var finalPrice = 0;
 			
 
 			$.ajax({
@@ -481,7 +482,7 @@ foreach ($dates as $index => $date){
 													//$('.prices').append('<div class="base-price">'+new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(activity['act_base_price'])+'</div>');
 													
 												var divsPriceReduction = '<div class="base-price">'+
-														new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(participant['price'])+
+														new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(array_reservationStep2['activity']['act_base_price'])+
 													'</div>';
 
 											}
@@ -522,6 +523,7 @@ foreach ($dates as $index => $date){
 										$('.reservation-tickets').append(divsTicket);
 										$('.reservation-total').html(new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(totalPrice));
 										
+										finalPrice = totalPrice;
 										
 										/********** PAYPAL *********/
 										
@@ -562,8 +564,23 @@ foreach ($dates as $index => $date){
 												alert("Paiement approuvé ! Merci !");
 												$("#id-paypal").val(data.paypal_response.id);
 												$('.reservationForm2').find(".validate-reservation-form").click();
-												$(".validate-paypal").click();
-												location.href = '<?php echo base_url(); ?>';
+												//$(".validate-paypal").click();
+												//location.href = '<?php echo base_url(); ?>';
+												$.ajax({
+													url:  urlReservationStep3,
+													type: "POST",
+													data:   { id_paypal : $("#id-paypal").val(), total_price : finalPrice },
+													success: function(data3){
+														var array_reservationStep3 = JSON.parse(data3);
+														console.log(array_reservationStep3);
+														location.href = '<?php echo base_url(); ?>';
+													},
+													error: function(e){
+														console.log(e);
+														alert('Une erreur est survenue') ;
+													}
+												});
+												
 											  } else {
 												alert(data.msg);
 											  }

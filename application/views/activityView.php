@@ -85,7 +85,7 @@
     </div>
     <div class="card-footer">
         <div class="buttons">
-            <?php if ($activity['act_status'] == 'active'): ?>
+            <?php if (isCurrentUserAdmin() || isCurrentUserCustomer() && $activity['act_status'] == 'active'): ?>
                 <a class="button is-link" href="<?php echo base_url("PlanningController/seeActivityPlanning"); ?>?id=<?php echo $activity['act_id']; ?>">Voir le planning</a>
             <?php endif; ?>
             <?php if (isCurrentUserAdmin()): ?>
@@ -271,8 +271,6 @@
                     }else{
                         template +=         '<img src="https://bulma.io/images/placeholders/128x128.png">\n';
                     }
-
-                    <?php //@TODO SET TIMEZONE FR => + 2    HOURS; ?>
 
                     let commentCreatedAt = formatDateTime(comment.com_created_at);
 

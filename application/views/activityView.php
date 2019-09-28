@@ -85,18 +85,22 @@
     </div>
     <div class="card-footer">
         <div class="buttons">
-            <?php if (isCurrentUserAdmin() || isCurrentUserCustomer() && $activity['act_status'] == 'active'): ?>
-                <a class="button is-link" href="<?php echo base_url("PlanningController/seeActivityPlanning"); ?>?id=<?php echo $activity['act_id']; ?>">Voir le planning</a>
-            <?php endif; ?>
             <?php if (isCurrentUserAdmin()): ?>
+                <a class="button is-link" href="<?php echo base_url('AdminActivityController/planActivity') ?>?id=<?php echo $activity['act_id']; ?>" class="button">Plannifier</a>
                 <a class="button is-link" href="<?php echo base_url("AdminActivityController/updateActivity"); ?>?id=<?php echo $activity['act_id']; ?>">Modifier l'activité</a>
+            <?php endif; ?>
+            <a class="button is-link" href="<?php echo base_url("ActivityController/seeActivity"); ?>?id=<?php echo $activity['act_id']; ?>">Voir l'activité</a>
+            <?php if (isCurrentUserAdmin() || isCurrentUserCustomer() && $activity['act_status'] == 'active'): ?>
+                <a class="button is-link" href="<?php echo base_url("PlanningController/seeActivityPlanning"); ?>?id=<?php echo $activity['act_id'];?>">Voir le planning</a>
             <?php endif; ?>
         </div>
     </div>
 </div>
-<div class="section-title">
-    Commentaires
-</div>
+<?php if ($alreadyDoneActivity || $comments): ?>
+    <div class="activity-comments-title">
+        Commentaires
+    </div>
+<?php endif; ?>
 <?php if ($alreadyDoneActivity): ?>
     <form method="post" class="commentForm" action="addActivityComment" enctype="multipart/form-data">
         <div class="add-comment">
@@ -188,29 +192,31 @@
                         <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
-                <a class="show-comment-form" id="show-comment-form-<?php echo $comment['com_id']?>">Répondre</a>
-                <form method="post" class="comment-form comment-form-<?php echo $comment['com_id'] ?> hidden" action="addActivityCommentLevel2" onsubmit="event.preventDefault(); return formValidate(<?php echo $comment['com_id'] ?>);">
-                    <div class="add-comment">
-                        <article class="media">
-                            <div class="media-content">
-                                <div class="field">
-                                    <p class="control">
-                                        <textarea class="textarea com_text" name="com_text" placeholder="Ajouter un commentaire" required></textarea>
-                                    </p>
-                                </div>
-                                <input type="hidden" name="com_commented_com_id" value="<?php echo $comment['com_id']; ?>">
-                                <input type="hidden" name="act_id" value="<?php echo $activity['act_id']; ?>">
-                                <input type="hidden" name="usr_id" value="<?php echo $_SESSION['user']['id']; ?>">
-                                <div class="field buttons">
-                                    <div class="control">
-                                        <button class="button is-link">Valider</button>
+                <?php if (!isCurrentUserNotLoggedIn()): ?>
+                    <a class="show-comment-form" id="show-comment-form-<?php echo $comment['com_id']?>">Répondre</a>
+                    <form method="post" class="comment-form comment-form-<?php echo $comment['com_id'] ?> hidden" action="addActivityCommentLevel2" onsubmit="event.preventDefault(); return formValidate(<?php echo $comment['com_id'] ?>);">
+                        <div class="add-comment">
+                            <article class="media">
+                                <div class="media-content">
+                                    <div class="field">
+                                        <p class="control">
+                                            <textarea class="textarea com_text" name="com_text" placeholder="Ajouter un commentaire" required></textarea>
+                                        </p>
+                                    </div>
+                                    <input type="hidden" name="com_commented_com_id" value="<?php echo $comment['com_id']; ?>">
+                                    <input type="hidden" name="act_id" value="<?php echo $activity['act_id']; ?>">
+                                    <input type="hidden" name="usr_id" value="<?php echo $_SESSION['user']['id']; ?>">
+                                    <div class="field buttons">
+                                        <div class="control">
+                                            <button class="button is-link">Valider</button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </article>
-                    </div>
-                </form>
-            </div>
+                            </article>
+                        </div>
+                    </form>
+                </div>
+            <?php endif; ?>
             <div class="media-right">
                 <?php if (isCurrentUserAdmin() || isCurrentUserCustomer() && $_SESSION['user']['id'] == $comment['usr_id']): ?>
                     <button class="delete delete-comment" id="delete-comment-<?php echo $comment['com_id']; ?>"></button>

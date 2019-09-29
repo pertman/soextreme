@@ -6991,6 +6991,33 @@ a[data-goto], .fc-day-header {
   .request-card:not(:last-child) {
     margin-bottom: 15px; }
 
+.connect-link-div, .subscribe-link-div {
+  display: flex;
+  justify-content: center; }
+  .connect-link-div div, .subscribe-link-div div {
+    padding: 5px; }
+  .connect-link-div .modal-subscribe-link, .connect-link-div .modal-connect-link, .subscribe-link-div .modal-subscribe-link, .subscribe-link-div .modal-connect-link {
+    color: #ff9437;
+    cursor: pointer; }
+
+.ariane {
+  display: flex;
+  width: 100%;
+  justify-content: center; }
+  .ariane .steps-segment {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; }
+    .ariane .steps-segment.is-active .steps-marker {
+      color: #ff9437; }
+    .ariane .steps-segment.is-active .steps-content {
+      color: #ff9437; }
+    .ariane .steps-segment .steps-marker {
+      width: 100%; }
+      .ariane .steps-segment .steps-marker .icon {
+        width: 100%; }
+
 .action-event-modal {
   display: block; }
   .action-event-modal.hidden {

@@ -276,7 +276,6 @@ var urlReservationStep3 =  '<?php echo base_url(); ?>ReservationController/reser
         </footer>
     </div>
 </div>
-
 <?php
 
 $events             = array();
@@ -314,14 +313,10 @@ foreach ($dates as $index => $date){
         var evenModalTslId      = $('.event_modal_tsl_id');
         var actionEventModal    = $('.action-event-modal');
 
-        actionEventModal.click(function () {
-            $('.slot-form').submit();
-        });
-
         $('.close-event-modal').click(function () {
-            eventModal[0].classList.remove('is-active')
+            eventModal[0].classList.remove('is-active');
         });
-
+		
 		$(document).on ("click", ".close-event-modal", function () {
 			$('.reservation-tickets').html('');
 			$(".paypal-button").remove();

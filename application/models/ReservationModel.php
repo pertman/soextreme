@@ -56,4 +56,13 @@ class ReservationModel extends CI_Model{
         $query = $this->db->query($sql, array(1, $usrEmail, $usrId));
         return $query->result_array();
     }
+
+    public function getAllReservationsByActivity($actId){
+        $sql = "SELECT * FROM reservation
+                LEFT JOIN ticket_reservation_link ON reservation.res_id = ticket_reservation_link.res_id
+                LEFT JOIN ticket ON ticket_reservation_link.tic_id = ticket.tic_id
+                WHERE reservation.act_id = ?";
+        $query = $this->db->query($sql, array($actId));
+        return $query->result_array();
+    }
 }

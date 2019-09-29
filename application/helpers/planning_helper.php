@@ -24,9 +24,13 @@ function formatTimeSlot($timeSlot){
 }
 
 function formatDateAndTime($dateAndTime){
-    $dateAndTimeArray = explode(' ',$dateAndTime);
+    
+    $dateTime = new DateTime($dateAndTime);
+    $dateTime = $dateTime->modify('+ 2 hour');
+    $date     = $dateTime->format('d/m/Y');
+    $hour     = $dateTime->format('H:i');
 
-    return 'Le '. formatDateFromUsToFr($dateAndTimeArray[0]) . ' à '. substr($dateAndTimeArray[1], 0, -3). 'h';
+    return 'Le '. $date . ' à '. $hour . 'h';
 }
 
 function getTimeSlotStartHour($timeSlot){

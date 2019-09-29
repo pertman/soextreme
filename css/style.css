@@ -6506,7 +6506,13 @@ label {
 .buttons {
   width: 100%;
   display: flex;
-  justify-content: flex-end; }
+  justify-content: flex-end;
+  flex-direction: row; }
+  .buttons.full-width-buttons {
+    flex-direction: column; }
+    .buttons.full-width-buttons .button {
+      width: 100%;
+      margin-right: 0 !important; }
 
 @media screen and (max-width: 1011px) {
   .media-content {
@@ -6586,10 +6592,20 @@ label {
           .activity-card .activity-pictures .picture:not(:first-child) {
             padding-left: 0; } }
 
+.activity-comments-title {
+  color: #1f3158;
+  font-size: 1.6rem;
+  margin: 30px 0; }
+
 .comments .comment-card {
   width: 100%;
   padding: 20px;
-  border: 1px solid #ff9437; }
+  border: 1px solid #ff9437;
+  flex-direction: row;
+  margin-bottom: 1.5rem; }
+  @media (max-width: 768px) {
+    .comments .comment-card {
+      flex-direction: column; } }
   .comments .comment-card .show-comment-form {
     user-select: none; }
   .comments .comment-card .comment-picture {
@@ -6598,6 +6614,9 @@ label {
     margin-bottom: 20px; }
   .comments .comment-card .comment-form.hidden {
     display: none; }
+  .comments .comment-card .media-right {
+    position: absolute;
+    right: 20px; }
 
 .filter-activities-form.hidden {
   display: none; }
@@ -6607,7 +6626,9 @@ label {
   flex-wrap: wrap; }
   .activity-list .card {
     width: 45%;
-    margin: 0 0 50px 0; }
+    margin: 0 0 50px 0;
+    display: flex;
+    flex-direction: column; }
     .activity-list .card:nth-child(2n) {
       margin-left: 10%; }
     @media (max-width: 921px) {
@@ -6641,6 +6662,12 @@ label {
       .activity-list .card .card-header .note {
         font-size: 1.1rem;
         color: #ff9437; }
+    .activity-list .card .card-bottom-container {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column; }
+      .activity-list .card .card-bottom-container .card-footer {
+        flex-grow: 1; }
 
 .activity-plan-container .daySelectPlan {
   display: flex;
@@ -6907,6 +6934,9 @@ a[data-goto], .fc-day-header {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap; }
+  @media (max-width: 768px) {
+    .main-page .promotions {
+      flex-direction: column; } }
   .main-page .promotions .promotion {
     color: #1f3158;
     padding: 20px;
@@ -6914,6 +6944,9 @@ a[data-goto], .fc-day-header {
     width: 49%;
     margin-bottom: 20px;
     font-size: 1.2rem; }
+    @media (max-width: 768px) {
+      .main-page .promotions .promotion {
+        width: 100%; } }
 
 .footer {
   display: flex;
@@ -6984,3 +7017,31 @@ a[data-goto], .fc-day-header {
       width: 100%; }
       .ariane .steps-segment .steps-marker .icon {
         width: 100%; }
+
+.action-event-modal {
+  display: block; }
+  .action-event-modal.hidden {
+    display: none; }
+
+.planning-reservations .participant-nb {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  color: #1f3158; }
+
+.planning-reservations .participant {
+  border: 1px solid #ff9437;
+  display: flex;
+  justify-content: space-between; }
+  .planning-reservations .participant:not(:last-child) {
+    margin-bottom: 10px; }
+  .planning-reservations .participant .participant-info {
+    width: 60%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    padding: 20px; }
+    @media (max-width: 768px) {
+      .planning-reservations .participant .participant-info {
+        flex-direction: column;
+        align-items: flex-start; } }

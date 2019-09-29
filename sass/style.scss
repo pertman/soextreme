@@ -177,6 +177,14 @@ label{
   width: 100%;
   display: flex;
   justify-content: flex-end;
+  flex-direction: row;
+  &.full-width-buttons{
+    flex-direction: column;
+    .button{
+      width: 100%;
+      margin-right: 0 !important;
+    }
+  }
 }
 
 .media-content {
@@ -288,11 +296,22 @@ label{
   }
 }
 
+.activity-comments-title{
+  color: $primary;
+  font-size: 1.6rem;
+  margin: 30px 0;
+}
+
 .comments{
   .comment-card{
     width: 100%;
     padding: 20px;
     border: 1px solid $orange;
+    flex-direction: row;
+    margin-bottom: 1.5rem;
+    @media(max-width: 768px){
+      flex-direction: column;
+    }
     .show-comment-form{
       user-select: none;
     }
@@ -305,6 +324,10 @@ label{
       &.hidden{
         display: none;
       }
+    }
+    .media-right{
+      position: absolute;
+      right: 20px;
     }
   }
 }
@@ -321,6 +344,8 @@ label{
   .card{
     width: 45%;
     margin: 0 0 50px 0;
+    display: flex;
+    flex-direction: column;
     &:nth-child(2n){
       margin-left: 10%;
     }
@@ -363,6 +388,14 @@ label{
       .note{
         font-size: 1.1rem;
         color: $orange;
+      }
+    }
+    .card-bottom-container{
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      .card-footer{
+        flex-grow: 1;
       }
     }
   }
@@ -726,6 +759,9 @@ a[data-goto], .fc-day-header{
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
     .promotion{
       color: $primary;
       padding: 20px;
@@ -733,6 +769,9 @@ a[data-goto], .fc-day-header{
       width: 49%;
       margin-bottom: 20px;
       font-size: 1.2rem;
+      @media (max-width: 768px) {
+        width: 100%;
+      }
     }
   }
 }
@@ -830,6 +869,42 @@ a[data-goto], .fc-day-header{
       width: 100%;
       .icon{
         width: 100%;
+      }
+    }
+  }
+}
+
+//planningActivity.php
+.action-event-modal{
+  display: block;
+  &.hidden{
+    display: none;
+  }
+}
+
+.planning-reservations{
+  .participant-nb{
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    color: $primary;
+  }
+  .participant{
+    border: 1px solid $orange;
+    display: flex;
+    justify-content: space-between;
+    &:not(:last-child){
+      margin-bottom: 10px;
+    }
+    .participant-info{
+      width: 60%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-direction: row;
+      padding: 20px;
+      @media(max-width: 768px){
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
   }

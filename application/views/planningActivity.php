@@ -70,6 +70,9 @@ var urlReservationStep3 =  '<?php echo base_url(); ?>ReservationController/reser
                     <input type="hidden" name="event_modal_price" class="event_modal_price">
                     <input type="hidden" name="event_modal_promotion_ids" class="event_modal_promotion_ids">
                 <?php endif; ?>
+                <?php if (isCurrentUserAdmin()): ?>
+                    <div class="planning-reservations"></div>
+                <?php endif; ?>
                 <input type="hidden" name="event_modal_pla_id" class="event_modal_pla_id">
                 <input type="hidden" name="event_modal_tsl_id" class="event_modal_tsl_id">
             </form>
@@ -273,19 +276,32 @@ var urlReservationStep3 =  '<?php echo base_url(); ?>ReservationController/reser
         </footer>
     </div>
 </div>
+
 <?php
 
-$events = array();
-$sessionNumber = 1;
+$events             = array();
+$sessionNumber      = 1;
+$reservationNumber  = 1;
 
 foreach ($dates as $index => $date){
-    $events[$index]['title']    = $activity['act_name'] . " Session " . $sessionNumber;
-    $events[$index]['date']     = $date['date'];
-    $events[$index]['start']    = $date['date'] . "T" . $date['start'];
-    $events[$index]['end']      = $date['date'] . "T" . $date['end'];
-    $events[$index]['plaId']    = $date['pla_id'];
-    $events[$index]['tslId']    = $date['tsl_id'];
-    $events[$index]['slots']    = $date['slots'];
+    if($date['type'] == 'planning'){
+        $events[$index]['title']            = $activity['act_name'] . " Session " . $sessionNumber;
+        $events[$index]['plaId']            = $date['pla_id'];
+        $events[$index]['tslId']            = $date['tsl_id'];
+    }else{
+        $events[$index]['title']            = $activity['act_name'] . " Reservation " . $reservationNumber;
+
+        $events[$index]['participants']     = $date['participants'];
+    }
+
+    $events[$index]['eventType']            = $date['type'];
+    $events[$index]['date']                 = $date['date'];
+    $events[$index]['start']                = $date['date'] . "T" . $date['start'];
+    $events[$index]['end']                  = $date['date'] . "T" . $date['end'];
+
+    if (!isCurrentUserAdmin()){
+        $events[$index]['slots']            = $date['slots'];
+    }
 
     $sessionNumber++;
 }
@@ -296,7 +312,16 @@ foreach ($dates as $index => $date){
         var eventModalTitle     = $('.modal-card-title');
         var evenModalPlaId      = $('.event_modal_pla_id');
         var evenModalTslId      = $('.event_modal_tsl_id');
-		
+        var actionEventModal    = $('.action-event-modal');
+
+        actionEventModal.click(function () {
+            $('.slot-form').submit();
+        });
+
+        $('.close-event-modal').click(function () {
+            eventModal[0].classList.remove('is-active')
+        });
+
 		$(document).on ("click", ".close-event-modal", function () {
 			$('.reservation-tickets').html('');
 			$(".paypal-button").remove();
@@ -696,10 +721,7 @@ foreach ($dates as $index => $date){
 						$(".select-participant-nb").val($('.participant').length);
 					}
 				}
-			}); 
-			
-			//$('.slot-form').submit();
-
+			});
         });
 
         let jsonString = '';
@@ -733,17 +755,23 @@ foreach ($dates as $index => $date){
                 }
             ],
             eventClick: function(calEvent, jsEvent, view, resourceObj) {
+                if (actionEventModal.hasClass('hidden')){
+                    actionEventModal.removeClass('hidden');
+                }
                 eventModal[0].classList.add('is-active');
-                eventModalTitle[0].innerHTML = calEvent.event.title;
-                evenModalPlaId[0].value = calEvent.event._def.extendedProps.plaId;
-                evenModalTslId[0].value = calEvent.event._def.extendedProps.tslId;
+                eventModalTitle[0].innerHTML = calEvent.event.title;    
+                if(calEvent.event._def.extendedProps.eventType === 'planning'){
+                    evenModalPlaId[0].value = calEvent.event._def.extendedProps.plaId;
+                    evenModalTslId[0].value = calEvent.event._def.extendedProps.tslId;
+                }
+
+
                 <?php if(isCurrentUserCustomer()): ?>
-                    $('.action-event-modal').text("Continuer");
+                    actionEventModal.text("Continuer");
                     let slots = calEvent.event._def.extendedProps.slots;
 
                     let slotsDiv = $('.time-slots');
                     slotsDiv.empty();
-
 
                     let selectedDate = new Date(calEvent.event.start);
 
@@ -820,7 +848,7 @@ foreach ($dates as $index => $date){
                             '</label>');
                     }
 
-                    $('.action-event-modal').attr("disabled", true);
+                    actionEventModal.attr("disabled", true);
 
                     $('label.checkbox:not(.disabled)').change(function () {
                         $('label.checkbox.selected').each(function () {
@@ -829,7 +857,7 @@ foreach ($dates as $index => $date){
 
                         this.classList.toggle('selected');
 
-                        $('.action-event-modal').attr("disabled", false);
+                        actionEventModal.attr("disabled", false);
 
                         let selectedCheckboxSpan        = $('.checkbox.selected .time');
                         let priceDiv                    = $('.checkbox.selected .price');
@@ -840,7 +868,36 @@ foreach ($dates as $index => $date){
                         $('.event_modal_promotion_ids').attr('value', selectedPromotionIdsInput.attr('value'));
                     });
                 <?php else: ?>
-                    $('.action-event-modal').text("Modifier");
+                    $('.planning-reservations').empty();
+
+                    if(calEvent.event._def.extendedProps.eventType === 'planning'){
+                        actionEventModal.text("Modifier");
+                    }else{
+                        actionEventModal.addClass('hidden');
+                        let participants = calEvent.event._def.extendedProps.participants;
+
+
+                        let participantsDiv = '<div class="participant-nb">Nombre de participants : ' + participants.length + '/<?php echo $activity['act_participant_nb']?></div></div>';
+
+                        participantsDiv += '<div class="participants">';
+                        for (let i = 0; i < participants.length; i++ ) {
+
+                            participantsDiv += '<div class="participant">';
+                            participantsDiv += '<div class="participant-info">';
+                            participantsDiv += '<div class="firstname">' + participants[i]['firstname'] + '</div>';
+                            participantsDiv += '<div class="lastname">' + participants[i]['lastname'] + '</div>';
+                            participantsDiv += '<div class="age">' + participants[i]['age'] + ' ans</div>';
+                            participantsDiv += '</div>';
+                            participantsDiv += '<div class="participant-qr-code">';
+                            participantsDiv +='<img src="<?php echo base_url().'uploads/tickets/'; ?>' + participants[i]['tic_id']  + '" alt="qrcode">';
+                            participantsDiv += '</div>';
+                            participantsDiv += '</div>';
+                        }
+
+                        participantsDiv += '</div>';
+
+                        $('.planning-reservations').append(participantsDiv);
+                    }
                 <?php endif; ?>
             }
         });

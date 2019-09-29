@@ -126,4 +126,11 @@ class ActivityModel extends CI_Model{
         $sql = 'UPDATE activity SET act_note_sum = ?, act_note_count = ? WHERE act_id = ?';
         return $this->db->query($sql, array($sum, $count, $actId));
     }
+
+    public function getMainPagePopularActivities(){
+        $act_status = 'private';
+        $sql = "SELECT *, (act_note_sum / act_note_count) AS act_note FROM activity WHERE act_status <> ? ORDER BY act_note DESC LIMIT 4";
+        $query = $this->db->query($sql, array($act_status));
+        return $query->result_array();
+    }
 }

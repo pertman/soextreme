@@ -34,8 +34,11 @@ class MainController extends MY_Controller {
         $this->_params['headData']['title']     = 'Accueil';
 	    $this->_params['view']                  = 'home.php';
 
-        $this->_params['data']['activities']    = $this->ActivityModel->getMainPageActivities();
-        $this->_params['data']['promotions']    = $this->PromotionModel->getMainPagePromotions();
+        $this->_params['data']['activities']            = $this->ActivityModel->getMainPageActivities();
+        $this->_params['data']['promotions']            = $this->PromotionModel->getMainPagePromotions();
+        $this->_params['data']['popularActivities']     = $this->ActivityModel->getMainPagePopularActivities();
+        $this->_params['data']['lastPictures']          = $this->CommentModel->getLastCommentPictures();
+
         $this->load->view('template.php', $this->_params);
 	}
 }

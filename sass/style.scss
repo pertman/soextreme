@@ -747,31 +747,49 @@ a[data-goto], .fc-day-header{
 }
 
 //home.php
-.main-page{
-
-  .section-title{
-    font-size: 1.4rem;
-    color: $primary;
-    width: 100%;
-    padding: 20px 0 20px 0;
-  }
+.special-offer{
   .promotions{
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    width: 100%;
+    padding: 2.5%;
     @media (max-width: 768px) {
       flex-direction: column;
     }
     .promotion{
-      color: $primary;
+      color: white;
+      background: $orange;
       padding: 20px;
-      border: 1px solid $orange;
       width: 49%;
       margin-bottom: 20px;
-      font-size: 1.2rem;
+      font-size: 1.4rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       @media (max-width: 768px) {
         width: 100%;
       }
+    }
+  }
+}
+.home-activities{
+  .activity-list{
+    width: 100%;
+    padding: 2.5%;
+  }
+}
+
+.popular-activities{
+  .act-name{
+    text-align: center;
+    font-size: 1rem;
+  }
+  .note{
+    font-size: 1.2rem;
+    color: $orange;
+    @media (max-width: 1112px){
+      font-size: 1.2rem;
     }
   }
 }
@@ -783,6 +801,7 @@ a[data-goto], .fc-day-header{
   justify-content: center;
   flex-direction: column;
   padding: 3rem 1.5rem 3rem;
+  background: $primary !important;
   .footer-container{
     margin-bottom: 50px;
     width: 50%;
@@ -817,6 +836,9 @@ a[data-goto], .fc-day-header{
         width: 100%;
       }
     }
+  }
+  a:hover{
+    color: white;
   }
 }
 

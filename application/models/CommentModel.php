@@ -51,4 +51,10 @@ class CommentModel extends CI_Model{
         $sql = 'DELETE FROM comment WHERE com_id = ?';
         return $this->db->query($sql, array($comId));
     }
+
+    public function getLastCommentPictures(){
+        $sql = 'SELECT * FROM comment WHERE com_picture_path IS NOT NULL ORDER BY com_id DESC LIMIT 10';
+        $query = $this->db->query($sql, array());
+        return $query->result_array();
+    }
 }

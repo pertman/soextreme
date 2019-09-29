@@ -6475,6 +6475,11 @@ label {
     position: absolute;
     width: 100%; } }
 
+@media screen and (min-width: 1024px) {
+  .navbar-dropdown a.navbar-item:focus, .navbar-dropdown a.navbar-item:hover {
+    background-color: whitesmoke;
+    color: #ff9437; } }
+
 .card-header, .card-footer {
   padding: 1.5rem; }
 
@@ -6771,6 +6776,9 @@ a[data-goto], .fc-day-header {
         margin-bottom: 15px; } }
     .reservation-tickets .ticket .row .ticket-label {
       width: 35%; }
+      @media (max-width: 800px) {
+        .reservation-tickets .ticket .row .ticket-label {
+          width: 100%; } }
     .reservation-tickets .ticket .row .ticket-value {
       font-size: 1rem; }
 

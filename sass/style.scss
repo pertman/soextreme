@@ -135,6 +135,13 @@ label{
   }
 }
 
+@media screen and (min-width: 1024px) {
+  .navbar-dropdown a.navbar-item:focus, .navbar-dropdown a.navbar-item:hover {
+    background-color: whitesmoke;
+    color: $orange;
+  }
+}
+
 
 //OVERRIDE BULMA
 .card-header,.card-footer{

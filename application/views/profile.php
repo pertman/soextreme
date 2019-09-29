@@ -1,3 +1,7 @@
+<div class="page-title">
+    Mon Profil
+</div>
+
 <div class='columns'>
   <div class='container profile'>
     <div class='modal' id='modal-info'>
@@ -8,67 +12,6 @@
           <button class='delete'></button>
         </header>
         <section class='modal-card-body'>
-		<!--
-          <label class='label'>Name</label>
-          <p class='control'>
-            <input class='input' placeholder='Text input' type='text'>
-          </p>
-          <label class='label'>Username</label>
-          <p class='control has-icon has-icon-right'>
-            <input class='input' placeholder='Text input' type='text' value='pmillerk'>
-          </p>
-          <label class='label'>Email</label>
-          <p class='control has-icon has-icon-right'>
-            <input class='input' placeholder='Email input' type='text' value='hello@'>
-            <i class='fa fa-warning'></i>
-            <span class='help is-danger'>This email is invalid</span>
-          </p>
-          <div class='control'>
-            <div class='control-label is-pulled-left'>
-              <label class='label'>Date of Birth</label>
-            </div>
-            <span>
-              <span class='select'>
-                <select>
-                  <option>Month</option>
-                  <option>With options</option>
-                </select>
-              </span>
-              <span class='select'>
-                <select>
-                  <option>Day</option>
-                  <option>With options</option>
-                </select>
-              </span>
-              <span class='select'>
-                <select>
-                  <option>Year</option>
-                  <option>With options</option>
-                </select>
-              </span>
-            </span>
-          </div>
-          <label class='label'>Description</label>
-          <p class='control'>
-            <textarea class='textarea' placeholder='Describe Yourself!'></textarea>
-          </p>
-          <div class='content'>
-            <h1>Optional Information</h1>
-          </div>
-          <label class='label'>Phone Number</label>
-          <p class='control has-icon has-icon-right'>
-            <input class='input' placeholder='Text input' type='text' value='+1 *** *** 0535'>
-          </p>
-          <label class='label'>Work</label>
-          <p class='control has-icon has-icon-right'>
-            <input class='input' placeholder='Text input' type='text' value='Greater Washington Publishing'>
-          </p>
-          <label class='label'>School</label>
-          <p class='control has-icon has-icon-right'>
-            <input class='input' placeholder='Text input' type='text' value='George Mason University'>
-          </p>
-		  -->
-		  
 		  <form method="post" action="updateprofile" class="modifyProfileForm" enctype="multipart/form-data">
 			<div class="field">
 				<label for="usr_profile_picture" class='label'>Photo de profil</label>
@@ -162,139 +105,10 @@
         </div>
       </div>
     </div>
-	<!--
-    <div class='columns is-mobile'>
-      <div class='column is-3-tablet is-6-mobile'>
-        <div class='card'>
-          <div class='card-image'>
-            <figure class='image is-4by3'>
-              <img alt='' src='http://placehold.it/300x225'>
-            </figure>
-          </div>
-          <div class='card-content'>
-            <div class='content'>
-              <span class='tag is-dark subtitle'>#1</span>
-              <p>Personal Notes on the Property (can be edited and saved automatically by clicking in and clicking out of text area) - these are unique to the user - they will show up as part of a saved listings' info here - but adding notes to a property does not automatically create a saved listing. Likewise, removing this proeprty from saved listings does not auto remove the notes.</p>
-            </div>
-          </div>
-          <footer class='card-footer'>
-            <a class='card-footer-item'>Compare</a>
-            <a class='card-footer-item'>Share</a>
-            <a class='card-footer-item'>Delete</a>
-          </footer>
-        </div>
-        <br>
-      </div>
-      <div class='column is-3-tablet is-6-mobile'>
-        <div class='card'>
-          <div class='card-image'>
-            <figure class='image is-4by3'>
-              <img alt='' src='http://placehold.it/300x225'>
-            </figure>
-          </div>
-          <div class='card-content'>
-            <div class='content'>
-              <span class='tag is-dark subtitle'>#2</span>
-              <p>Personal Notes on the Property (can be edited and saved automatically by clicking in and clicking out of text area) - these are unique to the user - they will show up as part of a saved listings' info here - but adding notes to a property does not automatically create a saved listing. Likewise, removing this proeprty from saved listings does not auto remove the notes.</p>
-            </div>
-          </div>
-          <footer class='card-footer'>
-            <a class='card-footer-item'>Compare</a>
-            <a class='card-footer-item'>Share</a>
-            <a class='card-footer-item'>Delete</a>
-          </footer>
-        </div>
-        <br>
-      </div>
-      <div class='column is-3'>
-        <div class='card'>
-          <div class='card-image'>
-            <figure class='image is-4by3'>
-              <img alt='' src='http://placehold.it/300x225'>
-            </figure>
-          </div>
-          <div class='card-content'>
-            <div class='content'>
-              <span class='tag is-dark subtitle'>#3</span>
-              <p>Personal Notes on the Property (can be edited and saved automatically by clicking in and clicking out of text area) - these are unique to the user - they will show up as part of a saved listings' info here - but adding notes to a property does not automatically create a saved listing. Likewise, removing this proeprty from saved listings does not auto remove the notes.</p>
-            </div>
-          </div>
-          <footer class='card-footer'>
-            <a class='card-footer-item'>Compare</a>
-            <a class='card-footer-item'>Share</a>
-            <a class='card-footer-item'>Delete</a>
-          </footer>
-        </div>
-        <br>
-      </div>
-      <div class='column is-3'>
-        <div class='card'>
-          <div class='card-image'>
-            <figure class='image is-4by3'>
-              <img alt='' src='http://placehold.it/300x225'>
-            </figure>
-          </div>
-          <div class='card-content'>
-            <div class='content'>
-              <span class='tag is-dark subtitle'>#4</span>
-              <p>Personal Notes on the Property (can be edited and saved automatically by clicking in and clicking out of text area) - these are unique to the user - they will show up as part of a saved listings' info here - but adding notes to a property does not automatically create a saved listing. Likewise, removing this proeprty from saved listings does not auto remove the notes.</p>
-            </div>
-          </div>
-          <footer class='card-footer'>
-            <a class='card-footer-item'>Compare</a>
-            <a class='card-footer-item'>Share</a>
-            <a class='card-footer-item'>Delete</a>
-          </footer>
-        </div>
-        <br>
-      </div>
-    </div>
-	-->
   </div>
 </div>
 
-
-
-
-
-
-
-
-
-
-
-<div class="page-title">
-    Mon Profil
-</div>
-
-<div class="profile-info">
-    <div class="columns">
-        <div class="column">
-            <div class="usr_firstname field">
-                <div class="profile-label">Prénom</div>
-                <div class="value"><?php echo $user['usr_firstname']; ?></div>
-            </div>
-            <div class="usr_lastname field">
-                <div class="profile-label">Nom</div>
-                <div class="value"><?php echo $user['usr_lastname']; ?></div>
-            </div>
-        </div>
-        <div class="column">
-            <div class="usr_email field">
-                <div class="profile-label">Email</div>
-                <div class="value"><?php echo $user['usr_email']; ?></div>
-            </div>
-            <div class="usr_phone field">
-                <div class="profile-label">Téléphone</div>
-                <div class="value"><?php echo $user['usr_phone']; ?></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="button is-link modifyProfileButton">Modification de vos informations</div>
 <div class="button is-link modifyPasswordButton">Modification de votre mot de passe</div>
-
 
 <form method="post" action="updatePassword" class="modifyPasswordForm hidden">
     <div class="columns">
@@ -476,11 +290,6 @@
 <?php endif; ?>
 
 <script>
-	/*
-    $('.modifyProfileButton').click(function () {
-        $('.modifyProfileForm').toggleClass('hidden');
-    });
-	*/
     $('.modifyPasswordButton').click(function () {
         $('.modifyPasswordForm').toggleClass('hidden');
     });

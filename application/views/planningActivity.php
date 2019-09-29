@@ -300,6 +300,7 @@ foreach ($dates as $index => $date){
 		$(document).on ("click", ".close-event-modal", function () {
 			$('.reservation-tickets').html('');
 			$(".paypal-button").remove();
+			$(".participants").html('');
 			
 		});
 	
@@ -339,6 +340,7 @@ foreach ($dates as $index => $date){
 			var eventModalPromotionIds = $('.event_modal_promotion_ids').val();
 			var finalPrice = 0;
 			
+			$('#modal-step1').find('.action-event-modal').attr('disabled', 'disabled');
 
 			$.ajax({
 				url:  urlReservationStep1,
@@ -385,8 +387,8 @@ foreach ($dates as $index => $date){
 					
 					if(array_reservationStep1['data']['promotions'].length !== 0)
 					{
-						$('.row.price').children('.prices').append('<div class="base-price">'+new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(activity['act_base_price'])+'</div>');
-						$('.row.price').children('.prices').children('.price').addClass('special-price');
+						$('.row.price').children('.prices').prepend('<div class="base-price">'+new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(activity['act_base_price'])+'</div>');
+						$('.row.price').children('.prices').children('.price').addClass('special-price').append(' €');
 						
 						$('.row.price').after('<div class="row promotions">'+        
 					'       		<div class="session-label">Promotions appliquées :</div>'+
@@ -452,7 +454,7 @@ foreach ($dates as $index => $date){
 												specialPrice = "special-price";
 												
 												$.each( participant['promotions'], function( key, promotion ) {
-													divsPromotion += '<p class="price-promotion">- '+promotion['pro_name']+'</p>';
+													divsPromotion += '<p class="price-promotion">'+promotion['pro_name']+'</p>';
 												});
 												
 												var divAgeReduction = '<div class="row promotions">'+

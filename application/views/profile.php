@@ -1,3 +1,268 @@
+<div class='columns'>
+  <div class='container profile'>
+    <div class='modal' id='modal-info'>
+      <div class='modal-background'></div>
+      <div class='modal-card'>
+        <header class='modal-card-head'>
+          <p class='modal-card-title'>Modifier profil</p>
+          <button class='delete'></button>
+        </header>
+        <section class='modal-card-body'>
+		<!--
+          <label class='label'>Name</label>
+          <p class='control'>
+            <input class='input' placeholder='Text input' type='text'>
+          </p>
+          <label class='label'>Username</label>
+          <p class='control has-icon has-icon-right'>
+            <input class='input' placeholder='Text input' type='text' value='pmillerk'>
+          </p>
+          <label class='label'>Email</label>
+          <p class='control has-icon has-icon-right'>
+            <input class='input' placeholder='Email input' type='text' value='hello@'>
+            <i class='fa fa-warning'></i>
+            <span class='help is-danger'>This email is invalid</span>
+          </p>
+          <div class='control'>
+            <div class='control-label is-pulled-left'>
+              <label class='label'>Date of Birth</label>
+            </div>
+            <span>
+              <span class='select'>
+                <select>
+                  <option>Month</option>
+                  <option>With options</option>
+                </select>
+              </span>
+              <span class='select'>
+                <select>
+                  <option>Day</option>
+                  <option>With options</option>
+                </select>
+              </span>
+              <span class='select'>
+                <select>
+                  <option>Year</option>
+                  <option>With options</option>
+                </select>
+              </span>
+            </span>
+          </div>
+          <label class='label'>Description</label>
+          <p class='control'>
+            <textarea class='textarea' placeholder='Describe Yourself!'></textarea>
+          </p>
+          <div class='content'>
+            <h1>Optional Information</h1>
+          </div>
+          <label class='label'>Phone Number</label>
+          <p class='control has-icon has-icon-right'>
+            <input class='input' placeholder='Text input' type='text' value='+1 *** *** 0535'>
+          </p>
+          <label class='label'>Work</label>
+          <p class='control has-icon has-icon-right'>
+            <input class='input' placeholder='Text input' type='text' value='Greater Washington Publishing'>
+          </p>
+          <label class='label'>School</label>
+          <p class='control has-icon has-icon-right'>
+            <input class='input' placeholder='Text input' type='text' value='George Mason University'>
+          </p>
+		  -->
+		  
+		  <form method="post" action="updateprofile" class="modifyProfileForm" enctype="multipart/form-data">
+			<div class="field">
+				<label for="usr_profile_picture" class='label'>Photo de profil</label>
+				<p class='control'>
+					<?php if ($user['usr_profile_picture']): ?>
+						<div class="profile-image">
+							<img src="<?php echo base_url().$user['usr_profile_picture']; ?>" alt="profile-picture" width="150" height="28">
+						</div>
+					<?php endif; ?>
+					<br>
+					<input type="file" name="usr_profile_picture" id="usr_profile_picture">
+				</p>
+				<br>
+				<label for="usr_firstname" class='label'>Prénom</label>
+				<p class='control'>
+					<input type="text" class="input" name="usr_firstname" value="<?php echo $user['usr_firstname']; ?>" required>
+				</p>
+				<br>
+				<label for="usr_lastname" class='label'>Nom</label>
+				<p class='control'>
+					<input type="text" class="input" name="usr_lastname" value="<?php echo $user['usr_lastname']; ?>" required>
+				</p>
+				<br>
+				<label for="usr_email" class='label'>Email</label>
+				<p class='control'>
+					<input type="text" class="input" name="usr_email" value="<?php echo $user['usr_email']; ?>" required>
+				</p>
+				<br>
+				<label for="usr_phone" class='label'>Téléphone</label>
+				<p class='control'>
+					<input type="text" class="input" name="usr_phone" value="<?php echo $user['usr_phone']; ?>" required>
+				</p>
+			
+			</div>
+
+			<input type="hidden" name="usr_id" value="<?php echo $user['usr_id']; ?>">
+			<div class="field hidden">
+				<div class="control">
+					<div class="buttons">
+						<button class="button is-link validate-update-profile is-hidden">Modifier</button>
+					</div>
+				</div>
+			</div>
+		</form>
+        </section>
+
+		<footer class="modal-card-foot">
+            <div class="buttons">
+                <button type="button" class="button is-primary modal-save">Modifier</button>
+                <button class="button modal-cancel">Annuler</button>
+            </div>
+        </footer>
+      </div>
+    </div>
+    <div class='profile-heading'>
+      <div class='columns is-mobile is-multiline'>
+        <div class='column is-2-tablet is-12-mobile'>
+          <span class='header-icon user-profile-image has-text-centered'>
+			<figure class="image is-128x128 has-image-centered">
+				<img class="is-rounded" src="<?php echo ($user['usr_profile_picture'] == "" ? base_url().'/application/assets/images/user-default.png' : base_url().$user['usr_profile_picture']); ?>" alt="profile-picture" width="350" height="28">
+			</figure>
+          </span>
+        </div>
+        <div class='column is-10-tablet is-12-mobile name'>
+          <p class="has-text-centered-mobile">
+            <span class='title is-bold'><?php echo $user['usr_firstname']; ?> <?php echo $user['usr_lastname']; ?></span>
+            
+          </p>
+          <p class='tagline m-t-1-mobile'>
+            <div class="columns has-text-centered-mobile">
+				<div class="column">
+					<div>
+						<span class="is-italic"> Email :  </span><span class="has-text-weight-bold"><?php echo $user['usr_email']; ?></span>
+					</div>
+				</div>
+				<div class="column">
+					<div>
+						<span class="is-italic"> Téléphone :  </span><span class="has-text-weight-bold"><?php echo $user['usr_phone']; ?></span>
+					</div>
+				</div>
+
+			</div>
+			<div class="columns has-text-centered-mobile">
+				<br>
+					<a class='button is-link is-outlined' href='#' id='edit-preferences' style='margin: 5px 0'>
+						Modifier profil
+					</a>
+				<br>
+			</div>
+          </p>
+        </div>
+      </div>
+    </div>
+	<!--
+    <div class='columns is-mobile'>
+      <div class='column is-3-tablet is-6-mobile'>
+        <div class='card'>
+          <div class='card-image'>
+            <figure class='image is-4by3'>
+              <img alt='' src='http://placehold.it/300x225'>
+            </figure>
+          </div>
+          <div class='card-content'>
+            <div class='content'>
+              <span class='tag is-dark subtitle'>#1</span>
+              <p>Personal Notes on the Property (can be edited and saved automatically by clicking in and clicking out of text area) - these are unique to the user - they will show up as part of a saved listings' info here - but adding notes to a property does not automatically create a saved listing. Likewise, removing this proeprty from saved listings does not auto remove the notes.</p>
+            </div>
+          </div>
+          <footer class='card-footer'>
+            <a class='card-footer-item'>Compare</a>
+            <a class='card-footer-item'>Share</a>
+            <a class='card-footer-item'>Delete</a>
+          </footer>
+        </div>
+        <br>
+      </div>
+      <div class='column is-3-tablet is-6-mobile'>
+        <div class='card'>
+          <div class='card-image'>
+            <figure class='image is-4by3'>
+              <img alt='' src='http://placehold.it/300x225'>
+            </figure>
+          </div>
+          <div class='card-content'>
+            <div class='content'>
+              <span class='tag is-dark subtitle'>#2</span>
+              <p>Personal Notes on the Property (can be edited and saved automatically by clicking in and clicking out of text area) - these are unique to the user - they will show up as part of a saved listings' info here - but adding notes to a property does not automatically create a saved listing. Likewise, removing this proeprty from saved listings does not auto remove the notes.</p>
+            </div>
+          </div>
+          <footer class='card-footer'>
+            <a class='card-footer-item'>Compare</a>
+            <a class='card-footer-item'>Share</a>
+            <a class='card-footer-item'>Delete</a>
+          </footer>
+        </div>
+        <br>
+      </div>
+      <div class='column is-3'>
+        <div class='card'>
+          <div class='card-image'>
+            <figure class='image is-4by3'>
+              <img alt='' src='http://placehold.it/300x225'>
+            </figure>
+          </div>
+          <div class='card-content'>
+            <div class='content'>
+              <span class='tag is-dark subtitle'>#3</span>
+              <p>Personal Notes on the Property (can be edited and saved automatically by clicking in and clicking out of text area) - these are unique to the user - they will show up as part of a saved listings' info here - but adding notes to a property does not automatically create a saved listing. Likewise, removing this proeprty from saved listings does not auto remove the notes.</p>
+            </div>
+          </div>
+          <footer class='card-footer'>
+            <a class='card-footer-item'>Compare</a>
+            <a class='card-footer-item'>Share</a>
+            <a class='card-footer-item'>Delete</a>
+          </footer>
+        </div>
+        <br>
+      </div>
+      <div class='column is-3'>
+        <div class='card'>
+          <div class='card-image'>
+            <figure class='image is-4by3'>
+              <img alt='' src='http://placehold.it/300x225'>
+            </figure>
+          </div>
+          <div class='card-content'>
+            <div class='content'>
+              <span class='tag is-dark subtitle'>#4</span>
+              <p>Personal Notes on the Property (can be edited and saved automatically by clicking in and clicking out of text area) - these are unique to the user - they will show up as part of a saved listings' info here - but adding notes to a property does not automatically create a saved listing. Likewise, removing this proeprty from saved listings does not auto remove the notes.</p>
+            </div>
+          </div>
+          <footer class='card-footer'>
+            <a class='card-footer-item'>Compare</a>
+            <a class='card-footer-item'>Share</a>
+            <a class='card-footer-item'>Delete</a>
+          </footer>
+        </div>
+        <br>
+      </div>
+    </div>
+	-->
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
 <div class="page-title">
     Mon Profil
 </div>
@@ -30,57 +295,7 @@
 <div class="button is-link modifyProfileButton">Modification de vos informations</div>
 <div class="button is-link modifyPasswordButton">Modification de votre mot de passe</div>
 
-<form method="post" action="updateprofile" class="modifyProfileForm hidden" enctype="multipart/form-data">
-    <div class="field">
-        <label for="usr_profile_picture">Photo de profil</label>
-            <?php if ($user['usr_profile_picture']): ?>
-                <div class="profile-image">
-                    <img src="<?php echo base_url().$user['usr_profile_picture']; ?>" alt="profile-picture">
-                </div>
-            <?php endif; ?>
-        <div class="control">
-            <input type="file" name="usr_profile_picture" id="usr_profile_picture">
-        </div>
-    </div>
-    <div class="columns">
-        <div class="column">
-            <div class="field">
-                <label for="usr_firstname">Prénom</label>
-                <div class="control">
-                    <input type="text" class="input" name="usr_firstname" value="<?php echo $user['usr_firstname']; ?>">
-                </div>
-            </div>
-            <div class="field">
-                <label for="usr_lastname">Nom</label>
-                <div class="control">
-                    <input type="text" class="input" name="usr_lastname" value="<?php echo $user['usr_lastname']; ?>">
-                </div>
-            </div>
-        </div>
-        <div class="column">
-            <div class="field">
-                <label for="usr_email">Email</label>
-                <div class="control">
-                    <input type="mail" class="input" name="usr_email" value="<?php echo $user['usr_email']; ?>">
-                </div>
-            </div>
-            <div class="field">
-                <label for="usr_phone">Téléphone</label>
-                <div class="control">
-                    <input type="text" class="input" name="usr_phone" value="<?php echo $user['usr_phone']; ?>">
-                </div>
-            </div>
-        </div>
-    </div>
-    <input type="hidden" name="usr_id" value="<?php echo $user['usr_id']; ?>">
-    <div class="field">
-        <div class="control">
-            <div class="buttons">
-                <button class="button is-link">Modifier</button>
-            </div>
-        </div>
-    </div>
-</form>
+
 <form method="post" action="updatePassword" class="modifyPasswordForm hidden">
     <div class="columns">
         <div class="column">
@@ -261,14 +476,16 @@
 <?php endif; ?>
 
 <script>
+	/*
     $('.modifyProfileButton').click(function () {
         $('.modifyProfileForm').toggleClass('hidden');
     });
-
+	*/
     $('.modifyPasswordButton').click(function () {
         $('.modifyPasswordForm').toggleClass('hidden');
     });
     
+	
     $('.see-tickets').click(function () {
        let resId = this.id.replace('see-tickets-','');
        $('.tickets-'+resId).toggleClass('hidden');
@@ -286,4 +503,18 @@
             window.location.replace("<?php echo base_url("ReservationController/cancelReservation"); ?>?id=" + resId);
         }
     });
+	
+	$('#modal-info').find('.modal-save').click(function () {
+		$('.modifyProfileForm').find('.validate-update-profile').click();
+    });
+	
+	
+	$(() => {
+	  $('#edit-preferences').click(function(){
+		$('#modal-info').addClass('is-active');
+	  });
+	  $('.modal-card-head button.delete, .modal-save, .modal-cancel').click(function(){
+		$('#modal-info').removeClass('is-active');
+	  });
+	});
 </script>

@@ -300,8 +300,6 @@ foreach ($dates as $index => $date){
 		$(document).on ("click", ".close-event-modal", function () {
 			$('.reservation-tickets').html('');
 			$(".paypal-button").remove();
-			$(".participants").html('');
-			
 		});
 	
 		$('#modal-step1').find('.action-event-modal').prop("disabled", true);

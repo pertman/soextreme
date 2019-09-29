@@ -70,7 +70,7 @@
 				<form method="post" action="<?php echo base_url(); ?>/logincontroller/connect" >
 					<div class="columns">
 						<div class="column is-2 is-hidden-mobile"></div>
-						<div class="column is-8 field">
+						<div class="column is-8 is-12-mobile field">
 							<div class="control">
 								<input type="mail" class="input" name="usr_email" placeholder="Email" required>
 							</div>
@@ -79,7 +79,7 @@
 					</div>
 					<div class="columns">
 						<div class="column is-2 is-hidden-mobile"></div>
-						<div class="column is-8 field">
+						<div class="column is-8 is-12-mobile field">
 							<div class="control has-icons-right">
 								<input type="password" class="input" name="usr_password" placeholder="Mot de passe" required>
 								<span class="icon is-right">
@@ -92,7 +92,7 @@
 					</div>
 					<div class="columns">
 						<div class="column is-2 is-hidden-mobile"></div>
-						<div class="column is-8 field">
+						<div class="column is-8 is-12-mobile field">
 							<label class="checkbox title is-7 color-grey">
 								<input type="checkbox">
 								Se souvenir de moi
@@ -103,7 +103,7 @@
 					
 					<div class="columns">
 						<div class="column is-2 is-hidden-mobile"></div>
-						<div class="column is-8 field">
+						<div class="column is-8 is-12-mobile field">
 							<button type="submit" class="button is-dark is-medium is-fullwidth">Connexion</button>
 						</div>
 						<div class="column is-2 is-hidden-mobile"></div>
@@ -153,7 +153,7 @@
 				
 					<div class="columns">
 						<div class="column is-2 is-hidden-mobile"></div>
-						<div class="column is-8 field">
+						<div class="column is-8 is-12-mobile field">
 							<div class="control">
 								<input type="text" class="input" name="usr_firstname" value="<?php echo $firstName; ?>" placeholder="Prénom" required>
 							</div>
@@ -162,7 +162,7 @@
 					</div>
 					<div class="columns">
 						<div class="column is-2 is-hidden-mobile"></div>
-						<div class="column is-8 field">
+						<div class="column is-8 is-12-mobile field">
 							<div class="control">
 								<input type="text" class="input" name="usr_lastname" value="<?php echo $lastName; ?>" placeholder="Nom" required>
 							</div>
@@ -171,7 +171,7 @@
 					</div>
 					<div class="columns">
 						<div class="column is-2 is-hidden-mobile"></div>
-						<div class="column is-8 field">
+						<div class="column is-8 is-12-mobile field">
 							<div class="control">
 								<input type="mail" class="input" name="usr_email" value="<?php echo $email; ?>" placeholder="Email" required>
 							</div>
@@ -180,7 +180,7 @@
 					</div>
 					<div class="columns">
 						<div class="column is-2 is-hidden-mobile"></div>
-						<div class="column is-8 field">
+						<div class="column is-8 is-12-mobile field">
 							<div class="control has-icons-right">
 								<input type="password" class="input" name="usr_password" placeholder="Mot de passe" required>
 								<span class="icon is-right">
@@ -192,7 +192,7 @@
 					</div>
 					<div class="columns">
 						<div class="column is-2 is-hidden-mobile"></div>
-						<div class="column is-8 field">
+						<div class="column is-8 is-12-mobile field">
 							<div class="control has-icons-right">
 								<input type="password" class="input" name="usr_password_2" placeholder="Répeter mot de passe" required>
 								<span class="icon is-right">
@@ -204,7 +204,7 @@
 					</div>
 					<div class="columns">
 						<div class="column is-2 is-hidden-mobile"></div>
-						<div class="column is-8 field">
+						<div class="column is-8 is-12-mobile field">
 							<div class="control">
 								<input type="text" class="input" name="usr_phone" value="<?php echo $phone; ?>" placeholder="Téléphone" required>
 							</div>
@@ -213,7 +213,7 @@
 					</div>
 					<div class="columns">
 						<div class="column is-2 is-hidden-mobile"></div>
-						<div class="column is-8 field">
+						<div class="column is-8 is-12-mobile field">
 							<label for="usr_profile_picture">Photo de profil</label>
 							<div class="control">
 								<input type="file" name="usr_profile_picture" id="usr_profile_picture">
@@ -224,7 +224,7 @@
 					
 					<div class="columns">
 						<div class="column is-2 is-hidden-mobile"></div>
-						<div class="column is-8 field">
+						<div class="column is-8 is-12-mobile field">
 							<label class="checkbox title is-7 color-grey">
 								<input type="checkbox">
 								J'accepte les termes et les conditions du site
@@ -235,7 +235,7 @@
 					
 					<div class="columns">
 						<div class="column is-2 is-hidden-mobile"></div>
-						<div class="column is-8 field">
+						<div class="column is-8 is-12-mobile field">
 							<button type="submit" class="button is-dark is-medium is-fullwidth">S'inscrire</button>
 						</div>
 						<div class="column is-2 is-hidden-mobile"></div>

@@ -42,13 +42,13 @@ nav, .navbar-dropdown {
 .modal-menu {
 	border-bottom: 3px solid grey;
     border-radius: 15%;
-    margin-top: 1em;
+    margin-top: 0.5em;
 }
 
 .is-active-modal {
 	border-bottom: 3px solid orange;
     border-radius: 15%;
-    margin-top: 1em;
+    margin-top: 0.5em;
 }
 
 
@@ -127,4 +127,28 @@ hr.hr-1 {
 	color : red;
 }
 
+.has-image-centered {
+  margin-left: auto;
+  margin-right: auto;
+}
 
+
+@media screen and (max-width: 1011px){
+	.has-text-centered-mobile {
+		text-align: center;
+	}
+	
+	.m-t-1-mobile {
+		margin-top: 1em;
+	}
+	
+	.m-b-1-mobile {
+		margin-bottom: 1em;
+	}
+}
+
+@media screen and (max-width: 1023px)
+{
+.navbar-menu {
+    background-color: #1f3158!important;
+}

@@ -29,18 +29,16 @@ var urlReservationStep3 =  '<?php echo base_url(); ?>ReservationController/reser
             <button class="delete close-event-modal" aria-label="close"></button>
         </header>
         <section class="modal-card-body">
-			<ul class="steps is-narrow is-medium is-centered has-content-centered">
+			<ul class="steps is-narrow is-medium is-centered has-content-centered ariane">
 			  <li class="steps-segment has-gaps is-active">
-				<a href="#" class="has-text-dark">
-				  <span class="steps-marker">
-					<span class="icon">
-					  <i class="far fa-calendar-check"></i>
-					</span>
-				  </span>
-				  <div class="steps-content">
-					<p class="heading">Etape 1</p>
-				  </div>
-				</a>
+			    <span class="steps-marker">
+			    	<span class="icon">
+			    	  <i class="far fa-calendar-check"></i>
+			    	</span>
+			    </span>
+			    <div class="steps-content">
+			    	<p class="heading">Etape 1</p>
+			    </div>
 			  </li>
 			  <li class="steps-segment  has-gaps is-hollow">
 				<span class="steps-marker">
@@ -96,18 +94,16 @@ var urlReservationStep3 =  '<?php echo base_url(); ?>ReservationController/reser
         </header>
         <section class="modal-card-body">
 			
-			<ul class="steps is-narrow is-medium is-centered has-content-centered">
+			<ul class="steps is-narrow is-medium is-centered has-content-centered ariane">
 			  <li class="steps-segment has-gaps ">
-				<a href="#" class="has-text-dark">
-				  <span class="steps-marker">
-					<span class="icon">
-					  <i class="fa fa-calendar-check"></i>
-					</span>
-				  </span>
-				  <div class="steps-content">
-					<p class="heading">Etape 1</p>
-				  </div>
-				</a>
+			    <span class="steps-marker">
+			    	<span class="icon">
+			    	  <i class="far fa-calendar-check"></i>
+			    	</span>
+			    </span>
+			    <div class="steps-content">
+			    	<p class="heading">Etape 1</p>
+			    </div>
 			  </li>
 			  <li class="steps-segment  has-gaps is-hollow is-active">
 				<span class="steps-marker">
@@ -201,19 +197,16 @@ var urlReservationStep3 =  '<?php echo base_url(); ?>ReservationController/reser
             <button class="delete close-event-modal" aria-label="close"></button>
         </header>
         <section class="modal-card-body">
-			
-			<ul class="steps is-narrow is-medium is-centered has-content-centered">
+			<ul class="steps is-narrow is-medium is-centered has-content-centered ariane">
 			  <li class="steps-segment has-gaps ">
-				<a href="#" class="has-text-dark">
-				  <span class="steps-marker">
+				<span class="steps-marker">
 					<span class="icon">
-					  <i class="fa fa-calendar-check"></i>
+					  <i class="far fa-calendar-check"></i>
 					</span>
-				  </span>
-				  <div class="steps-content">
+				</span>
+				<div class="steps-content">
 					<p class="heading">Etape 1</p>
-				  </div>
-				</a>
+				</div>
 			  </li>
 			  <li class="steps-segment  has-gaps is-hollow ">
 				<span class="steps-marker">
@@ -356,11 +349,7 @@ foreach ($dates as $index => $date){
 					var activity = array_reservationStep1['data']['activity'];
 					var divsPromotion = '';
 					var divsAvailableTickets = '';
-					
- 					console.log(JSON.parse(data));
-					console.log(activity);
-					
-					
+
 					var reservationStep1IdsPromotion = Object.keys(array_reservationStep1['data']['promotions']);
 					reservationStep1IdsPromotion = reservationStep1IdsPromotion.join(',');
 					
@@ -379,7 +368,7 @@ foreach ($dates as $index => $date){
 					if(array_reservationStep1['data']['promotions'].length !== 0)
 					{
 						$.each( array_reservationStep1['data']['promotions'], function( key, value ) {
-							divsPromotion += '<div class="session-promotion">- '+value+'</div>';
+							divsPromotion += '<div class="session-promotion"> '+value+'</div>';
 						});
 					}
 					
@@ -417,7 +406,6 @@ foreach ($dates as $index => $date){
 						
 							if(f.checkValidity()) 
 							{
-								console.log(eventModalPromotionIds);
 								var reservationStep1Participants = [];
 								var test = { usr_firstname : "test", usr_lastname : "test", usr_age : "test", usr_gift_email : "test"};
 								reservationStep1Participants.push(test);
@@ -436,7 +424,6 @@ foreach ($dates as $index => $date){
 									success: function(data2){
 										
 										var array_reservationStep2 = JSON.parse(data2);
-										console.log(array_reservationStep2);
 										
 										$('#modal-step1').removeClass('is-active');
 										$('#modal-step2').addClass('is-active');
@@ -455,9 +442,7 @@ foreach ($dates as $index => $date){
 										array_reservationStep2['participants'].shift();
 										
 										$.each( array_reservationStep2['participants'], function( key, participant ) {
-											console.log(participant);
 											totalPrice = (parseFloat(totalPrice) + parseFloat(participant['price']));
-											console.log(participant['price']);
 											var isAgeReduction = participant['promotions'] ? true : false;
 											var divsPromotion = "";
 											var divsPriceReduction = "";
@@ -519,7 +504,7 @@ foreach ($dates as $index => $date){
 													
 													
 										});
-										console.log(divsTicket);
+
 										$('.reservation-tickets').append(divsTicket);
 										$('.reservation-total').html(new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(totalPrice));
 										
@@ -572,7 +557,6 @@ foreach ($dates as $index => $date){
 													data:   { id_paypal : $("#id-paypal").val(), total_price : finalPrice },
 													success: function(data3){
 														var array_reservationStep3 = JSON.parse(data3);
-														console.log(array_reservationStep3);
 														location.href = '<?php echo base_url(); ?>';
 													},
 													error: function(e){
@@ -593,24 +577,6 @@ foreach ($dates as $index => $date){
 											alert("Paiement annulé : une erreur est survenue. Merci de bien vouloir réessayer ultérieurement.");
 										  }
 										}, '#bouton-paypal');
-										
-										/*
-										var array_reservationStep1 = JSON.parse(data);
-										var activity = array_reservationStep1['data']['activity'];
-										var divsPromotion = '';
-										var divsAvailableTickets = '';
-										
-										console.log(JSON.parse(data));
-										console.log(activity);
-										
-										$('.modal-card-body').removeClass('is-active');
-										$('.base-price, .promotions').remove();
-										$('#modal-step1').addClass('is-active');
-										$('#modal-step1').find('.action-event-modal').prop("disabled", true);
-										$('.event-modal').not('#modal-step1').each(function(){
-											 $(this).hide();
-										});
-										*/
 									},
 									error: function(e){
 										console.log(e);
@@ -625,12 +591,6 @@ foreach ($dates as $index => $date){
 								var modalStep1NomValidity = true;
 								var modalStep1AgeValidity = true;
 								var modalMessageValidity = "";
-								
-								/*
-								modalStep1Prenom.each(function(){ 
-								  console.log($(this).checkValidity());
-								});
-								*/
 								
 								for(let e = 0;e <  $('.modal-step1-prenom').length; e++)
 								{
@@ -659,7 +619,6 @@ foreach ($dates as $index => $date){
 
 						let currentParticipantsCount = $('.participant').length;
 
-						//$('.validate-reservation-form').removeClass('hidden');
 						$('#modal-step1').find('.action-event-modal').prop("disabled", false);
 
 						if (currentParticipantsCount === participantNb){
@@ -718,56 +677,6 @@ foreach ($dates as $index => $date){
 							}
 						}
 					})
-
-					/*
-					var contentModalReservationStep1 = '<div class="page-title">'+
-						'Réservation Etape 1'+
-					'</div>'+
-					'<div class="session-description">'+
-					'    <div class="row name">'+
-					'       <div class="session-label">Activité:</div>'+
-					'        <div class="session-value">'+activity['act_name']+'</div>'+
-					'    </div>'+
-					'    <div class="row date">'+
-					'        <div class="session-label">Date:</div>'+
-					'        <div class="session-value">'+array_reservationStep1['data']['selectedDate']+'</div>'+
-					'    </div>'+
-					'    <div class="row hours">'+
-					'        <div class="session-label">Heures:</div>'+
-					'        <div class="session-value">'+array_reservationStep1['data']['selectedTime']+'</div>'+
-					'    </div>'+
-					'    <div class="row price">'+
-					'        <div class="session-label">Prix hors réduction age :</div>'+
-					'        <div class="prices session-value">'+
-					(array_reservationStep1['data']['promotions'].length !== 0 ?
-					'         <div class="base-price">'+new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(activity['act_base_price'])+'</div>'+
-					'		  <div class="price special-price">'+array_reservationStep1['data']['price']+'</div>'
-					:
-					'<div class="price">'+array_reservationStep1['data']['price']+'</div>')+
-					'	 </div>'+
-					'</div>'+
-					(array_reservationStep1['data']['promotions'].length !== 0 ?
-					'         <div class="row promotions">'+
-					'       		<div class="session-label">Promotions appliquées :</div>'+
-					'       		<div class="session-value">'+
-									divsPromotion+
-					'       		</div>'+
-					'         </div>'
-					: 
-					"")+
-					'</div>'+
-					'<div class="field">'+
-					'    <label for="participant_nb">Nombre de participant</label>'+
-					'    <div class="control">'+
-					'        <div class="select">'+
-					'            <select class="select select-participant-nb" name="participant_nb">'+
-					                divsAvailableTickets+
-					'            </select>'+
-					'        </div>'+
-					'    </div>'+
-					'</div>';
-					*/
-
 				},
 				error: function(e){
 					console.log(e);

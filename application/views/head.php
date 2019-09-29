@@ -11,7 +11,6 @@
         crossorigin="anonymous"></script>
 		
 	<link rel="icon" type="image/png" href="<?php echo base_url(); ?>/application/assets/images/logo_minimaliste4.png" />
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>/application/assets/css/bulma-steps-component.css">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>/css/style.css">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>/application/assets/css/style1.css">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>

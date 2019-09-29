@@ -422,7 +422,7 @@ a[data-goto], .fc-day-header{
       display: flex;
       flex-wrap: wrap;
       label{
-        width: 40%;
+        width: 45%;
         margin-right: 10%;
         margin-bottom: 10px;
         padding: 10px;
@@ -431,6 +431,10 @@ a[data-goto], .fc-day-header{
         border: 1px solid $primary;
         user-select:none;
         color: $primary;
+        @media (max-width: 800px) {
+          width: 100%;
+          margin-right: 0;
+        }
         &.disabled{
           cursor: default;
           background: #a9a9a9a9;
@@ -473,8 +477,21 @@ a[data-goto], .fc-day-header{
   .row{
     display: flex;
     width: 100%;
+    align-items: flex-end;
+    flex-direction: row;
+    margin-bottom: 15px;
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: baseline;
+    }
     .session-label{
       width: 40%;
+      @media (max-width: 768px) {
+        width: 100%;
+      }
+    }
+    .session-value{
+      font-size: 1rem;
     }
   }
 }
@@ -485,6 +502,9 @@ a[data-goto], .fc-day-header{
       font-size: 1.5rem;
       background: none;
       margin-bottom: 10px;
+    }
+    label{
+      font-size: 1rem;
     }
   }
   .validate-reservation-form{
@@ -511,8 +531,18 @@ a[data-goto], .fc-day-header{
     .row{
       display: flex;
       width: 100%;
+      @media (max-width: 800px) {
+       flex-direction: column;
+        margin-bottom: 15px;
+      }
       .ticket-label{
         width: 35%;
+        @media (max-width: 800px) {
+          width: 100%;
+        }
+      }
+      .ticket-value{
+        font-size: 1rem;
       }
     }
   }
@@ -768,5 +798,32 @@ a[data-goto], .fc-day-header{
   .modal-subscribe-link, .modal-connect-link{
     color: $orange;
     cursor: pointer;
+  }
+}
+
+//Payment modal
+.ariane{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  .steps-segment{
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    &.is-active{
+      .steps-marker{
+        color: $orange;
+      }
+      .steps-content{
+        color: $orange;
+      }
+    }
+    .steps-marker{
+      width: 100%;
+      .icon{
+        width: 100%;
+      }
+    }
   }
 }

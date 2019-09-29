@@ -20,7 +20,7 @@ $( document ).ready(function() {
 	
 	$(".modal-menu-inscription, .modal-menu-connexion").click(function(){
 		$(".delete").click();
-console.log($(this));		
+
 		if($(this).hasClass("modal-menu-inscription"))
 		{
 			$("#inscription-modal").click();

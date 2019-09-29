@@ -22,24 +22,10 @@
             <h2 class="subtitle">
                 Vivez des sensations fortes
             </h2>
-			<!--
-			<div class="columns">
-				<div class="column is-2"></div>
-				<div class="column is-8 is-full-mobile">
-					<div class="control has-icons-right">
-						<input class="input is-medium" type="text" placeholder="Rechercher une activité ...">
-						<span class="icon is-medium is-right">
-							<i class="fa fa-search"></i>
-						</span>
-					</div>
-				</div>
-			</div>
-			-->
         </div>
 		<p>
-  </p>
-		
-		
+    </p>
+
     </div>
 	<div id="modal-connexion" class="modal has-text-black">
 		<div class="modal-background"></div>
@@ -53,7 +39,7 @@
 				<div class="columns">
 					<div class="column is-4 is-hidden-mobile"></div>
 					<div class="column is-one-two has-text-weight-bold has-text-centered">
-						<a href="#" class="">Connexion</a>
+						<a href="#" class="modal-menu-connexion">Connexion</a>
 						<div class="modal-menu is-active-modal"></div>
 					</div>
 					
@@ -90,16 +76,6 @@
 						</div>
 						<div class="column is-2 is-hidden-mobile"></div>
 					</div>
-					<div class="columns">
-						<div class="column is-2 is-hidden-mobile"></div>
-						<div class="column is-8 is-12-mobile field">
-							<label class="checkbox title is-7 color-grey">
-								<input type="checkbox">
-								Se souvenir de moi
-							</label>
-						</div>
-						<div class="column is-2 is-hidden-mobile"></div>
-					</div>
 					
 					<div class="columns">
 						<div class="column is-2 is-hidden-mobile"></div>
@@ -109,16 +85,10 @@
 						<div class="column is-2 is-hidden-mobile"></div>
 					</div>
 				</form>
-				<h2 class="is-size-5 has-text-centered">
-					<span class="color-grey">Aucun compte ?</span> S'inscrire
-					<p  class="is-size-7 color-grey"> ou se connecter avec 
-					<p>
-						<a href="#" class="is-size-5"><i class="is-5 fab fa-google"></i></a>
-						<a href="#" class="is-size-5"><i class="is-5 fab fa-facebook-square"></i></a>
-					</p>
-				</h2>
+				<div class="is-size-5 has-text-centered subscribe-link-div">
+                    <div class="color-grey">Aucun compte ?</div><div class="modal-subscribe-link">S'inscrire</div>
+				</div>
 			</section>
-
 		</div>
 	</div>
 	
@@ -226,7 +196,7 @@
 						<div class="column is-2 is-hidden-mobile"></div>
 						<div class="column is-8 is-12-mobile field">
 							<label class="checkbox title is-7 color-grey">
-								<input type="checkbox">
+								<input type="checkbox" required>
 								J'accepte les termes et les conditions du site
 							</label>
 						</div>
@@ -242,12 +212,22 @@
 					</div>
 					
 				</form>
-				<h2 class="is-size-5 has-text-centered">
-					<span class="color-grey">Déjà un compte ?</span> Se connecter 
-				</h2>
+				<div class="is-size-5 has-text-centered connect-link-div">
+                    <div class="color-grey">Déjà un compte ?</div><div class="modal-connect-link">Se connecter</div>
+				</div>
 			</section>
 
 		</div>
 	</div>
 	
 </section>
+
+<script>
+    $('.modal-subscribe-link').click(function () {
+        $(".modal-menu-inscription").click();
+    });
+
+    $('.modal-connect-link').click(function () {
+        $('.modal-menu-connexion').click();
+    });
+</script>

@@ -757,3 +757,16 @@ a[data-goto], .fc-day-header{
     margin-bottom: 15px;
   }
 }
+
+//Connect / Subscribe modal
+.connect-link-div, .subscribe-link-div{
+  display: flex;
+  justify-content: center;
+  div{
+    padding: 5px;
+  }
+  .modal-subscribe-link, .modal-connect-link{
+    color: $orange;
+    cursor: pointer;
+  }
+}

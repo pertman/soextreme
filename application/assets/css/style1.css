@@ -1,3 +1,61 @@
+/* FONTS */
+
+@font-face {
+font-family: 'Gotham Rounded Bold';
+font-style: normal;
+font-weight: normal;
+src: local('Gotham Rounded Bold'), url('Gotham Rounded Bold.woff') format('woff');
+}
+
+
+@font-face {
+font-family: 'Gotham Rounded Light';
+font-style: normal;
+font-weight: normal;
+src: local('Gotham Rounded Light'), url('Gotham Rounded Light.woff') format('woff');
+}
+
+
+@font-face {
+font-family: 'Gotham Rounded Light Italic';
+font-style: normal;
+font-weight: normal;
+src: local('Gotham Rounded Light Italic'), url('Gotham Rounded Light Italic.woff') format('woff');
+}
+
+
+@font-face {
+font-family: 'Gotham Rounded Medium';
+font-style: normal;
+font-weight: normal;
+src: local('Gotham Rounded Medium'), url('Gotham Rounded Medium.woff') format('woff');
+}
+
+
+@font-face {
+font-family: 'Gotham Rounded Medium Italic';
+font-style: normal;
+font-weight: normal;
+src: local('Gotham Rounded Medium Italic'), url('Gotham Rounded Medium Italic.woff') format('woff');
+}
+
+body, a {
+	font-family:'Gotham Rounded Medium';
+	font-size: 0.95rem;
+}
+
+div:not(.navbar-item.has-dropdown.is-hoverable) {
+	font-family:'Gotham Rounded Light';
+	font-size: 0.95rem;
+}
+
+.title {
+	font-family:'Gotham Rounded Bold';
+}
+
+.subtitle {
+	font-family:'Gotham Rounded Medium';
+}
 /* CARDS SURCOUCHES */
 
 .card-image-libelle {
@@ -24,6 +82,15 @@
 
 .modal-card {
     /*width: 50%!important;*/
+}
+
+.navbar-dropdown {
+	padding-top: 0rem;
+    padding-bottom: 0rem;
+}
+
+.navbar-item > .navbar-dropdown > .navbar-item, .navbar-end > .navbar-item, .navbar-start > .navbar-item, .navbar-item.has-dropdown.is-hoverable {
+    border-top: 1px solid #a9919140;
 }
 
 /* NAVBAR */

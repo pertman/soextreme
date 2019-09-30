@@ -25,10 +25,14 @@ var urlReservationStep3 =  '<?php echo base_url(); ?>ReservationController/reser
     <div class="modal-background"></div>
     <div class="modal-card">
         <header class="modal-card-head">
-            <p class="modal-card-title">Choisir un créneau horaire</p>
+            <p class="modal-card-title">
+				<?php if (isCurrentUserCustomer()): ?>Choisir un créneau horaire <?php else: ?>Modifier un créneau horaire<?php endif; ?>
+			</p>
             <button class="delete close-event-modal" aria-label="close"></button>
         </header>
         <section class="modal-card-body">
+			<?php if (isCurrentUserCustomer()): ?>
+			
 			<ul class="steps is-narrow is-medium is-centered has-content-centered ariane">
 			  <li class="steps-segment has-gaps is-active">
 			    <span class="steps-marker">
@@ -62,6 +66,8 @@ var urlReservationStep3 =  '<?php echo base_url(); ?>ReservationController/reser
 			  </li>
 			 
 			</ul>
+			 <?php else: ?><?php endif; ?>
+			
             <form class='slot-form' action='<?php if (isCurrentUserCustomer()): ?>../ReservationController/reservationStep1/json<?php else: ?>../AdminActivityController/modifyPlanning<?php endif; ?>' method='post'>
                 <?php if(isCurrentUserCustomer()): ?>
                     <div class="time-slots"></div>
@@ -75,12 +81,13 @@ var urlReservationStep3 =  '<?php echo base_url(); ?>ReservationController/reser
                 <?php endif; ?>
                 <input type="hidden" name="event_modal_pla_id" class="event_modal_pla_id">
                 <input type="hidden" name="event_modal_tsl_id" class="event_modal_tsl_id">
+				<button class="button visibility-hidden is-link validate-modification" style="visibility:hidden">Valider</button>
             </form>
         </section>
 
         <footer class="modal-card-foot">
             <div class="buttons">
-                <button type="button" class="button is-primary action-event-modal"></button>
+                <button type="button" class="button is-primary action-event-modal  <?php if (isCurrentUserAdmin()): ?> validate-modification-footer <?php endif; ?>"></button>
                 <button class="button close-event-modal">Annuler</button>
             </div>
         </footer>
@@ -317,11 +324,29 @@ foreach ($dates as $index => $date){
             eventModal[0].classList.remove('is-active');
         });
 		
-		$(document).on ("click", ".close-event-modal", function () {
-			$('.reservation-tickets').html('');
-			$(".paypal-button").remove();
+		<?php if (isCurrentUserAdmin()): ?>
+		// Modals ADMIN
+		$(document).on ("click", ".validate-modification-footer", function () {
+			$('.validate-modification').click();
 		});
-	
+		
+		$(document).on ("click", ".fc-time-grid-event", function () {
+			var libelle = "Modifier un créneau horaire";
+			if($(this).hasClass('fc-time-grid-event-inset'))
+				libelle = 'Affichage d\'une réservation';
+				
+			$('#modal-planning').find('.modal-card-title').html(libelle);
+		});
+		<?php endif; ?>
+		/*
+		$(document).on ("click", ".fc-time-grid-event-inset", function () {
+			$('#modal-planning').find('.modal-card-title').html('Affichage d\'une réservation');
+		});
+		*/
+		
+		$('.fc-time-grid-event-inset').css('background', 'blue');
+		
+		// Modals UTILISATEURS
 		$('#modal-step1').find('.action-event-modal').prop("disabled", true);
 
 		$('#modal-step3').find('.close-event-modal').click(function () {

@@ -101,6 +101,13 @@
 					</a>
 				<br>
 			</div>
+			<div class="columns has-text-centered-mobile">
+				<br>
+					<div class='button is-link is-outlined modifyPasswordButton' href='#' id='' style='margin: 5px 0'>
+						Modification de votre mot de passe
+					</div>
+				<br>
+			</div>
           </p>
         </div>
       </div>
@@ -108,7 +115,7 @@
   </div>
 </div>
 
-<div class="button is-link modifyPasswordButton">Modification de votre mot de passe</div>
+
 
 <form method="post" action="updatePassword" class="modifyPasswordForm hidden">
     <div class="columns">

@@ -6475,6 +6475,11 @@ label {
     position: absolute;
     width: 100%; } }
 
+@media screen and (min-width: 1024px) {
+  .navbar-dropdown a.navbar-item:focus, .navbar-dropdown a.navbar-item:hover {
+    background-color: whitesmoke;
+    color: #ff9437; } }
+
 .card-header, .card-footer {
   padding: 1.5rem; }
 
@@ -6710,7 +6715,7 @@ a[data-goto], .fc-day-header {
     display: flex;
     flex-wrap: wrap; }
     .modal-card .modal-card-body .time-slots label {
-      width: 40%;
+      width: 45%;
       margin-right: 10%;
       margin-bottom: 10px;
       padding: 10px;
@@ -6719,6 +6724,10 @@ a[data-goto], .fc-day-header {
       border: 1px solid #1f3158;
       user-select: none;
       color: #1f3158; }
+      @media (max-width: 800px) {
+        .modal-card .modal-card-body .time-slots label {
+          width: 100%;
+          margin-right: 0; } }
       .modal-card .modal-card-body .time-slots label.disabled {
         cursor: default;
         background: #a9a9a9a9; }
@@ -6745,9 +6754,21 @@ a[data-goto], .fc-day-header {
   margin-bottom: 20px; }
   .session-description .row {
     display: flex;
-    width: 100%; }
+    width: 100%;
+    align-items: flex-end;
+    flex-direction: row;
+    margin-bottom: 15px; }
+    @media (max-width: 768px) {
+      .session-description .row {
+        flex-direction: column;
+        align-items: baseline; } }
     .session-description .row .session-label {
       width: 40%; }
+      @media (max-width: 768px) {
+        .session-description .row .session-label {
+          width: 100%; } }
+    .session-description .row .session-value {
+      font-size: 1rem; }
 
 .reservationForm1 .participant {
   margin: 25px 0; }
@@ -6755,6 +6776,8 @@ a[data-goto], .fc-day-header {
     font-size: 1.5rem;
     background: none;
     margin-bottom: 10px; }
+  .reservationForm1 .participant label {
+    font-size: 1rem; }
 
 .reservationForm1 .validate-reservation-form.visibility-hidden {
   visibility: hidden; }
@@ -6774,8 +6797,17 @@ a[data-goto], .fc-day-header {
   .reservation-tickets .ticket .row {
     display: flex;
     width: 100%; }
+    @media (max-width: 800px) {
+      .reservation-tickets .ticket .row {
+        flex-direction: column;
+        margin-bottom: 15px; } }
     .reservation-tickets .ticket .row .ticket-label {
       width: 35%; }
+      @media (max-width: 800px) {
+        .reservation-tickets .ticket .row .ticket-label {
+          width: 100%; } }
+    .reservation-tickets .ticket .row .ticket-value {
+      font-size: 1rem; }
 
 .reservation-total {
   font-size: 1.4rem;
@@ -6892,36 +6924,53 @@ a[data-goto], .fc-day-header {
         .activityForm .images .row .field {
           width: 100%; } }
 
-.main-page .section-title {
-  font-size: 1.4rem;
-  color: #1f3158;
-  width: 100%;
-  padding: 20px 0 20px 0; }
-
-.main-page .promotions {
+.special-offer .promotions {
   display: flex;
   justify-content: space-between;
-  flex-wrap: wrap; }
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 2.5%; }
   @media (max-width: 768px) {
-    .main-page .promotions {
+    .special-offer .promotions {
       flex-direction: column; } }
-  .main-page .promotions .promotion {
-    color: #1f3158;
+  .special-offer .promotions .promotion {
+    color: white;
+    background: #ff9437;
     padding: 20px;
-    border: 1px solid #ff9437;
     width: 49%;
     margin-bottom: 20px;
-    font-size: 1.2rem; }
+    font-size: 1.4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center; }
     @media (max-width: 768px) {
-      .main-page .promotions .promotion {
+      .special-offer .promotions .promotion {
         width: 100%; } }
+
+.home-activities .activity-list {
+  width: 100%;
+  padding: 2.5%; }
+
+.popular-activities .act-name {
+  text-align: center;
+  font-size: 1rem; }
+
+.popular-activities .note {
+  font-size: 1.2rem;
+  color: #ff9437; }
+  @media (max-width: 1112px) {
+    .popular-activities .note {
+      font-size: 1.2rem; } }
 
 .footer {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 3rem 1.5rem 3rem; }
+  flex-direction: column;
+  padding: 3rem 1.5rem 3rem;
+  background: #1f3158 !important; }
   .footer .footer-container {
+    margin-bottom: 50px;
     width: 50%; }
     @media (max-width: 768px) {
       .footer .footer-container {
@@ -6946,6 +6995,8 @@ a[data-goto], .fc-day-header {
         margin-bottom: 10px; }
       .footer .footer-container .admin-contact .button {
         width: 100%; }
+  .footer a:hover {
+    color: white; }
 
 .request-type-label {
   font-size: 1.2rem;
@@ -6956,6 +7007,33 @@ a[data-goto], .fc-day-header {
   width: 100%; }
   .request-card:not(:last-child) {
     margin-bottom: 15px; }
+
+.connect-link-div, .subscribe-link-div {
+  display: flex;
+  justify-content: center; }
+  .connect-link-div div, .subscribe-link-div div {
+    padding: 5px; }
+  .connect-link-div .modal-subscribe-link, .connect-link-div .modal-connect-link, .subscribe-link-div .modal-subscribe-link, .subscribe-link-div .modal-connect-link {
+    color: #ff9437;
+    cursor: pointer; }
+
+.ariane {
+  display: flex;
+  width: 100%;
+  justify-content: center; }
+  .ariane .steps-segment {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; }
+    .ariane .steps-segment.is-active .steps-marker {
+      color: #ff9437; }
+    .ariane .steps-segment.is-active .steps-content {
+      color: #ff9437; }
+    .ariane .steps-segment .steps-marker {
+      width: 100%; }
+      .ariane .steps-segment .steps-marker .icon {
+        width: 100%; }
 
 .action-event-modal {
   display: block; }

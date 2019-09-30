@@ -53,7 +53,7 @@
                         </div>
                         <div class="ticket-value">
                             <?php foreach ($participant['promotions'] as $promotion): ?>
-                                <p class="price-promotion">- <?php echo $promotion['pro_name']; ?></p>
+                                <p class="price-promotion"><?php echo $promotion['pro_name']; ?></p>
                             <?php endforeach; ?>
                         </div>
                     </div>

@@ -36,28 +36,31 @@
     <div class="request-type-label">
         Demandes ouvertes
     </div>
+
     <?php foreach ($openRequests as $openRequest): ?>
         <div class="card request-card">
-            <div class="card-content">
-                <div class="request-subject">
-                    <?php echo $openRequest['adr_subject']; ?>
-                </div>
-                <div class="request-description">
-                    <?php echo $openRequest['adr_description']; ?>
-                </div>
-                <div class="request-name">
-                    <?php echo $openRequest['usr_firstname'] . " " . $openRequest['usr_lastname']; ?>
-                </div>
-                <div class="request-email">
-                    <?php echo $openRequest['usr_email']; ?>
-                </div>
-                <div class="request-email">
-                    <?php echo $openRequest['usr_phone']; ?>
-                </div>
-                <div class="buttons">
-                    <button class="button close-request-button is-link" id="close-request-button-<?php echo $openRequest['adr_id']; ?>">Clôturer</button>
-                </div>
-            </div>
+			<div class="box message-preview">
+				<div class="top">
+					<div class="avatar">
+						<img src="https://placehold.it/128x128">
+					</div> 
+					<div class="address">
+						<div class="name"><?php echo $openRequest['usr_firstname'] . " " . $openRequest['usr_lastname']; ?></div> 
+						<div class="email"><?php echo $openRequest['usr_email']; ?></div>
+						<div class="email"><?php echo $openRequest['usr_phone']; ?></div>
+						<div class="name">Sujet : <?php echo $openRequest['adr_subject']; ?></div>
+					</div> 
+						<hr> 
+					<div class="content">
+						<p><?php echo $openRequest['adr_description']; ?>
+						</p>
+						<br>
+						<div class="buttons">
+							<button class="button close-request-button is-link" id="close-request-button-<?php echo $openRequest['adr_id']; ?>">Clôturer</button>
+						</div>
+					</div>
+				</div>
+			</div>
         </div>
     <?php endforeach; ?>
 <?php endif; ?>

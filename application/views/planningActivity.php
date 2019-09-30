@@ -1,3 +1,10 @@
+<script>
+var urlReservationStep1 = '<?php if (isCurrentUserCustomer()): ?><?php echo base_url(); ?>ReservationController/reservationStep1/json<?php else: ?>../AdminActivityController/modifyPlanning<?php endif; ?>';
+var urlReservationStep2 = '<?php echo base_url(); ?>ReservationController/reservationStep2/json';
+var urlReservationStep3 =  '<?php echo base_url(); ?>ReservationController/reservationStep3/json';
+
+</script>
+
 <div class="page-title">
     <?php echo "Planning " . $activity['act_name']; ?>
 </div>
@@ -14,15 +21,54 @@
 
 <div id="calendar" class="calendar-activity-container"></div>
 
-<div class="modal event-modal">
+<div id="modal-planning" class="modal event-modal">
     <div class="modal-background"></div>
     <div class="modal-card">
         <header class="modal-card-head">
-            <p class="modal-card-title"></p>
+            <p class="modal-card-title">
+				<?php if (isCurrentUserCustomer()): ?>Choisir un créneau horaire <?php else: ?>Modifier un créneau horaire<?php endif; ?>
+			</p>
             <button class="delete close-event-modal" aria-label="close"></button>
         </header>
         <section class="modal-card-body">
-            <form class='slot-form' action='<?php if (isCurrentUserCustomer()): ?>../ReservationController/reservationStep1<?php else: ?>../AdminActivityController/modifyPlanning<?php endif; ?>' method='post'>
+			<?php if (isCurrentUserCustomer()): ?>
+			
+			<ul class="steps is-narrow is-medium is-centered has-content-centered ariane">
+			  <li class="steps-segment has-gaps is-active">
+			    <span class="steps-marker">
+			    	<span class="icon">
+			    	  <i class="far fa-calendar-check"></i>
+			    	</span>
+			    </span>
+			    <div class="steps-content">
+			    	<p class="heading">Etape 1</p>
+			    </div>
+			  </li>
+			  <li class="steps-segment  has-gaps is-hollow">
+				<span class="steps-marker">
+				  <span class="icon">
+					<i class="fa fa-user"></i>
+				  </span>
+				</span>
+				<div class="steps-content">
+				  <p class="heading">Etape 2</p>
+				</div>
+			  </li>
+			  <li class="steps-segment  has-gaps is-hollow">
+				<span class="steps-marker">
+				  <span class="icon">
+					<i class="fas fa-money-bill-wave"></i>
+				  </span>
+				</span>
+				<div class="steps-content">
+				  <p class="heading">Paiement</p>
+				</div>
+			  </li>
+			 
+			</ul>
+			 <?php else: ?><?php endif; ?>
+			
+            <form class='slot-form' action='<?php if (isCurrentUserCustomer()): ?>../ReservationController/reservationStep1/json<?php else: ?>../AdminActivityController/modifyPlanning<?php endif; ?>' method='post'>
                 <?php if(isCurrentUserCustomer()): ?>
                     <div class="time-slots"></div>
                     <input type="hidden" name="event_modal_time" class="event_modal_time">
@@ -35,18 +81,208 @@
                 <?php endif; ?>
                 <input type="hidden" name="event_modal_pla_id" class="event_modal_pla_id">
                 <input type="hidden" name="event_modal_tsl_id" class="event_modal_tsl_id">
+				<button class="button visibility-hidden is-link validate-modification" style="visibility:hidden">Valider</button>
             </form>
         </section>
 
         <footer class="modal-card-foot">
             <div class="buttons">
-                <button class="button is-primary action-event-modal hidden"></button>
+                <button type="button" class="button is-primary action-event-modal  <?php if (isCurrentUserAdmin()): ?> validate-modification-footer <?php endif; ?>"></button>
                 <button class="button close-event-modal">Annuler</button>
             </div>
         </footer>
     </div>
 </div>
 
+
+<div id="modal-step1" class="modal event-modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Choisir les participants</p>
+            <button class="delete close-event-modal" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+			
+			<ul class="steps is-narrow is-medium is-centered has-content-centered ariane">
+			  <li class="steps-segment has-gaps ">
+			    <span class="steps-marker">
+			    	<span class="icon">
+			    	  <i class="far fa-calendar-check"></i>
+			    	</span>
+			    </span>
+			    <div class="steps-content">
+			    	<p class="heading">Etape 1</p>
+			    </div>
+			  </li>
+			  <li class="steps-segment  has-gaps is-hollow is-active">
+				<span class="steps-marker">
+				  <span class="icon">
+					<i class="fa fa-user"></i>
+				  </span>
+				</span>
+				<div class="steps-content">
+				  <p class="heading">Etape 2</p>
+				</div>
+			  </li>
+			  <li class="steps-segment">
+				<span class="steps-marker">
+				  <span class="icon">
+					<i class="fas fa-money-bill-wave"></i>
+				  </span>
+				</span>
+				<div class="steps-content">
+				  <p class="heading">Paiement</p>
+				</div>
+			  </li>
+			</ul>
+
+			<div class="session-description">
+				<div class="row name">
+					<div class="session-label">Activité:</div>
+					<div class="session-value step1-activity"></div>
+				</div>
+				<div class="row date">
+					<div class="session-label">Date:</div>
+					<div class="session-value step1-date"></div>
+				</div>
+				<div class="row hours">
+					<div class="session-label">Heures:</div>
+					<div class="session-value step1-time"></div>
+				</div>
+				<div class="row price">
+					<div class="session-label">Prix hors réduction age :</div>
+					<div class="prices session-value">
+						<div class="price"></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="field">
+				<label for="participant_nb">Nombre de participant</label>
+				<div class="control">
+					<div class="select">
+						<select class="select select-participant-nb" name="participant_nb">
+							
+						</select>
+					</div>
+				</div>
+			</div>
+			
+			<div class="buttons">
+				<button class="button is-link validate-participant-nb">Valider</button>
+			</div>
+			
+			<form class="reservationForm1" method="post">
+				<div id="msgValidity" class="has-text-red">
+				</div>
+				<div class="participants">
+				</div>
+				
+				<div class="buttons">
+					<div class="field">
+						<div class="control">
+							<button type="button" class="button validate-reservation-form hidden is-link">Valider</button>
+						</div>
+					</div>
+				</div>
+			</form>
+        </section>
+
+        <footer class="modal-card-foot">
+            <div class="buttons">
+                <button type="button" class="button is-primary action-event-modal" disabled="disabled"></button>
+                <button class="button close-event-modal">Annuler</button>
+            </div>
+        </footer>
+    </div>
+</div>
+
+
+<div id="modal-step2" class="modal event-modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Choisir les participants</p>
+            <button class="delete close-event-modal" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+			<ul class="steps is-narrow is-medium is-centered has-content-centered ariane">
+			  <li class="steps-segment has-gaps ">
+				<span class="steps-marker">
+					<span class="icon">
+					  <i class="far fa-calendar-check"></i>
+					</span>
+				</span>
+				<div class="steps-content">
+					<p class="heading">Etape 1</p>
+				</div>
+			  </li>
+			  <li class="steps-segment  has-gaps is-hollow ">
+				<span class="steps-marker">
+				  <span class="icon">
+					<i class="fa fa-user"></i>
+				  </span>
+				</span>
+				<div class="steps-content">
+				  <p class="heading">Etape 2</p>
+				</div>
+			  </li>
+			  <li class="steps-segment is-active">
+				<span class="steps-marker">
+				  <span class="icon">
+					<i class="fas fa-money-bill-wave"></i>
+				  </span>
+				</span>
+				<div class="steps-content">
+				  <p class="heading">Paiement</p>
+				</div>
+			  </li>
+			</ul>
+			
+			
+			<div class="session-description">
+				<div class="row name">
+					<div class="session-label">Activité:</div>
+					<div class="session-value"><?php echo $quote['activity']['act_name']; ?></div>
+				</div>
+				<div class="row date">
+					<div class="session-label">Date:</div>
+					<div class="session-value"><?php echo $quote['date']; ?></div>
+				</div>
+				<div class="row hours">
+					<div class="session-label">Heures:</div>
+					<div class="session-value"><?php echo $quote['time']; ?></div>
+				</div>
+			</div>
+
+			<div class="reservation-tickets"></div>
+
+			<div class="reservation-total"></div>
+
+			<form class="reservationForm3" method="post" action="<?php echo base_url(); ?>ReservationController/reservationStep3">
+				<div class="bank-infomations">
+					<input type="hidden" id="id-paypal" name="id_paypal" value="">
+				</div>
+				<div class="buttons">
+					<div class="field">
+						<div class="control">
+							<button class="button visibility-hidden is-link validate-paypal" style="visibility:hidden">Valider</button>
+						</div>
+					</div>
+				</div>
+			</form>
+			<div id="bouton-paypal"></div>
+			
+        </section>
+
+        <footer class="modal-card-foot">
+            <div class="buttons">
+                <button class="button close-event-modal">Annuler</button>
+            </div>
+        </footer>
+    </div>
+</div>
 <?php
 
 $events             = array();
@@ -84,12 +320,428 @@ foreach ($dates as $index => $date){
         var evenModalTslId      = $('.event_modal_tsl_id');
         var actionEventModal    = $('.action-event-modal');
 
-        actionEventModal.click(function () {
-            $('.slot-form').submit();
-        });
-
         $('.close-event-modal').click(function () {
-            eventModal[0].classList.remove('is-active')
+            eventModal[0].classList.remove('is-active');
+        });
+		
+		<?php if (isCurrentUserAdmin()): ?>
+		// Modals ADMIN
+		$(document).on ("click", ".validate-modification-footer", function () {
+			$('.validate-modification').click();
+		});
+		
+		$(document).on ("click", ".fc-time-grid-event", function () {
+			var libelle = "Modifier un créneau horaire";
+			if($(this).hasClass('fc-time-grid-event-inset'))
+				libelle = 'Affichage d\'une réservation';
+				
+			$('#modal-planning').find('.modal-card-title').html(libelle);
+		});
+		<?php endif; ?>
+		/*
+		$(document).on ("click", ".fc-time-grid-event-inset", function () {
+			$('#modal-planning').find('.modal-card-title').html('Affichage d\'une réservation');
+		});
+		*/
+		
+		$('.fc-time-grid-event-inset').css('background', 'blue');
+		
+		// Modals UTILISATEURS
+		$('#modal-step1').find('.action-event-modal').prop("disabled", true);
+
+		$('#modal-step3').find('.close-event-modal').click(function () {
+			$('#modal-step3').removeClass('is-active');
+			$('#modal-step2').addClass('is-active');
+			
+			//$('#modal-planning').addClass('is-active');
+		});
+		
+		$('#modal-step2').find('.close-event-modal').click(function () {
+			$('#modal-step2').removeClass('is-active');
+			$('#modal-step1').addClass('is-active');
+			//$('#modal-planning').addClass('is-active');
+		});
+		
+		$('#modal-step1').find('.close-event-modal').click(function () {
+			$('#modal-step1').removeClass('is-active');
+			$('#modal-planning').addClass('is-active');
+			$('#modal-step1').find('.action-event-modal').off('click');
+			$('.reservationForm1').find('.validate-reservation-form').off('click');
+			//$('#modal-planning').addClass('is-active');
+		});
+		
+		$('#modal-planning').find('.close-event-modal').click(function () {
+			$('#modal-planning').removeClass('is-active');
+			
+		});
+		
+		
+        $('#modal-planning').find('.action-event-modal').click(function () {
+			var eventModalDate = $('.event_modal_date').val();
+			var eventModalTime = $('.event_modal_time').val();
+			var eventModalPrice = $('.event_modal_price').val();
+			var eventModalPromotionIds = $('.event_modal_promotion_ids').val();
+			var finalPrice = 0;
+			
+			$('#modal-step1').find('.action-event-modal').attr('disabled', 'disabled');
+
+			$.ajax({
+				url:  urlReservationStep1,
+				type: "POST",
+				data:   { 'event_modal_tsl_id' : evenModalTslId.val(), 'event_modal_pla_id' : evenModalPlaId.val(), 'event_modal_date' : eventModalDate, 'event_modal_time' : eventModalTime, 'event_modal_price' : eventModalPrice, 'event_modal_promotion_ids' : eventModalPromotionIds},
+				success: function(data){
+					var array_reservationStep1 = JSON.parse(data);
+					var activity = array_reservationStep1['data']['activity'];
+					var divsPromotion = '';
+					var divsAvailableTickets = '';
+
+					var reservationStep1IdsPromotion = Object.keys(array_reservationStep1['data']['promotions']);
+					reservationStep1IdsPromotion = reservationStep1IdsPromotion.join(',');
+					
+					$('.modal-card-body').removeClass('is-active');
+					$('#modal-step1').find('.promotions').remove();
+					$('.row.price').children('.prices').children('.base-price').remove();
+					$('.row.price').children('.prices').children('.price').removeClass('special-price');
+					$('#modal-step1').addClass('is-active');
+					
+					
+					$('.event-modal').not('#modal-step1').each(function(){
+						 $(this).removeClass("is-active");
+						 $("#modal-step1").addClass("is-active");
+					});
+					
+					if(array_reservationStep1['data']['promotions'].length !== 0)
+					{
+						$.each( array_reservationStep1['data']['promotions'], function( key, value ) {
+							divsPromotion += '<div class="session-promotion"> '+value+'</div>';
+						});
+					}
+					
+					for(let i = 1; i <= array_reservationStep1['data']['availableTickets']; i++)
+					{
+						divsAvailableTickets += '<option value="'+i+'">'+i+'</option>';
+					}
+					
+					$('.step1-activity').html(activity['act_name']);
+					$('.step1-date').html(array_reservationStep1['data']['selectedDate']);
+					$('.step1-time').html(array_reservationStep1['data']['selectedTime']);
+					$('.row.price').children('.prices').children('.price').html(array_reservationStep1['data']['price']);
+					$('.select-participant-nb').html(divsAvailableTickets);
+					
+					if(array_reservationStep1['data']['promotions'].length !== 0)
+					{
+						$('.row.price').children('.prices').prepend('<div class="base-price">'+new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(activity['act_base_price'])+'</div>');
+						$('.row.price').children('.prices').children('.price').addClass('special-price').append(' €');
+						
+						$('.row.price').after('<div class="row promotions">'+        
+					'       		<div class="session-label">Promotions appliquées :</div>'+
+					'       		<div class="session-value">'+
+									divsPromotion+
+					'       		</div>'+
+					'         	</div>');
+					}
+					
+					// Sur le clique de validation du modal étape participant
+					$('#modal-step1').find('.action-event-modal').click(function () {
+						$('.reservationForm1').find('.validate-reservation-form').click();
+					});
+					
+					$('.reservationForm1').find('.validate-reservation-form').click(function () {
+						var f = $('.reservationForm1')[0];
+						
+							if(f.checkValidity()) 
+							{
+								var reservationStep1Participants = [];
+								var test = { usr_firstname : "test", usr_lastname : "test", usr_age : "test", usr_gift_email : "test"};
+								reservationStep1Participants.push(test);
+								for(let a = 1;$('.select-participant-nb').val() >= a; a++)
+								{
+									var participant = { usr_firstname : $("input[name^='participants["+a+"][usr_firstname]']").val(), usr_lastname : $("input[name^='participants["+a+"][usr_lastname]']").val(), usr_age : $("input[name^='participants["+a+"][usr_age]']").val(), usr_gift_email : $("input[name^='participants["+a+"][usr_gift_email]']").val()};
+
+									reservationStep1Participants.push(participant);
+									
+								}
+								
+								$.ajax({
+									url:  urlReservationStep2,
+									type: "POST",
+									data:   { 'tsl_id' : array_reservationStep1['data']['tslId'], 'pla_id' : array_reservationStep1['data']['plaId'], 'date' : array_reservationStep1['data']['selectedDate'], 'time' : array_reservationStep1['data']['selectedTime'], 'price' : array_reservationStep1['data']['price'], 'promotionIds' : reservationStep1IdsPromotion, 'participants' : reservationStep1Participants, 'testSQD' : 'test', 'participants' : reservationStep1Participants},
+									success: function(data2){
+										
+										var array_reservationStep2 = JSON.parse(data2);
+										
+										$('#modal-step1').removeClass('is-active');
+										$('#modal-step2').addClass('is-active');
+										$('#modal-step2').find('.action-event-modal').prop("disabled", true);
+										$('.event-modal').not('#modal-step2').each(function(){
+											 $(this).removeClass("is-active");
+											 $("#modal-step2").addClass("is-active");
+										});
+										
+										$('.row.name').children('.session-value').html(array_reservationStep2['activity']['act_name']);
+										$('.row.date').children('.session-value').html(array_reservationStep2['date']);
+										$('.row.hours').children('.session-value').html(array_reservationStep2['time']);
+										
+										var totalPrice = 0;
+										var divsTicket = "";
+										array_reservationStep2['participants'].shift();
+										
+										$.each( array_reservationStep2['participants'], function( key, participant ) {
+											totalPrice = (parseFloat(totalPrice) + parseFloat(participant['price']));
+											var isAgeReduction = participant['promotions'] ? true : false;
+											var divsPromotion = "";
+											var divsPriceReduction = "";
+											var specialPrice = "";
+											if(isAgeReduction)
+											{
+												specialPrice = "special-price";
+												
+												$.each( participant['promotions'], function( key, promotion ) {
+													divsPromotion += '<p class="price-promotion">'+promotion['pro_name']+'</p>';
+												});
+												
+												var divAgeReduction = '<div class="row promotions">'+
+														'<div class="ticket-label">'+
+															'Promotions appliquées :'+
+														'</div>'+
+														'<div class="ticket-value">'+
+															divsPromotion+
+														'</div>'+
+													'</div>';
+													
+													//$('.prices').append('<div class="base-price">'+new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(activity['act_base_price'])+'</div>');
+													
+												var divsPriceReduction = '<div class="base-price">'+
+														new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(array_reservationStep2['activity']['act_base_price'])+
+													'</div>';
+
+											}
+											//reservation-tickets
+											divsTicket += '<div class="ticket">'+
+												'<div class="ticket-column left">'+
+													'<div class="row name">'+
+														'<div class="ticket-label">'+
+															'Participant : '+
+														'</div>'+
+														'<div class="ticket-value">'+
+															participant['usr_lastname'].toUpperCase()+' '+participant['usr_firstname']+
+														'</div>'+
+													'</div>'+
+													'<div class="row age">'+
+														'<div class="ticket-label">'+
+															'Age :'+
+														'</div>'+
+														'<div class="ticket-value">'+
+															participant['usr_age'].toUpperCase()+' ans'+
+														'</div>'+
+													'</div>'+
+													divAgeReduction+
+												'</div>'+
+												'<div class="ticket-column">'+
+													'<div class="prices">'+
+														divsPriceReduction+
+														'<div class="price '+specialPrice+'">'+
+															participant['price']+'€'+
+														'</div>'+
+													'</div>'+
+												'</div>'+
+										'</div>';
+													
+													
+										});
+
+										$('.reservation-tickets').append(divsTicket);
+										$('.reservation-total').html(new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(totalPrice));
+										
+										finalPrice = totalPrice;
+										
+										/********** PAYPAL *********/
+										
+										paypal.Button.render({
+										  env: 'sandbox',
+										  commit: true,
+										  style: {
+											color: 'gold',
+											size: 'responsive',
+										  },
+										  payment: function() {
+											var data = {
+											  total:totalPrice, 
+											  name:array_reservationStep2['activity']['act_name']
+											};
+											var CREATE_URL = '<?php echo base_url("PaypalController/createPayment"); ?>';
+											return paypal.request.post(CREATE_URL, data)
+											  .then(function(data) {
+												if (data.success) {
+												   return data.paypal_response.id;   
+												} else {
+												   alert(data.msg);
+												   return false;   
+												}
+											 });
+										  },
+										  onAuthorize: function(data, actions) {
+											var EXECUTE_URL = '<?php echo base_url("PaypalController/executePayment"); ?>';
+
+											var data = {
+											  paymentID: data.paymentID,
+											  payerID: data.payerID
+											};
+
+											return paypal.request.post(EXECUTE_URL, data)
+											  .then(function (data) {
+											  if (data.success) {
+												alert("Paiement approuvé ! Merci !");
+												$("#id-paypal").val(data.paypal_response.id);
+												$('.reservationForm2').find(".validate-reservation-form").click();
+												//$(".validate-paypal").click();
+												//location.href = '<?php echo base_url(); ?>';
+												$.ajax({
+													url:  urlReservationStep3,
+													type: "POST",
+													data:   { id_paypal : $("#id-paypal").val(), total_price : finalPrice },
+													success: function(data3){
+														var array_reservationStep3 = JSON.parse(data3);
+														location.href = '<?php echo base_url(); ?>';
+													},
+													error: function(e){
+														console.log(e);
+														alert('Une erreur est survenue') ;
+													}
+												});
+												
+											  } else {
+												alert(data.msg);
+											  }
+											});
+										  },
+										  onCancel: function(data, actions) {
+											alert("Paiement annulé : vous avez fermé la fenêtre de paiement.");
+										  },
+										  onError: function(err) {
+											alert("Paiement annulé : une erreur est survenue. Merci de bien vouloir réessayer ultérieurement.");
+										  }
+										}, '#bouton-paypal');
+									},
+									error: function(e){
+										console.log(e);
+										alert('Une erreur est survenue') ;
+									}
+								});
+								
+							} 
+							else 
+							{
+								var modalStep1PrenomValidity = true;
+								var modalStep1NomValidity = true;
+								var modalStep1AgeValidity = true;
+								var modalMessageValidity = "";
+								
+								for(let e = 0;e <  $('.modal-step1-prenom').length; e++)
+								{
+									if(!$(".modal-step1-prenom")[e].checkValidity())
+										modalMessageValidity += "Le prénom est obligatoire <br />";
+									if(!$(".modal-step1-nom")[e].checkValidity())
+										modalMessageValidity += "Le nom est obligatoire <br />";
+									if(!$(".modal-step1-age")[e].checkValidity())
+										modalMessageValidity += "L'âge minimum doit être supérieur à "+$(".modal-step1-age").attr("min")+'<br />';
+										
+										if(modalMessageValidity != "")
+											break;
+									
+								}
+								
+								$("#msgValidity").html(modalMessageValidity);
+
+							}
+					});
+
+					  
+					
+					$('.validate-participant-nb').click(function () {
+						let participantNb   = $( ".select-participant-nb option:selected" ).text();
+						let participants = $('.participants');
+
+						let currentParticipantsCount = $('.participant').length;
+
+						$('#modal-step1').find('.action-event-modal').prop("disabled", false);
+
+						if (currentParticipantsCount === participantNb){
+							return true;
+						}
+
+						if (currentParticipantsCount > participantNb){
+							for (let i = currentParticipantsCount; i > participantNb; i--){
+								$('.participant-'+i).remove();
+							} 
+						}
+
+						if (participantNb > currentParticipantsCount){
+							for (let i = currentParticipantsCount; i < participantNb; i++){
+								let participantIndex =  parseInt(i) + 1;
+
+								participants.append('<div class="participant participant-' + participantIndex + '">\n'+
+				'            <div class="participant-label">Participant n°' + participantIndex + '</div>\n'+
+				'            <div class="columns">\n'+
+				'                <div class="column">\n'+
+				'                    <div class="field">\n'+
+				'                        <label for="usr_firstname">Prénom</label>\n'+
+				'                        <div class="control">\n'+
+				'                            <input type="text" class="input modal-step1-prenom" name="participants[' + participantIndex + '][usr_firstname]" required>\n'+
+				'                        </div>\n'+
+				'                    </div>\n'+
+				'                </div>\n'+
+				'                <div class="column">\n'+
+				'                    <div class="field">\n'+
+				'                        <label for="usr_lastname">Nom</label>\n'+
+				'                        <div class="control">\n'+
+				'                            <input type="text" class="input modal-step1-nom" name="participants[' + participantIndex + '][usr_lastname]" required data-value-missing=”Translate(‘Required’)”>\n'+
+				'                        </div>\n'+
+				'                     </div>\n'+
+				'                 </div>\n'+
+				'            </div>\n'+
+				'            <div class="columns">\n'+
+				'                <div class="column">\n'+
+				'                    <div class="field">\n'+
+				'                        <label for="usr_age">Age</label>\n'+
+				'                        <div class="control">\n'+
+				'                            <input type="number" class="input modal-step1-age" min="'+activity['act_required_age']+'" name="participants[' + participantIndex + '][usr_age]" required>\n'+
+				'                        </div>\n'+
+				'                    </div>\n'+
+				'                </div>\n'+
+				'                <div class="column">\n'+
+				'                    <div class="field">\n'+
+				'                       <label for="usr_gift_email">Email du destinataire du cadeau (Optionnel) </label>\n'+
+				'                         <div class="control">\n'+
+				'                           <input type="text" class="input" name="participants[' + participantIndex + '][usr_gift_email]">\n'+
+				'                        </div>\n'+
+				'                    </div>\n'+
+				'                </div>\n'+
+				'            </div>\n'+
+				'        </div>')
+							}
+						}
+					})
+				},
+				error: function(e){
+					console.log(e);
+					alert('Une erreur est survenue') ;
+				},
+				complete: function(e){
+					if($('.participant').length > 0)
+					{
+						if($(".select-participant-nb").children('option').length < $('.participant').length)
+						{
+							while($(".select-participant-nb").children('option').length < $('.participant').length)
+							{
+								$('.participant').last().remove();
+							}
+						}
+
+						$(".select-participant-nb").val($('.participant').length);
+					}
+				}
+			});
         });
 
         let jsonString = '';
@@ -111,7 +763,7 @@ foreach ($dates as $index => $date){
             header: { right: $(window).width() < 760 ? 'timeGridDay,today prev,next': 'dayGridMonth,timeGridWeek,timeGridDay,today prev,next' },
             displayEventEnd: true,
             minTime: "08:00:00",
-            maxTime: "18:00:00",
+            maxTime: "21:00:00",
             slotDuration: "00:05:00",
             aspectRatio: 1,
             height: "auto",
@@ -330,4 +982,8 @@ foreach ($dates as $index => $date){
 
         calendar.setOption('slotDuration', newSlotDuration)
     }
+	
+	
+	
+	
 </script>

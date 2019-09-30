@@ -23,9 +23,11 @@ class ReservationController extends MY_Controller
         $timeSlot           = $this->input->post('event_modal_time');
         $price              = $this->input->post('event_modal_price');
         $promotionIds       = $this->input->post('event_modal_promotion_ids');
-
+		
+		$isJson = $this->uri->segment(3);
+		
         $promotionsNames   = array();
-
+		
         if ($promotionIds){
             $promotions =  $this->PromotionModel->getPromotionsByPromotionIds($promotionIds);
             foreach ($promotions as $promotion){
@@ -99,6 +101,17 @@ class ReservationController extends MY_Controller
         $this->_params['data']['promotions']        = $promotionsNames;
         $this->_params['data']['price']             = $price;
         $this->_params['data']['activity']          = $activity;
+		
+		if($isJson)
+		{
+			$encodeParamsJson = json_encode($this->_params);
+
+			echo $encodeParamsJson;
+	
+			//echo $encodeParamsJson;
+			exit();
+		}
+		
         $this->load->view('template', $this->_params);
 
     }
@@ -106,6 +119,9 @@ class ReservationController extends MY_Controller
     public function reservationStep2(){
 
         $quote = $this->input->post();
+		$isJson = $this->uri->segment(3);
+		//array_shift($quote['participants']);
+
 
         $promotions       = array();
         if ($promotionIds = $quote['promotionIds']){
@@ -115,6 +131,8 @@ class ReservationController extends MY_Controller
         $agePromotions = $this->PromotionModel->getAgePromotions();
 
         foreach ($quote['participants'] as $key => $participant){
+			if($key == 0) continue;
+				
             $price = $quote['price'];
 
             $quote['participants'][$key]['base_price']      = $price;
@@ -149,24 +167,43 @@ class ReservationController extends MY_Controller
 
         $quote['activity']                          = $activity;
         $_SESSION['current_quote']                  = $quote;
-
-        $this->load->view('template', $this->_params);
+		
+		if($isJson)
+		{
+			
+			$encodeParamsJson = json_encode($this->_params);
+			$encodeQuoteJson = json_encode($quote);
+			
+			$array = array_merge($this->_params, $quote);
+			echo json_encode($array);
+			/*
+			echo $encodeQuoteJson;
+			echo $encodeQuoteJson;
+*/			exit();
+			
+		}
+		
+        //$this->load->view('template', $this->_params);
     }
 
     public function reservationStep3(){
 		
-        $quote  = $_SESSION['current_quote'];
+		$isJson = $this->uri->segment(3);
+		
+		if($isJson) $_SESSION['current_quote']['total'] =  $_POST['total_price'];
 
+        $quote  = $_SESSION['current_quote'];
         $date = formatDateFromFrToUs($quote['date']);
 
-        $this->ReservationModel->createReservation($date, $quote['time'], count($quote['participants']), $quote['tsl_id'], $_SESSION['user']['id'], $quote['activity']['act_id']);
-
+        $this->ReservationModel->createReservation($date, $quote['time'], ($isJson ? count($quote['participants']) - 1 : count($quote['participants'])), $quote['tsl_id'], $_SESSION['user']['id'], $quote['activity']['act_id']);
+		
         $resId = $this->db->insert_id();
 
         include('phpqrcode/qrlib.php');
 
         foreach ($quote['participants'] as $key => $participant){
-
+			if($key == 0) continue;
+			
             $this->TicketModel->createTicket($participant['usr_firstname'], $participant['usr_lastname'], $participant['usr_age'], $participant['usr_gift_email'], $participant['price']);
 
             $ticId = $this->db->insert_id();
@@ -190,22 +227,70 @@ class ReservationController extends MY_Controller
 
                 if (!$user){
                     //@TODO send mail to $email with <a href="base_url().'UserController/create?mail='.$email /> for account creation
+                    $this->load->helper('url');
+                    $this->load->library('email');
+                    $mail['template']='recuCadeau';
+
+                    //Ci-dessous pour envoyer une variable à utiliser dans le mail
+                    //$mail['utilisateur_id']=$utilisateur_id;
+
+                    $this->email->set_newline("\r\n");
+                    $this->email->from('serviceclient.soextreme@gmail.com', 'Votre équipe So Extreme');
+                    $this->email->to($email);
+                    $this->email->subject("Vous avez reçu un cadeau 🎁");
+                    $message=$this->load->view('email/activationCompte', $mail,true);
+                    $this->email->message($message);
+                    $this->email->send();
                 }
             }
         }
+
+
 
         $bankResponse = $_POST['id_paypal'];
         $this->PaymentModel->createPayment($resId, $quote['total'], $bankResponse);
 
         unset($_SESSION['current_quote']);
-
+		$_SESSION['messages'][] = "Votre réservation a bien été effectuée";
+		
+		if($isJson)
+		{
+			echo json_encode("Votre réservation a bien été effectuée");
+			exit();
+		}
         $_SESSION['messages'][] = "Votre réservation a bien été effectuée";
         $this->redirectHome();
     }
 
+    public function testmail(){
+        $this->load->helper('url');
+        $this->load->library('email');
+        $mail['template']='recuCadeau';
+        //Ci-dessous pour envoyer une variable à utiliser dans le mail
+        //$mail['utilisateur_id']=$utilisateur_id;
+        $this->email->set_newline("\r\n");
+        $this->email->from('serviceclient.soextreme@gmail.com', 'Votre équipe So Extreme');
+        $this->email->to('frantzcorentin@gmail.com');
+        $this->email->subject("Vous avez reçu un cadeau 🎁");
+        $message=$this->load->view('email/recuCadeau', $mail,true);
+        $this->email->message($message);
+        if ($this->email->send()) {
+            echo ('Mail envoyé');
+        }else{
+            echo ('echec envoi mail');
+        }
+
+    }
+
     public function validateTicket(){
         $ticId = $this->input->get('id');
-        
+
+
+        if (!isCurrentUserAdmin()){
+            $_SESSION['messages'][] = "Vous ne pouvez pas effectuer cette action";
+            $this->redirectHome();
+        }
+
         if (!$ticId){
             $_SESSION['messages'][] = "Aucun identifiant de ticket reseigné";
             $this->redirectHome();
@@ -248,4 +333,9 @@ class ReservationController extends MY_Controller
         $_SESSION['messages'][] = "Réservation annulée, vous serez remboursé dans un délais de 5 jours";
         redirect('/UserController/profile', 'refresh');
     }
+	
+	public function validateSession(){
+		
+		$_SESSION['current_quote']['total'] = $this->input->post('total_price');
+	}
 }

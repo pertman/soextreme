@@ -1,7 +1,3 @@
-<div class="page-title">
-    Activité n° <?php echo $activity["act_id"]; ?>
-</div>
-
 <div class="activity-card card">
     <div class="card-header">
         <div class="act-name title">

@@ -114,7 +114,7 @@
                 <div class="card-bottom-container">
                     <div class="card-content">
                         <div class="act_resume row">
-                            <?php echo $activity['act_resume']; ?>.
+                            <?php echo $activity['act_resume']; ?>
                         </div>
                         <?php if ($activity['act_handicapped_accessibility']): ?>
                             <figure class="image is-64x64">

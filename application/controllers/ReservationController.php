@@ -193,10 +193,7 @@ class ReservationController extends MY_Controller
                     $this->load->helper('url');
                     $this->load->library('email');
                     $mail['template']='recuCadeau';
-
-                    //Ci-dessous pour envoyer une variable à utiliser dans le mail
-                    //$mail['utilisateur_id']=$utilisateur_id;
-
+                    $mail['link']="<a href=".base_url().'UserController/create?mail='.$email."/>";
                     $this->email->set_newline("\r\n");
                     $this->email->from('serviceclient.soextreme@gmail.com', 'Votre équipe So Extreme');
                     $this->email->to($email);

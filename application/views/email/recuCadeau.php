@@ -12,9 +12,7 @@
 		<table class="table" style="width:80%; text-align: center">
 			<tr>
 				<td align="center" class="logo" style="border-bottom:4px solid #333333;padding:7px 0">
-					<a title="soextreme" href="http://localhost/freelancer/" style="color:#337ff1">
 						<img src="https://www.zupimages.net/up/19/39/a8y7.png" alt="SoExtreme" />
-					</a>
 				</td>
 			</tr>
 
@@ -40,8 +38,8 @@
 									</p>
 									<span style="color:#000000">
 												<strong>Bonjour, vous avez reçu un cadeau. Pour l'accepter il vous faut créer un compte avec cette adresse mail.</strong> <br/><br/><br/>
-												<a style="text-decoration:none ;color: #ffffff;padding: 15px;background-color:#4b77be;font-size: 16px; " alt="lien vers activation du compte" href="http://localhost/freelancer/index.php/Utilisateur/activationUtilisateur?id=<?= $utilisateur_id?>">
-													Valider
+												<a style="text-decoration:none ;color: #ffffff;padding: 15px;background-color:#4b77be;font-size: 16px; " alt="lien vers activation du compte" href="<?=$link?>">
+													J'y vais
 												</a>
 											</span><br/><br/><br/>
 

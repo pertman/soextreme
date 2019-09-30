@@ -61,7 +61,7 @@
                             </a>
                             <div class="card-content">
                                 <div class="act_resume row">
-                                    <?php echo $activity['act_description_special_offer']; ?>.
+                                    <?php echo $activity['act_description_special_offer']; ?>
                                 </div>
                             </div>
                             <div class="card-footer">

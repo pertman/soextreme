@@ -248,7 +248,13 @@ class ReservationController extends MY_Controller
 
     public function validateTicket(){
         $ticId = $this->input->get('id');
-        
+
+
+        if (!isCurrentUserAdmin()){
+            $_SESSION['messages'][] = "Vous ne pouvez pas effectuer cette action";
+            $this->redirectHome();
+        }
+
         if (!$ticId){
             $_SESSION['messages'][] = "Aucun identifiant de ticket reseigné";
             $this->redirectHome();

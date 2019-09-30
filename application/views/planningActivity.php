@@ -763,7 +763,7 @@ foreach ($dates as $index => $date){
             header: { right: $(window).width() < 760 ? 'timeGridDay,today prev,next': 'dayGridMonth,timeGridWeek,timeGridDay,today prev,next' },
             displayEventEnd: true,
             minTime: "08:00:00",
-            maxTime: "18:00:00",
+            maxTime: "21:00:00",
             slotDuration: "00:05:00",
             aspectRatio: 1,
             height: "auto",

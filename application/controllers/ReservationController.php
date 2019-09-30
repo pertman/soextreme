@@ -190,15 +190,16 @@ class ReservationController extends MY_Controller
 
                 if (!$user){
                     //@TODO send mail to $email with <a href="base_url().'UserController/create?mail='.$email /> for account creation
+                    $this->load->helper('url');
                     $this->load->library('email');
-                    $mail['template']='activationCompte';
+                    $mail['template']='recuCadeau';
 
                     //Ci-dessous pour envoyer une variable à utiliser dans le mail
                     //$mail['utilisateur_id']=$utilisateur_id;
 
                     $this->email->set_newline("\r\n");
-                    $this->email->from('frantzcorentin@gmail.com', 'Votre équipe So Extreme');
-                    $this->email->to('frantzcorentin@gmail.com');
+                    $this->email->from('serviceclient.soextreme@gmail.com', 'Votre équipe So Extreme');
+                    $this->email->to($email);
                     $this->email->subject("Vous avez reçu un cadeau 🎁");
                     $message=$this->load->view('email/activationCompte', $mail,true);
                     $this->email->message($message);
@@ -206,6 +207,8 @@ class ReservationController extends MY_Controller
                 }
             }
         }
+
+
 
         $bankResponse = $_POST['id_paypal'];
         $this->PaymentModel->createPayment($resId, $quote['total'], $bankResponse);
@@ -217,15 +220,16 @@ class ReservationController extends MY_Controller
     }
 
     public function testmail(){
+        $this->load->helper('url');
         $this->load->library('email');
-        $mail['template']='activationCompte';
+        $mail['template']='recuCadeau';
         //Ci-dessous pour envoyer une variable à utiliser dans le mail
         //$mail['utilisateur_id']=$utilisateur_id;
         $this->email->set_newline("\r\n");
-        $this->email->from('frantzcorentin@gmail.com', 'Votre équipe So Extreme');
+        $this->email->from('serviceclient.soextreme@gmail.com', 'Votre équipe So Extreme');
         $this->email->to('frantzcorentin@gmail.com');
         $this->email->subject("Vous avez reçu un cadeau 🎁");
-        $message=$this->load->view('email/activationCompte', $mail,true);
+        $message=$this->load->view('email/recuCadeau', $mail,true);
         $this->email->message($message);
         if ($this->email->send()) {
             echo ('Mail envoyé');

@@ -123,4 +123,10 @@ class PromotionModel extends CI_Model{
         $query = $this->db->query($sql, array(1, 1));
         return $query->result_array();
     }
+
+    public function getAllPromotionsById($id){
+        $sql = "SELECT * FROM `promotion` WHERE `pro_act_ids` = ? or `pro_act_ids` is null and `pro_is_active` = 1";
+        $query = $this->db->query($sql, array($id));
+        return $query->result_array();
+    }
 }

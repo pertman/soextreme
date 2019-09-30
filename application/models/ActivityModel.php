@@ -2,8 +2,23 @@
 
 class ActivityModel extends CI_Model{
 
+    public function getActivityByTerm($term){
+        $term2 ='%';
+        $term2 .= $term;
+        $term2 .= "%";
+        $sql = "SELECT *  FROM `activity` WHERE `act_name` LIKE ? OR `act_description` LIKE ? OR `act_resume` LIKE ? OR `act_city` LIKE ? OR `act_country` LIKE ? OR `act_street` LIKE ?";
+        $query = $this->db->query($sql, array($term2,$term2,$term2,$term2,$term2,$term2));
+        return $query->result_array();
+    }
+
     public function getAllActivities(){
         $sql = "SELECT * FROM activity";
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
+
+    public function getFamousActivities(){
+        $sql = "SELECT `act_id`,`act_name`,`act_image_1`,`act_resume`,`act_level`,`act_handicapped_accessibility`,`act_base_price`,`act_note_sum`,`act_note_count`,`act_status` FROM `activity`  WHERE `act_status` = 'active' ORDER BY `act_note_count` DESC LIMIT 5";
         $query = $this->db->query($sql);
         return $query->result_array();
     }

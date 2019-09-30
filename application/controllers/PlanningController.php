@@ -66,39 +66,86 @@ class PlanningController extends MY_Controller
 
             $planningItemResult = $this->getIndexDayInRange($periodStart, $periodEnd, $dayIndex);
 
-            $slots = $this->getSessionsBetweenHours($startHour, $endHour, $activity);
+            if (!isCurrentUserAdmin()){
+                $slots = $this->getSessionsBetweenHours($startHour, $endHour, $activity);
+            }
 
             foreach ($planningItemResult as $date){
-                
-                $planningDateTime = new DateTime($date);
 
-                if ($planningDateTime < $todayDateTime){
-                    continue;
-                }
-                $reservedSlots =  $this->getDateReservedSlots($date, $activity['act_id']);
+                if (!isCurrentUserAdmin()) {
+                    $planningDateTime = new DateTime($date);
 
-                $dateSlots = $this->applyPromotionsToDateSlots($slots, $date, $startHour, $endHour, $activity);
-
-                foreach ($reservedSlots as $time => $participantNb){
-                    //Remove reserved time slots but on hours not available because of planning modifications
-                    if (isset($dateSlots[$time])){
-                        $dateSlots[$time]['participantNb'] -= $participantNb;
+                    if ($planningDateTime < $todayDateTime) {
+                        continue;
                     }
                 }
 
-                //Events needs autoincrement index
-                $dateSlots = array_values($dateSlots);
-
                 $dateData = array(
+                    'type'                  => 'planning',
                     'date'                  => $date,
                     'start'                 => $startHour,
                     'end'                   => $endHour,
                     'pla_id'                => $plaId,
-                    'tsl_id'                => $tslId,
-                    'slots'                 => $dateSlots,
+                    'tsl_id'                => $tslId
                 );
 
+                if (!isCurrentUserAdmin()) {
+                    $reservedSlots = $this->getDateReservedSlots($date, $activity['act_id']);
+
+                    $dateSlots = $this->applyPromotionsToDateSlots($slots, $date, $startHour, $endHour, $activity);
+
+                    foreach ($reservedSlots as $time => $participantNb) {
+                        //Remove reserved time slots but on hours not available because of planning modifications
+                        if (isset($dateSlots[$time])) {
+                            $dateSlots[$time]['participantNb'] -= $participantNb;
+                        }
+                    }
+
+                    //Events needs autoincrement index
+                    $dateSlots = array_values($dateSlots);
+
+                    $dateData['slots']  = $dateSlots;
+                }
+
                 $activityDate[] = $dateData;
+            }
+        }
+
+        if (isCurrentUserAdmin()){
+            $reservedDates  = array();
+            $reservations   = $this->ReservationModel->getAllReservationsByActivity($actId);
+            foreach ($reservations as $reservation){
+                $key = $reservation['res_date'] . ' ' . $reservation['res_time_slot'];
+                if (!isset($reservedDates[$key])){
+                    $timeArray  = explode('-', $reservation['res_time_slot']);
+                    $startHour  = $timeArray[0]. ':00';
+                    $endHour    = $timeArray[1]. ':00';
+
+                    $reservedDates[$key] = array(
+                        'type'                  => 'reservation',
+                        'date'                  => $reservation['res_date'],
+                        'start'                 => $startHour,
+                        'end'                   => $endHour,
+                        'participants'          => array(
+                            0 => array(
+                                'firstname' => $reservation['tic_firstname'],
+                                'lastname'  => $reservation['tic_lastname'],
+                                'age'       => $reservation['tic_age'],
+                            )
+                        )
+                    );
+                }else{
+                    $reservedDates[$key]['participants'][] = array(
+                        'tic_id'    => $reservation['tic_id'],
+                        'firstname' => $reservation['tic_firstname'],
+                        'lastname'  => $reservation['tic_lastname'],
+                        'age'       => $reservation['tic_age'],
+                    );
+                }
+            }
+
+            foreach ($reservedDates as $reservedDate){
+                $activityDate[] = $reservedDate;
             }
         }
 

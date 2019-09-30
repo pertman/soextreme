@@ -81,7 +81,7 @@
     <div class="buttons">
         <div class="field">
             <div class="control">
-                <button class="button validate-reservation-form visibility-hidden is-link">Valider</button>
+                <button class="button validate-reservation-form hidden is-link">Valider</button>
             </div>
         </div>
     </div>

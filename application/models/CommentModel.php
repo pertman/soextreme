@@ -19,6 +19,11 @@ class CommentModel extends CI_Model{
         $query = $this->db->query($sql, array($actId));
         return $query->result_array();
     }
+    public function get4LastLevelComments(){
+        $sql = "SELECT * FROM comment LEFT JOIN user ON comment.usr_id = user.usr_id WHERE comment.com_commented_com_id IS NULL ORDER BY com_id DESC LIMIT 4";
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
 
     public function getSecondLevelCommentByComId($comId){
         $sql = "SELECT * FROM comment

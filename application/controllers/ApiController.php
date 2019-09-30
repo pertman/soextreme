@@ -348,4 +348,9 @@ class ApiController extends REST_Controller
         die(json_encode($comments));
     }
 
+    public function lastComment_get()
+    {
+        $comments = $this->CommentModel->get4LastLevelComments();
+        die(json_encode($comments));
+    }
 }

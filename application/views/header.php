@@ -44,7 +44,7 @@
 					</div>
 					
 					<div class="column is-one-two has-text-weight-bold has-text-centered">
-						<a href="#" class="modal-menu-inscription">Inscription</a>
+						<a href="#" class="modal-menu-inscription color-grey">Inscription</a>
 						<div class="modal-menu"></div>
 					</div>
 					<div class="column is-4 is-hidden-mobile"></div>
@@ -80,7 +80,7 @@
 					<div class="columns">
 						<div class="column is-2 is-hidden-mobile"></div>
 						<div class="column is-8 is-12-mobile field">
-							<button type="submit" class="button is-dark is-medium is-fullwidth">Connexion</button>
+							<button type="submit" class="button is-primary is-medium is-fullwidth">Connexion</button>
 						</div>
 						<div class="column is-2 is-hidden-mobile"></div>
 					</div>
@@ -105,7 +105,7 @@
 				<div class="columns">
 					<div class="column is-4 is-hidden-mobile"></div>
 					<div class="column is-one-two has-text-weight-bold has-text-centered">
-						<a href="#" class="modal-menu-connexion">Connexion</a>
+						<a href="#" class="modal-menu-connexion  color-grey">Connexion</a>
 						<div class="modal-menu  "></div>
 					</div>
 					
@@ -206,7 +206,7 @@
 					<div class="columns">
 						<div class="column is-2 is-hidden-mobile"></div>
 						<div class="column is-8 is-12-mobile field">
-							<button type="submit" class="button is-dark is-medium is-fullwidth">S'inscrire</button>
+							<button type="submit" class="button is-primary is-medium is-fullwidth">S'inscrire</button>
 						</div>
 						<div class="column is-2 is-hidden-mobile"></div>
 					</div>

@@ -115,11 +115,23 @@ nav, .navbar-dropdown {
 }
 
 .is-active-modal {
-	border-bottom: 3px solid orange;
+	border-bottom: 3px solid #ff9437;
     border-radius: 15%;
     margin-top: 0.5em;
 }
 
+.is-hover-modal {
+	border-bottom: 3px solid #1c2c4f;
+    border-radius: 15%;
+    margin-top: 0.5em;
+}
+
+.modal-menu-connexion:hover, .modal-menu-inscription:hover{
+	color:black!important;
+}
+.modal-menu-connexion:hover + .modal-menu, .modal-menu-inscription:hover + .modal-menu{
+	border-bottom: 3px solid #1c2c4f!important;
+}
 
 /* home.php */
 #home-2 {

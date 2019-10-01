@@ -1,6 +1,6 @@
 <?php if ($promotions): ?>
     <section id="home-1" class="special-offer">
-        <div class="bg-1">
+        <div class="bg-1" style="margin-top:-3rem;">
             <div class="row columns is-multiline">
                 <div class="column is-12"></div>
                 <div class="column is-12 is-hidden-mobile"></div>
@@ -115,6 +115,32 @@
                                         <div class="column is-12">
                                             <p class="title is-6 has-text-white act-name"><?php echo $activity['act_name'] . " - " . getLevelLabel($activity['act_level']); ?></p>
                                         </div>
+
+										
+										<div class="column is-12 has-text-centered">
+											<?php
+												$noteOn5 = (round((round($activity['act_note_sum'] / $activity['act_note_count'], 2) * 2) / 10 * 5) / 2);
+												$note = explode('.', $noteOn5);
+												for($i = 1; $i <= 5; $i++)
+												{
+													if($i <= $note[0])
+													{
+														echo '<i class="fas fa-star"></i>';
+													}
+													elseif(!empty($note[1]))
+													{
+														if($note[0] + 1 == $i)
+															echo '<i class="fas fa-star-half-alt"></i>';
+														else
+															echo '<i class="far fa-star"></i>';
+													}
+													else
+													{
+														echo '<i class="far fa-star"></i>';
+													}
+												}						
+											?>
+										</div>
                                         <div class="column is-12 has-text-centered">
                                             <div class="note"><?php echo round($activity['act_note_sum'] / $activity['act_note_count'], 2) . "/10"; ?></div>
                                         </div>

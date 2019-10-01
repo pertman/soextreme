@@ -85,9 +85,11 @@
                 <a class="button is-link" href="<?php echo base_url('AdminActivityController/planActivity') ?>?id=<?php echo $activity['act_id']; ?>" class="button">Plannifier</a>
                 <a class="button is-link" href="<?php echo base_url("AdminActivityController/updateActivity"); ?>?id=<?php echo $activity['act_id']; ?>">Modifier l'activité</a>
             <?php endif; ?>
-            <a class="button is-link" href="<?php echo base_url("ActivityController/seeActivity"); ?>?id=<?php echo $activity['act_id']; ?>">Voir l'activité</a>
-            <?php if (isCurrentUserAdmin() || isCurrentUserCustomer() && $activity['act_status'] == 'active'): ?>
+            <?php if (isCurrentUserAdmin()): ?>
                 <a class="button is-link" href="<?php echo base_url("PlanningController/seeActivityPlanning"); ?>?id=<?php echo $activity['act_id'];?>">Voir le planning</a>
+            <?php endif; ?>
+            <?php if (isCurrentUserCustomer() && $activity['act_status'] == 'active'): ?>
+                <a class="button is-link" href="<?php echo base_url("PlanningController/seeActivityPlanning"); ?>?id=<?php echo $activity['act_id'];?>">Je réserve !</a>
             <?php endif; ?>
         </div>
     </div>
@@ -188,7 +190,7 @@
                         <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
-                <?php if (!isCurrentUserNotLoggedIn()): ?>
+                <?php if (isCurrentUserCustomer()): ?>
                     <a class="show-comment-form" id="show-comment-form-<?php echo $comment['com_id']?>">Répondre</a>
                     <form method="post" class="comment-form comment-form-<?php echo $comment['com_id'] ?> hidden" action="addActivityCommentLevel2" onsubmit="event.preventDefault(); return formValidate(<?php echo $comment['com_id'] ?>);">
                         <div class="add-comment">

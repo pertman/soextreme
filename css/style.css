@@ -6432,6 +6432,9 @@ label {
   .card-header .state {
     color: white; }
 
+.hero-body .container .title, .hero-body .container .subtitle {
+  color: #ff9437 !important; }
+
 .datetimepicker .datepicker-body .datepicker-dates .datepicker-days .datepicker-date.datepicker-range {
   background: #1f3158; }
 

@@ -20,7 +20,7 @@
                 SoExtreme
             </h1>
             <h2 class="subtitle">
-                Vivez des sensations fortes
+                Partagez des sensations inoubliables !
             </h2>
         </div>
 		<p>

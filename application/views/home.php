@@ -172,7 +172,7 @@
                 </h1>
             </div>
             <?php foreach ($lastPictures as $picture): ?>
-                <div class="column is-one-fifth is-5-mobile is-inline-block">
+                <div class="column is-one-fifth">
                     <div class="card large round column is-full-mobile">
                         <div class="card-image ">
                             <figure class="image">

@@ -17,6 +17,7 @@
     <script src="<?php echo base_url(); ?>/js/main.js"></script>
     <script src="<?php echo base_url(); ?>/node_modules/bulma-calendar/dist/js/bulma-calendar.min.js"></script>
     <script src='<?php echo base_url(); ?>/node_modules/@fullcalendar/core/main.js'></script>
+    <script src='<?php echo base_url(); ?>/node_modules/@fullcalendar/core/locales/fr.js'></script>
     <script src='<?php echo base_url(); ?>/node_modules/@fullcalendar/daygrid/main.js'></script>
     <script src='<?php echo base_url(); ?>/node_modules/@fullcalendar/timegrid/main.js'></script>
     <script src='<?php echo base_url(); ?>/node_modules/@fullcalendar/list/main.js'></script>

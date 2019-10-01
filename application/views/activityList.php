@@ -95,8 +95,30 @@
                         </div>
                     <?php endif; ?>
                     <div class="note">
+						
                         <?php if ($activity['act_note_count']): ?>
-                            <?php echo round($activity['act_note_sum'] / $activity['act_note_count'], 2) . "/10"; ?>
+                            <?php
+								$noteOn5 = (round((round($activity['act_note_sum'] / $activity['act_note_count'], 2) * 2) / 10 * 5) / 2);
+								$note = explode('.', $noteOn5);
+								for($i = 1; $i <= 5; $i++)
+								{
+									if($i <= $note[0])
+									{
+										echo '<i class="fas fa-star"></i>';
+									}
+									elseif(!empty($note[1]))
+									{
+										if($note[0] + 1 == $i)
+											echo '<i class="fas fa-star-half-alt"></i>';
+										else
+											echo '<i class="far fa-star"></i>';
+									}
+									else
+									{
+										echo '<i class="far fa-star"></i>';
+									}
+								}						
+							?>
                         <?php else: ?>
                             Non evalué
                         <?php endif; ?>

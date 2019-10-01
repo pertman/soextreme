@@ -81,7 +81,7 @@ var urlReservationStep3 =  '<?php echo base_url(); ?>ReservationController/reser
                 <?php endif; ?>
                 <input type="hidden" name="event_modal_pla_id" class="event_modal_pla_id">
                 <input type="hidden" name="event_modal_tsl_id" class="event_modal_tsl_id">
-				<button class="button visibility-hidden is-link validate-modification" style="visibility:hidden">Valider</button>
+				<button class="button visibility-hidden is-link validate-modification" style="visibility:hidden; height:0px">Valider</button>
             </form>
         </section>
 
@@ -319,10 +319,20 @@ foreach ($dates as $index => $date){
         var evenModalPlaId      = $('.event_modal_pla_id');
         var evenModalTslId      = $('.event_modal_tsl_id');
         var actionEventModal    = $('.action-event-modal');
-
+		
+		
         $('.close-event-modal').click(function () {
             eventModal[0].classList.remove('is-active');
         });
+		
+		// ZOOM BOUTONS	
+		$(document).on ("click", ".fc-button", function () {
+			if($(this).hasClass("fc-dayGridMonth-button"))
+				$('.zoom-out-button').prop("disabled", true);
+			else
+				$('.zoom-out-button').prop("disabled", false);
+			
+		});
 		
 		<?php if (isCurrentUserAdmin()): ?>
 		// Modals ADMIN
@@ -334,7 +344,12 @@ foreach ($dates as $index => $date){
 			var libelle = "Modifier un créneau horaire";
 			if($(this).hasClass('fc-time-grid-event-inset'))
 				libelle = 'Affichage d\'une réservation';
-				
+			else
+			{
+				var time_clicked = $(this).find('.fc-time').attr('data-full');
+				var title_clicked = $(this).find('.fc-title').html();
+				$('.planning-reservations').html('<p> '+time_clicked+' </p><p> '+title_clicked+' </p>');
+			}
 			$('#modal-planning').find('.modal-card-title').html(libelle);
 		});
 		<?php endif; ?>

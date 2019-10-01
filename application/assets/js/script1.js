@@ -14,9 +14,10 @@ $( document ).ready(function() {
 
 	
 	$(".modal-menu-inscription, .modal-menu-conexion").hover(
-		function(){ $(this).siblings('.modal-menu').addClass("is-active-modal") },
-		function(){ $(this).siblings('.modal-menu').removeClass("is-active-modal")  }	
+		function(){ $(this).siblings('.modal-menu').addClass("is-hover-modal") },
+		function(){ $(this).siblings('.modal-menu').removeClass("is-hover-modal")  }	
 	);
+
 	
 	$(".modal-menu-inscription, .modal-menu-connexion").click(function(){
 		$(".delete").click();

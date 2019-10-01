@@ -2,85 +2,121 @@
     Mon Profil
 </div>
 
-<div class="profile-info">
-    <div class="columns">
-        <div class="column">
-            <div class="usr_firstname field">
-                <div class="profile-label">Prénom</div>
-                <div class="value"><?php echo $user['usr_firstname']; ?></div>
+<div class='columns'>
+  <div class='container profile'>
+    <div class='modal' id='modal-info'>
+      <div class='modal-background'></div>
+      <div class='modal-card'>
+        <header class='modal-card-head'>
+          <p class='modal-card-title'>Modifier profil</p>
+          <button class='delete'></button>
+        </header>
+        <section class='modal-card-body'>
+		  <form method="post" action="updateprofile" class="modifyProfileForm" enctype="multipart/form-data">
+			<div class="field">
+				<label for="usr_profile_picture" class='label'>Photo de profil</label>
+				<p class='control'>
+					<?php if ($user['usr_profile_picture']): ?>
+						<div class="profile-image">
+							<img src="<?php echo base_url().$user['usr_profile_picture']; ?>" alt="profile-picture" width="150" height="28">
+						</div>
+					<?php endif; ?>
+					<br>
+					<input type="file" name="usr_profile_picture" id="usr_profile_picture">
+				</p>
+				<br>
+				<label for="usr_firstname" class='label'>Prénom</label>
+				<p class='control'>
+					<input type="text" class="input" name="usr_firstname" value="<?php echo $user['usr_firstname']; ?>" required>
+				</p>
+				<br>
+				<label for="usr_lastname" class='label'>Nom</label>
+				<p class='control'>
+					<input type="text" class="input" name="usr_lastname" value="<?php echo $user['usr_lastname']; ?>" required>
+				</p>
+				<br>
+				<label for="usr_email" class='label'>Email</label>
+				<p class='control'>
+					<input type="text" class="input" name="usr_email" value="<?php echo $user['usr_email']; ?>" required>
+				</p>
+				<br>
+				<label for="usr_phone" class='label'>Téléphone</label>
+				<p class='control'>
+					<input type="text" class="input" name="usr_phone" value="<?php echo $user['usr_phone']; ?>" required>
+				</p>
+			
+			</div>
+
+			<input type="hidden" name="usr_id" value="<?php echo $user['usr_id']; ?>">
+			<div class="field hidden">
+				<div class="control">
+					<div class="buttons">
+						<button class="button is-link validate-update-profile is-hidden">Modifier</button>
+					</div>
+				</div>
+			</div>
+		</form>
+        </section>
+
+		<footer class="modal-card-foot">
+            <div class="buttons">
+                <button type="button" class="button is-primary modal-save">Modifier</button>
+                <button class="button modal-cancel">Annuler</button>
             </div>
-            <div class="usr_lastname field">
-                <div class="profile-label">Nom</div>
-                <div class="value"><?php echo $user['usr_lastname']; ?></div>
-            </div>
-        </div>
-        <div class="column">
-            <div class="usr_email field">
-                <div class="profile-label">Email</div>
-                <div class="value"><?php echo $user['usr_email']; ?></div>
-            </div>
-            <div class="usr_phone field">
-                <div class="profile-label">Téléphone</div>
-                <div class="value"><?php echo $user['usr_phone']; ?></div>
-            </div>
-        </div>
+        </footer>
+      </div>
     </div>
+    <div class='profile-heading'>
+      <div class='columns is-mobile is-multiline'>
+        <div class='column is-2-tablet is-12-mobile'>
+          <span class='header-icon user-profile-image has-text-centered'>
+			<figure class="image is-128x128 has-image-centered">
+				<img class="is-rounded" src="<?php echo ($user['usr_profile_picture'] == "" ? base_url().'/application/assets/images/user-default.png' : base_url().$user['usr_profile_picture']); ?>" alt="profile-picture" width="350" height="28">
+			</figure>
+          </span>
+        </div>
+        <div class='column is-10-tablet is-12-mobile name'>
+          <p class="has-text-centered-mobile">
+            <span class='title is-bold'><?php echo $user['usr_firstname']; ?> <?php echo $user['usr_lastname']; ?></span>
+            
+          </p>
+          <p class='tagline m-t-1-mobile'>
+            <div class="columns has-text-centered-mobile">
+				<div class="column">
+					<div>
+						<span class="is-italic"> Email :  </span><span class="has-text-weight-bold"><?php echo $user['usr_email']; ?></span>
+					</div>
+				</div>
+				<div class="column">
+					<div>
+						<span class="is-italic"> Téléphone :  </span><span class="has-text-weight-bold"><?php echo $user['usr_phone']; ?></span>
+					</div>
+				</div>
+
+			</div>
+			<div class="columns has-text-centered-mobile">
+				<br>
+					<a class='button is-link is-outlined' href='#' id='edit-preferences' style='margin: 5px 0'>
+						Modifier profil
+					</a>
+				<br>
+			</div>
+			<div class="columns has-text-centered-mobile">
+				<br>
+					<div class='button is-link is-outlined modifyPasswordButton' href='#' id='' style='margin: 5px 0'>
+						Modification de votre mot de passe
+					</div>
+				<br>
+			</div>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="button is-link modifyProfileButton">Modification de vos informations</div>
-<div class="button is-link modifyPasswordButton">Modification de votre mot de passe</div>
 
-<form method="post" action="updateprofile" class="modifyProfileForm hidden" enctype="multipart/form-data">
-    <div class="field">
-        <label for="usr_profile_picture">Photo de profil</label>
-            <?php if ($user['usr_profile_picture']): ?>
-                <div class="profile-image">
-                    <img src="<?php echo base_url().$user['usr_profile_picture']; ?>" alt="profile-picture">
-                </div>
-            <?php endif; ?>
-        <div class="control">
-            <input type="file" name="usr_profile_picture" id="usr_profile_picture">
-        </div>
-    </div>
-    <div class="columns">
-        <div class="column">
-            <div class="field">
-                <label for="usr_firstname">Prénom</label>
-                <div class="control">
-                    <input type="text" class="input" name="usr_firstname" value="<?php echo $user['usr_firstname']; ?>">
-                </div>
-            </div>
-            <div class="field">
-                <label for="usr_lastname">Nom</label>
-                <div class="control">
-                    <input type="text" class="input" name="usr_lastname" value="<?php echo $user['usr_lastname']; ?>">
-                </div>
-            </div>
-        </div>
-        <div class="column">
-            <div class="field">
-                <label for="usr_email">Email</label>
-                <div class="control">
-                    <input type="mail" class="input" name="usr_email" value="<?php echo $user['usr_email']; ?>">
-                </div>
-            </div>
-            <div class="field">
-                <label for="usr_phone">Téléphone</label>
-                <div class="control">
-                    <input type="text" class="input" name="usr_phone" value="<?php echo $user['usr_phone']; ?>">
-                </div>
-            </div>
-        </div>
-    </div>
-    <input type="hidden" name="usr_id" value="<?php echo $user['usr_id']; ?>">
-    <div class="field">
-        <div class="control">
-            <div class="buttons">
-                <button class="button is-link">Modifier</button>
-            </div>
-        </div>
-    </div>
-</form>
+
 <form method="post" action="updatePassword" class="modifyPasswordForm hidden">
     <div class="columns">
         <div class="column">
@@ -261,14 +297,11 @@
 <?php endif; ?>
 
 <script>
-    $('.modifyProfileButton').click(function () {
-        $('.modifyProfileForm').toggleClass('hidden');
-    });
-
     $('.modifyPasswordButton').click(function () {
         $('.modifyPasswordForm').toggleClass('hidden');
     });
     
+	
     $('.see-tickets').click(function () {
        let resId = this.id.replace('see-tickets-','');
        $('.tickets-'+resId).toggleClass('hidden');
@@ -286,4 +319,18 @@
             window.location.replace("<?php echo base_url("ReservationController/cancelReservation"); ?>?id=" + resId);
         }
     });
+	
+	$('#modal-info').find('.modal-save').click(function () {
+		$('.modifyProfileForm').find('.validate-update-profile').click();
+    });
+	
+	
+	$(() => {
+	  $('#edit-preferences').click(function(){
+		$('#modal-info').addClass('is-active');
+	  });
+	  $('.modal-card-head button.delete, .modal-save, .modal-cancel').click(function(){
+		$('#modal-info').removeClass('is-active');
+	  });
+	});
 </script>

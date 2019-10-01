@@ -71,6 +71,7 @@ label{
   margin-top: 10px;
 }
 
+
 .card-header{
   background: $primary;
   .title{
@@ -81,6 +82,16 @@ label{
   }
   .state{
     color: white;
+  }
+}
+
+
+//banner
+.hero-body{
+  .container{
+    .title, .subtitle{
+      color: $orange !important;
+    }
   }
 }
 
@@ -132,6 +143,13 @@ label{
     //display: block;
     position: absolute;
     width: 100%;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .navbar-dropdown a.navbar-item:focus, .navbar-dropdown a.navbar-item:hover {
+    background-color: whitesmoke;
+    color: $orange;
   }
 }
 
@@ -455,7 +473,7 @@ a[data-goto], .fc-day-header{
       display: flex;
       flex-wrap: wrap;
       label{
-        width: 40%;
+        width: 45%;
         margin-right: 10%;
         margin-bottom: 10px;
         padding: 10px;
@@ -464,6 +482,10 @@ a[data-goto], .fc-day-header{
         border: 1px solid $primary;
         user-select:none;
         color: $primary;
+        @media (max-width: 800px) {
+          width: 100%;
+          margin-right: 0;
+        }
         &.disabled{
           cursor: default;
           background: #a9a9a9a9;
@@ -506,8 +528,21 @@ a[data-goto], .fc-day-header{
   .row{
     display: flex;
     width: 100%;
+    align-items: flex-end;
+    flex-direction: row;
+    margin-bottom: 15px;
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: baseline;
+    }
     .session-label{
       width: 40%;
+      @media (max-width: 768px) {
+        width: 100%;
+      }
+    }
+    .session-value{
+      font-size: 1rem;
     }
   }
 }
@@ -518,6 +553,9 @@ a[data-goto], .fc-day-header{
       font-size: 1.5rem;
       background: none;
       margin-bottom: 10px;
+    }
+    label{
+      font-size: 1rem;
     }
   }
   .validate-reservation-form{
@@ -544,8 +582,18 @@ a[data-goto], .fc-day-header{
     .row{
       display: flex;
       width: 100%;
+      @media (max-width: 800px) {
+       flex-direction: column;
+        margin-bottom: 15px;
+      }
       .ticket-label{
         width: 35%;
+        @media (max-width: 800px) {
+          width: 100%;
+        }
+      }
+      .ticket-value{
+        font-size: 1rem;
       }
     }
   }
@@ -710,31 +758,49 @@ a[data-goto], .fc-day-header{
 }
 
 //home.php
-.main-page{
-
-  .section-title{
-    font-size: 1.4rem;
-    color: $primary;
-    width: 100%;
-    padding: 20px 0 20px 0;
-  }
+.special-offer{
   .promotions{
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    width: 100%;
+    padding: 2.5%;
     @media (max-width: 768px) {
       flex-direction: column;
     }
     .promotion{
-      color: $primary;
+      color: white;
+      background: $orange;
       padding: 20px;
-      border: 1px solid $orange;
       width: 49%;
       margin-bottom: 20px;
-      font-size: 1.2rem;
+      font-size: 1.4rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       @media (max-width: 768px) {
         width: 100%;
       }
+    }
+  }
+}
+.home-activities{
+  .activity-list{
+    width: 100%;
+    padding: 2.5%;
+  }
+}
+
+.popular-activities{
+  .act-name{
+    text-align: center;
+    font-size: 1rem;
+  }
+  .note{
+    font-size: 1.2rem;
+    color: $orange;
+    @media (max-width: 1112px){
+      font-size: 1.2rem;
     }
   }
 }
@@ -744,8 +810,11 @@ a[data-goto], .fc-day-header{
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   padding: 3rem 1.5rem 3rem;
+  background: $primary !important;
   .footer-container{
+    margin-bottom: 50px;
     width: 50%;
     @media (max-width: 768px){
       width: 90%;
@@ -779,6 +848,9 @@ a[data-goto], .fc-day-header{
       }
     }
   }
+  a:hover{
+    color: white;
+  }
 }
 
 //AdminRequestList.php
@@ -792,6 +864,46 @@ a[data-goto], .fc-day-header{
   width: 100%;
   &:not(:last-child){
     margin-bottom: 15px;
+  }
+}
+
+//Connect / Subscribe modal
+.connect-link-div, .subscribe-link-div{
+  display: flex;
+  justify-content: center;
+  div{
+    padding: 5px;
+  }
+  .modal-subscribe-link, .modal-connect-link{
+    color: $orange;
+    cursor: pointer;
+  }
+}
+
+//Payment modal
+.ariane{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  .steps-segment{
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    &.is-active{
+      .steps-marker{
+        color: $orange;
+      }
+      .steps-content{
+        color: $orange;
+      }
+    }
+    .steps-marker{
+      width: 100%;
+      .icon{
+        width: 100%;
+      }
+    }
   }
 }
 

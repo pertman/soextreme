@@ -95,8 +95,30 @@
                         </div>
                     <?php endif; ?>
                     <div class="note">
+						
                         <?php if ($activity['act_note_count']): ?>
-                            <?php echo round($activity['act_note_sum'] / $activity['act_note_count'], 2) . "/10"; ?>
+                            <?php
+								$noteOn5 = (round((round($activity['act_note_sum'] / $activity['act_note_count'], 2) * 2) / 10 * 5) / 2);
+								$note = explode('.', $noteOn5);
+								for($i = 1; $i <= 5; $i++)
+								{
+									if($i <= $note[0])
+									{
+										echo '<i class="fas fa-star"></i>';
+									}
+									elseif(!empty($note[1]))
+									{
+										if($note[0] + 1 == $i)
+											echo '<i class="fas fa-star-half-alt"></i>';
+										else
+											echo '<i class="far fa-star"></i>';
+									}
+									else
+									{
+										echo '<i class="far fa-star"></i>';
+									}
+								}						
+							?>
                         <?php else: ?>
                             Non evalué
                         <?php endif; ?>
@@ -114,7 +136,7 @@
                 <div class="card-bottom-container">
                     <div class="card-content">
                         <div class="act_resume row">
-                            <?php echo $activity['act_resume']; ?>.
+                            <?php echo $activity['act_resume']; ?>
                         </div>
                         <?php if ($activity['act_handicapped_accessibility']): ?>
                             <figure class="image is-64x64">
@@ -128,9 +150,16 @@
                                 <a class="button is-link" href="<?php echo base_url('AdminActivityController/planActivity') ?>?id=<?php echo $activity['act_id']; ?>" class="button">Plannifier</a>
                                 <a class="button is-link" href="<?php echo base_url("AdminActivityController/updateActivity"); ?>?id=<?php echo $activity['act_id']; ?>">Modifier l'activité</a>
                             <?php endif; ?>
-                            <a class="button is-link" href="<?php echo base_url("ActivityController/seeActivity"); ?>?id=<?php echo $activity['act_id']; ?>">Voir l'activité</a>
-                            <?php if (isCurrentUserAdmin() || isCurrentUserCustomer() && $activity['act_status'] == 'active'): ?>
+                            <?php if (isCurrentUserAdmin()): ?>
+                                <a class="button is-link" href="<?php echo base_url("ActivityController/seeActivity"); ?>?id=<?php echo $activity['act_id']; ?>">Voir l'activité</a>
+                            <?php else: ?>
+                                <a class="button is-link" href="<?php echo base_url("ActivityController/seeActivity"); ?>?id=<?php echo $activity['act_id']; ?>">Je découvre !</a>
+                            <?php endif; ?>
+                            <?php if (isCurrentUserAdmin()): ?>
                                 <a class="button is-link" href="<?php echo base_url("PlanningController/seeActivityPlanning"); ?>?id=<?php echo $activity['act_id'];?>">Voir le planning</a>
+                            <?php endif; ?>
+                            <?php if (isCurrentUserCustomer() && $activity['act_status'] == 'active'): ?>
+                                <a class="button is-link" href="<?php echo base_url("PlanningController/seeActivityPlanning"); ?>?id=<?php echo $activity['act_id'];?>">Je réserve !</a>
                             <?php endif; ?>
                         </div>
                     </div>

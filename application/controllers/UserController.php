@@ -82,6 +82,9 @@ class UserController extends MY_Controller {
 
         foreach ($reservations as $key => $reservation){
             $reservations[$key]['canCancelReservation'] = $this->isReservationStartMoreThanIn4Days($reservation);
+            if ($reservation['res_status'] == 'cancelled'){
+                $reservations[$key]['canCancelReservation'] = false;
+            }
             $reservations[$key]['activity']             = $this->ActivityModel->getActivityById($reservation['act_id']);
             $reservations[$key]['tickets']              = $this->TicketModel->getTicketsByReservationId($reservation['res_id']);
 
@@ -100,7 +103,7 @@ class UserController extends MY_Controller {
         $giftReservations = $this->ReservationModel->getGiftReservations($user['usr_email'], $user['usr_id']);
 
         foreach ($giftReservations as $key => $giftReservation){
-            $giftReservations[$key]['canCancelReservation'] = $this->isReservationStartMoreThanIn4Days($giftReservation);
+            $giftReservations[$key]['canCancelReservation']     = $this->isReservationStartMoreThanIn4Days($giftReservation);
             $giftReservations[$key]['activity']                 = $this->ActivityModel->getActivityById($giftReservation['act_id']);
         }
 

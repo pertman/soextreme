@@ -19,6 +19,11 @@ class CommentModel extends CI_Model{
         $query = $this->db->query($sql, array($actId));
         return $query->result_array();
     }
+    public function get4LastLevelComments(){
+        $sql = "SELECT * FROM comment LEFT JOIN user ON comment.usr_id = user.usr_id WHERE comment.com_commented_com_id IS NULL ORDER BY com_id DESC LIMIT 4";
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
 
     public function getSecondLevelCommentByComId($comId){
         $sql = "SELECT * FROM comment
@@ -50,5 +55,11 @@ class CommentModel extends CI_Model{
     public function deleteComment($comId){
         $sql = 'DELETE FROM comment WHERE com_id = ?';
         return $this->db->query($sql, array($comId));
+    }
+
+    public function getLastCommentPictures(){
+        $sql = 'SELECT * FROM comment WHERE com_picture_path IS NOT NULL ORDER BY com_id DESC LIMIT 10';
+        $query = $this->db->query($sql, array());
+        return $query->result_array();
     }
 }

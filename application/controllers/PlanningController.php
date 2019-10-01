@@ -90,21 +90,11 @@ class PlanningController extends MY_Controller
                 );
 
                 if (!isCurrentUserAdmin()) {
-                    $reservedSlots = $this->getDateReservedSlots($date, $activity['act_id']);
+                    $reservedSlots      = $this->getDateReservedSlots($date, $actId);
+                    $datePromotions     = $this->PromotionModel->getDateAndHoursPromotion($date, $startHour, $endHour);
 
-                    $dateSlots = $this->applyPromotionsToDateSlots($slots, $date, $startHour, $endHour, $activity);
 
-                    foreach ($reservedSlots as $time => $participantNb) {
-                        //Remove reserved time slots but on hours not available because of planning modifications
-                        if (isset($dateSlots[$time])) {
-                            $dateSlots[$time]['participantNb'] -= $participantNb;
-                        }
-                    }
-
-                    //Events needs autoincrement index
-                    $dateSlots = array_values($dateSlots);
-
-                    $dateData['slots']  = $dateSlots;
+                    $dateData['slots']  = $this->getDateSlots($activity['act_id'], $activity['cat_id'], $slots, $reservedSlots, $datePromotions);
                 }
 
                 $activityDate[] = $dateData;
@@ -207,6 +197,22 @@ class PlanningController extends MY_Controller
         return $slots;
     }
 
+    public function getDateSlots($actId, $catId, $slots, $reservedSlots, $datePromotions){
+        $dateSlots      = $this->applyPromotionsToDateSlots($slots, $datePromotions, $actId, $catId);
+
+        foreach ($reservedSlots as $time => $participantNb) {
+            //Remove reserved time slots but on hours not available because of planning modifications
+            if (isset($dateSlots[$time])) {
+                $dateSlots[$time]['participantNb'] -= $participantNb;
+            }
+        }
+
+        //Events needs autoincrement index
+        $dateSlots = array_values($dateSlots);
+
+        return $dateSlots;
+    }
+
     public function getDateReservedSlots($date, $actId){
         $reservedSlots      = array();
         $dateReservations   = $this->ReservationModel->getReservationsByDate($date, $actId);
@@ -227,26 +233,24 @@ class PlanningController extends MY_Controller
         return $reservedSlots;
     }
 
-    public function applyPromotionsToDateSlots($dateSlots, $date, $startHour, $endHour, $activity){
-        $datePromotions = $this->PromotionModel->getDateAndHoursPromotion($date, $startHour, $endHour);
-
+    public function applyPromotionsToDateSlots($dateSlots, $datePromotions, $actId, $catId){
         foreach ($dateSlots as $timeKey => $dateSlot){
             $dateSlots[$timeKey]['base_price'] = formatPrice($dateSlots[$timeKey]['price']);
-            
+
             $priorities = array();
-            
+
             foreach ($datePromotions as $datePromotion){
 
                 if ($datePromotion['pro_act_ids']){
                     $actIds = explode(',', $datePromotion['pro_act_ids']);
-                    if (!in_array($activity['act_id'], $actIds)){
+                    if (!in_array($actId, $actIds)){
                         continue;
                     }
                 }
 
                 if ($datePromotion['pro_cat_ids']){
                     $catIds = explode(',', $datePromotion['pro_cat_ids']);
-                    if (!in_array($activity['cat_id'], $catIds)){
+                    if (!in_array($catId, $catIds)){
                         continue;
                     }
                 }
@@ -264,7 +268,7 @@ class PlanningController extends MY_Controller
                 if ($discountPercent = $datePromotion['pro_discount_percent']){
                     $priorityPrice = $dateSlots[$timeKey]['price'] * (1 - $discountPercent * 0.01);
                 }
-                
+
                 if (!isset($priorities[$timeKey][$datePromotion['pro_priority']])){
                     $priorities[$timeKey][$datePromotion['pro_priority']]['pro_id'] = $datePromotion['pro_id'];
                     $priorities[$timeKey][$datePromotion['pro_priority']]['price']                                              = $priorityPrice;
@@ -318,5 +322,120 @@ class PlanningController extends MY_Controller
         }
 
         return $dateSlots;
+    }
+
+    public function testPromotionsAndAvailabilities(){
+        $this->load->library('unit_test');
+
+        $actId          = 6;
+        $catId          = 3;
+
+        $slots = array(
+                '08:00' => array(
+                    'start' => '08:00:00',
+                    'end' => '08:30:00',
+                    'participantNb' => '5',
+                    'base_price' => '60',
+                    'price' => '60',
+                ),
+                '08:30' => array(
+                    'start' => '08:30:00',
+                    'end' => '09:00:00',
+                    'participantNb' => '5',
+                    'base_price' => '60',
+                    'price' => '60',
+                ),
+                '09:00' => array(
+                    'start' => '09:00:00',
+                    'end' => '09:30:00',
+                    'participantNb' => '5',
+                    'base_price' => '60',
+                    'price' => '60',
+                ),
+        );
+
+        $reservedSlots  = array('08:00' =>'2', '08:30' =>'3');
+
+        $datePromotions = array(
+            0 => array(
+            'pro_id' => '1',
+            'pro_type' => 'other',
+            'pro_name' => '-10 % avant 9h',
+            'pro_description' => '-10% avant 9h',
+            'pro_is_main_page' => '1',
+            'pro_hour_start' => null,
+            'pro_hour_end' => '09:00:00',
+            'pro_date_start' => null,
+            'pro_date_end' => null,
+            'pro_cart_amount' => null,
+            'pro_discount_fix' => null,
+            'pro_discount_percent' => '10',
+            'pro_age_min' => null,
+            'pro_age_max' => null,
+            'pro_code' => null,
+            'pro_max_use' => null,
+            'pro_priority' => '2',
+            'pro_is_active' => '1',
+            'pro_user_ids' => null,
+            'pro_act_ids' => null,
+            'pro_cat_ids' => null,
+            ),
+            1 => array(
+                'pro_id' => '2',
+                'pro_type' => 'other',
+                'pro_name' => '-15 % avant 8h',
+                'pro_description' => '-15% avant 8h',
+                'pro_is_main_page' => '1',
+                'pro_hour_start' => null,
+                'pro_hour_end' => '08:30:00',
+                'pro_date_start' => null,
+                'pro_date_end' => null,
+                'pro_cart_amount' => null,
+                'pro_discount_fix' => null,
+                'pro_discount_percent' => '15',
+                'pro_age_min' => null,
+                'pro_age_max' => null,
+                'pro_code' => null,
+                'pro_max_use' => null,
+                'pro_priority' => '1',
+                'pro_is_active' => '1',
+                'pro_user_ids' => null,
+                'pro_act_ids' => null,
+                'pro_cat_ids' => null,
+            ),
+            2 => array(
+                'pro_id' => '1',
+                'pro_type' => 'other',
+                'pro_name' => '-5 % avant 9h',
+                'pro_description' => '-5% avant 9h',
+                'pro_is_main_page' => '1',
+                'pro_hour_start' => null,
+                'pro_hour_end' => '09:00:00',
+                'pro_date_start' => null,
+                'pro_date_end' => null,
+                'pro_cart_amount' => null,
+                'pro_discount_fix' => null,
+                'pro_discount_percent' => '5',
+                'pro_age_min' => null,
+                'pro_age_max' => null,
+                'pro_code' => null,
+                'pro_max_use' => null,
+                'pro_priority' => '2',
+                'pro_is_active' => '1',
+                'pro_user_ids' => null,
+                'pro_act_ids' => null,
+                'pro_cat_ids' => null,
+            ),
+        );
+
+        $dateSlots = $this->getDateSlots($actId, $catId, $slots, $reservedSlots, $datePromotions);
+
+        echo $this->unit->run($dateSlots[0]['price'], (60 * 0.85)* 0.9, 'Is 10% from 8h00 to 8h30');
+        echo $this->unit->run($dateSlots[1]['price'], 60 * 0.9, 'Is 10% from 8h30 to 9h00');
+        echo $this->unit->run($dateSlots[2]['price'], 60, 'Is Not 10% from 9h00 to 9h30');
+
+        echo $this->unit->run($dateSlots[0]['participantNb'], 3, 'Is 3 available slots from 8h00 to 8h30');
+        echo $this->unit->run($dateSlots[1]['participantNb'], 2, 'Is 2 available slots from 8h30 to 9h00');
+        echo $this->unit->run($dateSlots[2]['participantNb'], 5, 'Is 5 available slots 10% from 9h00 to 9h30');
     }
 }

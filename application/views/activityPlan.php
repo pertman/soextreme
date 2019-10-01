@@ -128,64 +128,65 @@
     </div>
 </div>
 <script>
-    const datePicker = bulmaCalendar.attach('#datePicker' ,{
-        dateFormat: 'YYYY-MM-DD',
-        displayMode: 'inline',
-        isRange: true,
-        weekStart: 1,
-        minuteSteps: '1',
-        startDate: '<?php echo $startDate; ?>',
-        endDate: '<?php echo $endDate; ?>',
-        showFooter: 'false',
-        color: '#4462a5',
-    });
+    document.addEventListener('DOMContentLoaded', function() {
+        const datePicker = bulmaCalendar.attach('#datePicker' ,{
+            dateFormat: 'YYYY-MM-DD',
+            displayMode: 'inline',
+            isRange: true,
+            weekStart: 1,
+            minuteSteps: '1',
+            startDate: '<?php echo $startDate; ?>',
+            endDate: '<?php echo $endDate; ?>',
+            showFooter: 'false',
+            color: '#4462a5',
+        });
 
-    <?php if ($dateRange): ?>
+        <?php if ($dateRange): ?>
         $('#datePicker')[0].value = '<?php echo $dateRange; ?>';
         document.getElementById("validate-button").disabled = false;
-    <?php endif; ?>
+        <?php endif; ?>
 
-    $('#timeStart').timepicker({
-        timeFormat: 'HH:mm',
-        interval: 10,
-        minTime: '6:00',
-        maxTime: '22:00',
-        defaultTime: '<?php echo $startTime; ?>',
-        startTime: '6:00',
-        dynamic: false,
-        dropdown: true,
-        scrollbar: true
-    });
-
-    $('#timeEnd').timepicker({
-        timeFormat: 'HH:mm',
-        interval: 10,
-        minTime: '6:00',
-        maxTime: '22:00',
-        defaultTime: '<?php echo $endTime; ?>',
-        startTime: '6:00',
-        dynamic: false,
-        dropdown: true,
-        scrollbar: true
-    });
-
-    const datePickerElement = document.querySelector('#datePicker');
-    if (datePickerElement) {
-        datePickerElement.bulmaCalendar.on('select', datepicker => {
-            document.getElementById("validate-button").disabled = false;
+        $('#timeStart').timepicker({
+            timeFormat: 'HH:mm',
+            interval: 10,
+            minTime: '8:00',
+            maxTime: '21:00',
+            defaultTime: '<?php echo $startTime; ?>',
+            startTime: '8:00',
+            dynamic: false,
+            dropdown: true,
+            scrollbar: true
         });
-        datePickerElement.bulmaCalendar.on('select:start', datepicker => {
-            document.getElementById("validate-button").disabled = true;
+
+        $('#timeEnd').timepicker({
+            timeFormat: 'HH:mm',
+            interval: 10,
+            minTime: '8:00',
+            maxTime: '21:00',
+            defaultTime: '<?php echo $endTime; ?>',
+            startTime: '8:00',
+            dynamic: false,
+            dropdown: true,
+            scrollbar: true
         });
-    }
 
-    $('label.checkbox').change(function () {
-        this.classList.toggle('selected');
+        const datePickerElement = document.querySelector('#datePicker');
+        if (datePickerElement) {
+            datePickerElement.bulmaCalendar.on('select', datepicker => {
+                document.getElementById("validate-button").disabled = false;
+            });
+            datePickerElement.bulmaCalendar.on('select:start', datepicker => {
+                document.getElementById("validate-button").disabled = true;
+            });
+        }
+
+        $('label.checkbox').change(function () {
+            this.classList.toggle('selected');
+        });
+
+        $('.reset-period').click(function () {
+            $('#datePicker')[0].value = '';
+            $('#datePicker')[0].bulmaCalendar.datePicker.clear();
+        });
     });
-
-    $('.reset-period').click(function () {
-        $('#datePicker')[0].value = '';
-        $('#datePicker')[0].bulmaCalendar.datePicker.clear();
-    });
-
 </script>

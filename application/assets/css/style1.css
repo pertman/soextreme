@@ -144,8 +144,9 @@ nav, .navbar-dropdown {
 }
 
 .header-hero {
-	background-image: url('../images/cover_bg_1.jpg')!important;
-	background-attachment: fixed;
+	/*background-image: url('../images/cover_bg_1.jpg')!important;*/
+    background-image: url('../images/cover_bg_2.jpg')!important;
+	/*background-attachment: fixed;*/
 	background-position: top;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -356,7 +357,7 @@ hr.hr-1 {
 
 
 
-/* à mettre dans le scss */
+/* ï¿½ mettre dans le scss */
 .color-orange {
 	color: #FF9437!important;
 }

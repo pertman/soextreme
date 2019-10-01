@@ -71,6 +71,7 @@ label{
   margin-top: 10px;
 }
 
+
 .card-header{
   background: $primary;
   .title{
@@ -81,6 +82,16 @@ label{
   }
   .state{
     color: white;
+  }
+}
+
+
+//banner
+.hero-body{
+  .container{
+    .title, .subtitle{
+      color: $orange !important;
+    }
   }
 }
 

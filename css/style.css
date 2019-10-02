@@ -6433,7 +6433,7 @@ label {
     color: white; }
 
 .hero-body .container .title, .hero-body .container .subtitle {
-  color: #ff9437 !important; }
+  color: #1f3158 !important; }
 
 .datetimepicker .datepicker-body .datepicker-dates .datepicker-days .datepicker-date.datepicker-range {
   background: #1f3158; }
@@ -6619,7 +6619,8 @@ label {
     display: none; }
   .comments .comment-card .media-right {
     position: absolute;
-    right: 20px; }
+    right: 20px;
+    top: 20px; }
 
 .filter-activities-form.hidden {
   display: none; }
@@ -6937,8 +6938,9 @@ a[data-goto], .fc-day-header {
     .special-offer .promotions {
       flex-direction: column; } }
   .special-offer .promotions .promotion {
-    color: white;
-    background: #ff9437;
+    color: #c83434;
+    background-image: url("../application/assets/images/promotion-background.jpg") !important;
+    height: 150px;
     padding: 20px;
     width: 49%;
     margin-bottom: 20px;

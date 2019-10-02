@@ -144,13 +144,10 @@ nav, .navbar-dropdown {
 }
 
 .header-hero {
-	/*background-image: url('../images/cover_bg_1.jpg')!important;*/
-    background-image: url('../images/cover_bg_2.jpg')!important;
-	/*background-attachment: fixed;*/
+	background-image: url('../images/cover_bg_1.jpg')!important;
 	background-position: top;
 	background-repeat: no-repeat;
 	background-size: cover;
-	/*min-height: 500px;*/
 }
 
 .bg-1 {

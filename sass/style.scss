@@ -90,7 +90,7 @@ label{
 .hero-body{
   .container{
     .title, .subtitle{
-      color: $orange !important;
+      color: $primary !important;
     }
   }
 }
@@ -339,6 +339,7 @@ label{
     .media-right{
       position: absolute;
       right: 20px;
+      top: 20px;
     }
   }
 }
@@ -769,8 +770,10 @@ a[data-goto], .fc-day-header{
       flex-direction: column;
     }
     .promotion{
-      color: white;
-      background: $orange;
+      color: #c83434;
+      //background: $orange;
+      background-image: url('../application/assets/images/promotion-background.jpg')!important;
+      height: 150px;
       padding: 20px;
       width: 49%;
       margin-bottom: 20px;

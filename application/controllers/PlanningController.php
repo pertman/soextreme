@@ -383,8 +383,8 @@ class PlanningController extends MY_Controller
             1 => array(
                 'pro_id' => '2',
                 'pro_type' => 'other',
-                'pro_name' => '-15 % avant 8h',
-                'pro_description' => '-15% avant 8h',
+                'pro_name' => '-15 % avant 8h30',
+                'pro_description' => '-15% avant 8h30',
                 'pro_is_main_page' => '1',
                 'pro_hour_start' => null,
                 'pro_hour_end' => '08:30:00',

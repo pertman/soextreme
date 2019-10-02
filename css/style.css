@@ -6433,7 +6433,7 @@ label {
     color: white; }
 
 .hero-body .container .title, .hero-body .container .subtitle {
-  color: #1f3158 !important; }
+  color: black !important; }
 
 @media (min-width: 1200px) {
   .hero-body .container .subtitle {

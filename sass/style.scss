@@ -92,6 +92,11 @@ label{
     .title, .subtitle{
       color: $primary !important;
     }
+    .subtitle{
+      @media (min-width: 1200px) {
+        font-size: 2rem;
+      }
+    }
   }
 }
 

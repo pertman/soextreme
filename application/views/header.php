@@ -17,7 +17,7 @@
         <div class="container">
 			
             <h1 class="title">
-                SoExtreme
+                <img src="<?php echo base_url(); ?>/application/assets/images/logo3.png" alt="icon soextreme" width="50%">
             </h1>
             <h2 class="subtitle">
                 Partagez des sensations inoubliables !

@@ -6435,6 +6435,10 @@ label {
 .hero-body .container .title, .hero-body .container .subtitle {
   color: #1f3158 !important; }
 
+@media (min-width: 1200px) {
+  .hero-body .container .subtitle {
+    font-size: 2rem; } }
+
 .datetimepicker .datepicker-body .datepicker-dates .datepicker-days .datepicker-date.datepicker-range {
   background: #1f3158; }
 

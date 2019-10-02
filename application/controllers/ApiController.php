@@ -70,6 +70,19 @@ class ApiController extends REST_Controller
     }
 
     //Gestion réservation
+    function ReservationsByUserId_get()
+    {
+        $usrId = $this->input->get('id');
+        $activities = $this->ReservationModel->getReservationsByUserId($usrId);
+        die(json_encode($activities));
+    }
+    function TicketByResId_get(){
+        $resId = $this->input->get('id');
+        $activities = $this->TicketModel->getTicketsByReservationId($resId);
+        die(json_encode($activities));
+    }
+
+
     public function seeActivityPlanning_get()
     {
         $actId = $this->input->get('id');
@@ -302,9 +315,14 @@ class ApiController extends REST_Controller
     }
 
     //Gestion utilisateur
+    public function UserById_get($id){
+        $usrId = $this->input->get('id');
+        $user = $this->UserModel->getUserById($usrId);
+        die(json_encode($user));
+    }
+
     public function connect()
     {
-
         if ($post = $this->input->post()) {
 
             $user = $this->UserModel->getUserByEmail($post['usr_email']);
@@ -352,5 +370,29 @@ class ApiController extends REST_Controller
     {
         $comments = $this->CommentModel->get4LastLevelComments();
         die(json_encode($comments));
+    }
+
+    //Gestion utilisateur
+    public function login_get()
+    {
+        $mail = $this->input->get('email');
+        $password = $this->input->get('password');
+        $user = $this->UserModel->getUserByEmail($mail);
+
+        if (!$user){
+            $this->_params['messages'][] = 'Cet email n\'est pas enregistré';
+            //return $this->load->view('template.php', $this->_params);
+        }
+
+        if (sha1($password) == $user['usr_password']){
+            //$this->_params['messages'][] = 'Le mot de passe ne correspond pas';
+            //return $this->load->view('template.php', $this->_params);
+            die(json_encode($user));
+        }
+
+        //$_SESSION['user']['id']     = $user['usr_id'];
+        //$_SESSION['messages'][]     = 'Connexion réussie';
+
+
     }
 }

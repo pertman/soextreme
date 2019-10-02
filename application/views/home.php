@@ -127,7 +127,7 @@
                     </h1>
                 </div>
                 <?php foreach ($popularActivities as $activity): ?>
-                    <a class="column is-one-quarter" href="<?php echo base_url("ActivityController/seeActivity"); ?>?id=<?php echo $activity['act_id']; ?>">
+                    <a class="column is-one-quarter popular-activity" href="<?php echo base_url("ActivityController/seeActivity"); ?>?id=<?php echo $activity['act_id']; ?>">
                         <div class="card large round column is-full-mobile">
                             <div class="card-image ">
                                 <figure class="image">
@@ -170,9 +170,6 @@
 												}						
 											?>
 										</div>
-                                        <div class="column is-12 has-text-centered">
-                                            <div class="note"><?php echo round($activity['act_note_sum'] / $activity['act_note_count'], 2) . "/10"; ?></div>
-                                        </div>
                                         <div class="column is-12 has-text-centered no-padding ">
                                             <p class="title is-7 color-grey "><?php echo $activity['act_note_count']; ?> avis</p>
                                         </div>

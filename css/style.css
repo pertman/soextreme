@@ -6960,6 +6960,9 @@ a[data-goto], .fc-day-header {
   width: 100%;
   padding: 2.5%; }
 
+.popular-activities .popular-activity {
+  height: 200px; }
+
 .popular-activities .act-name {
   text-align: center;
   font-size: 1rem; }
